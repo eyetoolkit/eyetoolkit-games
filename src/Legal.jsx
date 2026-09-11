@@ -210,12 +210,46 @@ const META = {
     about: "Who runs Bytecade Games and our sister sites in the mathduel.games network.",
 };
 
+const setMetaProp = (prop, content) => {
+    try {
+        let el = document.head.querySelector(`meta[property="${prop}"]`);
+        if (!el) { el = document.createElement("meta"); el.setAttribute("property", prop); document.head.appendChild(el); }
+        el.setAttribute("content", content);
+    } catch (_) { /* noop */ }
+};
+const setMetaName = (name, content) => {
+    try {
+        let el = document.head.querySelector(`meta[name="${name}"]`);
+        if (!el) { el = document.createElement("meta"); el.setAttribute("name", name); document.head.appendChild(el); }
+        el.setAttribute("content", content);
+    } catch (_) { /* noop */ }
+};
+const setCanonical = (href) => {
+    try {
+        let el = document.head.querySelector('link[rel="canonical"]');
+        if (!el) { el = document.createElement("link"); el.setAttribute("rel", "canonical"); document.head.appendChild(el); }
+        el.setAttribute("href", href);
+    } catch (_) { /* noop */ }
+};
+
 export default function Legal({ page, onBack }) {
     useEffect(() => {
         try {
-            document.title = `${TITLES[page] || "Bytecade Games"} — ${SITE}`;
+            const titleText = `${TITLES[page] || "Bytecade Games"} — ${SITE}`;
+            const descText = `${META[page] || SITE}. Free, open-source, no account required.`;
+            const url = `${SITE_URL}/${page}`;
+            document.title = titleText;
             const el = document.querySelector('meta[name="description"]');
-            if (el) el.setAttribute("content", `${META[page] || SITE} Free, open-source, no account required.`);
+            if (el) el.setAttribute("content", descText);
+            setMetaProp("og:title", titleText);
+            setMetaProp("og:description", descText);
+            setMetaProp("og:url", url);
+            setMetaProp("og:type", "website");
+            setMetaProp("og:image", `${SITE_URL}/og-image.png`);
+            setMetaName("twitter:title", titleText);
+            setMetaName("twitter:description", descText);
+            setMetaName("twitter:image", `${SITE_URL}/og-image.png`);
+            setCanonical(url);
         } catch (_) { /* noop */ }
     }, [page]);
 

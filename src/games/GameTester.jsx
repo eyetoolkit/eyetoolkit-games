@@ -1783,6 +1783,62 @@ const resolveMeta = (name) => {
     return { emoji: "🎮", desc: `Play ${name} — ${catLabel} mini game` };
 };
 
+/* ── SEO helpers (dynamic OG / Twitter / canonical / JSON-LD) ── */
+const SITE_URL = "https://bytecade.mathduel.games";
+const OG_IMAGE = `${SITE_URL}/og-image.png`;
+
+const setMetaProp = (prop, content) => {
+    try {
+        let el = document.head.querySelector(`meta[property="${prop}"]`);
+        if (!el) {
+            el = document.createElement("meta");
+            el.setAttribute("property", prop);
+            document.head.appendChild(el);
+        }
+        el.setAttribute("content", content);
+    } catch (_) { /* noop */ }
+};
+const setMetaName = (name, content) => {
+    try {
+        let el = document.head.querySelector(`meta[name="${name}"]`);
+        if (!el) {
+            el = document.createElement("meta");
+            el.setAttribute("name", name);
+            document.head.appendChild(el);
+        }
+        el.setAttribute("content", content);
+    } catch (_) { /* noop */ }
+};
+const setCanonical = (href) => {
+    try {
+        let el = document.head.querySelector('link[rel="canonical"]');
+        if (!el) {
+            el = document.createElement("link");
+            el.setAttribute("rel", "canonical");
+            document.head.appendChild(el);
+        }
+        el.setAttribute("href", href);
+    } catch (_) { /* noop */ }
+};
+const setJsonLd = (id, data) => {
+    try {
+        let el = document.getElementById(id);
+        if (!el) {
+            el = document.createElement("script");
+            el.setAttribute("type", "application/ld+json");
+            el.id = id;
+            document.head.appendChild(el);
+        }
+        el.textContent = JSON.stringify(data);
+    } catch (_) { /* noop */ }
+};
+const removeJsonLd = (id) => {
+    try {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+    } catch (_) { /* noop */ }
+};
+
 /* ── Inline global styles ──────────────────────── */
 const GLOBAL_STYLES = `
 * { box-sizing: border-box; }
@@ -1904,18 +1960,55 @@ const GameTester = () => {
         return () => window.removeEventListener("popstate", onPop);
     }, []);
 
-    // per-game SEO meta
+    // per-page SEO: title, description, OG, Twitter, canonical, JSON-LD
     useEffect(() => {
         try {
             if (selectedGame) {
                 const meta = resolveMeta(selectedGame);
-                document.title = `Play ${selectedGame} Online Free — Bytecade Games`;
-                const el = document.querySelector('meta[name="description"]');
-                if (el) el.setAttribute("content", `${selectedGame} — ${meta.desc}. Free, no ads, no login. Part of Bytecade Games.`);
+                const slug = slugify(selectedGame);
+                const url = `${SITE_URL}/game/${slug}`;
+                const title = `Play ${selectedGame} Online Free — Bytecade Games`;
+                const desc = `${selectedGame} — ${meta.desc}. Free, no ads, no login. Part of Bytecade Games.`;
+                document.title = title;
+                const desEl = document.querySelector('meta[name="description"]');
+                if (desEl) desEl.setAttribute("content", desc);
+                setMetaProp("og:title", `Play ${selectedGame} Online Free`);
+                setMetaProp("og:description", desc);
+                setMetaProp("og:url", url);
+                setMetaProp("og:type", "game");
+                setMetaProp("og:image", OG_IMAGE);
+                setMetaName("twitter:title", `Play ${selectedGame} Online Free`);
+                setMetaName("twitter:description", desc);
+                setMetaName("twitter:image", OG_IMAGE);
+                setCanonical(url);
+                setJsonLd("ld-page", {
+                    "@context": "https://schema.org",
+                    "@type": "VideoGame",
+                    "name": selectedGame,
+                    "description": desc,
+                    "url": url,
+                    "image": OG_IMAGE,
+                    "applicationCategory": "Game",
+                    "operatingSystem": "Web",
+                    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+                    "publisher": { "@type": "Organization", "name": "Bytecade Games", "url": SITE_URL }
+                });
             } else {
-                document.title = "Bytecade Games — 140+ Free Mini Games";
-                const el = document.querySelector('meta[name="description"]');
-                if (el) el.setAttribute("content", "Bytecade Games — 140+ free open-source browser mini games. No downloads, no ads, no accounts.");
+                const title = "Bytecade Games — 130+ Free Mini Games";
+                const desc = "Bytecade Games — 130+ free open-source browser mini games. No downloads, no ads, no accounts.";
+                document.title = title;
+                const desEl = document.querySelector('meta[name="description"]');
+                if (desEl) desEl.setAttribute("content", desc);
+                setMetaProp("og:title", "Bytecade Games");
+                setMetaProp("og:description", desc);
+                setMetaProp("og:url", `${SITE_URL}/`);
+                setMetaProp("og:type", "website");
+                setMetaProp("og:image", OG_IMAGE);
+                setMetaName("twitter:title", "Bytecade Games");
+                setMetaName("twitter:description", desc);
+                setMetaName("twitter:image", OG_IMAGE);
+                setCanonical(`${SITE_URL}/`);
+                removeJsonLd("ld-page");
             }
         } catch (_) { /* noop */ }
     }, [selectedGame]);
