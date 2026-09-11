@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bytecade.mathduel.games/sitemap.xml
