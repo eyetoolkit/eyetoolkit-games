@@ -1791,6 +1791,24 @@ body {
   background: linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #1a1a3e 100%);
   color: white;
 }
+@keyframes bcFadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes bcFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bcSpin { to { transform: rotate(360deg); } }
+@keyframes bcPulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+.bc-fade-up { animation: bcFadeUp .5s cubic-bezier(.22,.9,.32,1) both; }
+.bc-fade-in { animation: bcFadeIn .32s ease both; }
+.bc-spin { animation: bcSpin .9s linear infinite; }
+.bc-pulse { animation: bcPulse 1.6s ease-in-out infinite; }
+.bc-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.bc-scroll::-webkit-scrollbar-track { background: transparent; }
+.bc-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.11); border-radius: 8px; }
+.bc-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.18); }
+button { font-family: inherit; }
+@media (max-width: 560px) { .bc-hide-sm { display: none !important; } }
+@media (hover: hover) {
+  .bc-iconbtn:hover { background: rgba(255,255,255,.14) !important; border-color: rgba(255,255,255,.24) !important; }
+  .bc-lift:hover { transform: translateY(-2px); }
+}
 `;
 
 /* ── Routing (path-based, CF Pages SPA fallback serves index.html) ── */
@@ -1909,6 +1927,22 @@ const GameTester = () => {
     const isCoarse = useMemo(() =>
         typeof window !== "undefined" && !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches), []);
 
+    // Wide screens (>=1100px) get a two-column play layout: game stage + info sidebar
+    const [isWide, setIsWide] = useState(() =>
+        typeof window !== "undefined" ? window.innerWidth >= 1100 : false);
+    useEffect(() => {
+        if (typeof window === "undefined" || !window.matchMedia) return;
+        const mq = window.matchMedia("(min-width: 1100px)");
+        const onChange = () => setIsWide(mq.matches);
+        onChange();
+        if (mq.addEventListener) mq.addEventListener("change", onChange);
+        else if (mq.addListener) mq.addListener(onChange);
+        return () => {
+            if (mq.removeEventListener) mq.removeEventListener("change", onChange);
+            else if (mq.removeListener) mq.removeListener(onChange);
+        };
+    }, []);
+
     // Games controlled with arrow keys / space — get a virtual D-pad on touch devices
     const DPAD_GAMES = useMemo(() => new Set([
         "Snake", "MiniTetris", "MiniPacman", "Frogger", "Asteroids", "Galaga",
@@ -1989,222 +2023,344 @@ const GameTester = () => {
     if (selectedGame) {
         const GameComp = games[selectedGame];
         const meta = resolveMeta(selectedGame);
-        return (
-            <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #1a1a3e 100%)", display: "flex", flexDirection: "column" }}>
-                <style>{GLOBAL_STYLES}</style>
-                {/* Header */}
-                <div style={{
-                    display: "flex", alignItems: "center", padding: "12px 20px",
-                    background: "rgba(15,15,35,0.85)", backdropFilter: "blur(10px)",
-                    borderBottom: "1px solid rgba(255,255,255,0.08)", color: "white", gap: "12px",
-                    flexWrap: "wrap",
+        const badge = CATEGORY_META[catOf(selectedGame)];
+        const wide = isWide && !!meta.description;
+
+        /* ── info content (description + how to play) ── */
+        const infoEl = meta.description ? (
+            <div>
+                <p style={{ margin: "0 0 20px", fontSize: "13.5px", lineHeight: 1.75, color: "#c3cde0" }}>
+                    {meta.description}
+                </p>
+                {meta.howToPlay && meta.howToPlay.length > 0 && (
+                    <div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+                            <span style={{
+                                fontSize: "10.5px", fontWeight: 700, letterSpacing: "1.8px",
+                                textTransform: "uppercase", color: "#818cf8", whiteSpace: "nowrap",
+                            }}>How to Play</span>
+                            <span style={{ flex: 1, height: "1px", background: "linear-gradient(90deg, rgba(129,140,248,.35), transparent)" }} />
+                        </div>
+                        <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
+                            {meta.howToPlay.map((step, i) => (
+                                <li key={i} style={{ display: "flex", gap: "10px", fontSize: "13px", lineHeight: 1.62, color: "#adb9ce" }}>
+                                    <span style={{
+                                        flexShrink: 0, width: "20px", height: "20px", borderRadius: "6px",
+                                        display: "inline-flex", alignItems: "center", justifyContent: "center",
+                                        fontSize: "11px", fontWeight: 700, marginTop: "1px",
+                                        background: "rgba(99,102,241,.18)", color: "#a5b4fc",
+                                        border: "1px solid rgba(99,102,241,.3)",
+                                    }}>{i + 1}</span>
+                                    <span>{step}</span>
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
+                )}
+            </div>
+        ) : null;
+
+        /* ── header bar ── */
+        const headerEl = (
+            <header style={{
+                flexShrink: 0, zIndex: 20,
+                display: "flex", alignItems: "center", gap: "10px",
+                padding: "10px 14px",
+                background: "rgba(12,12,28,.74)", backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+                borderBottom: "1px solid rgba(255,255,255,.07)",
+                color: "white",
+            }}>
+                <button onClick={resetGame} title="Back to all games" className="bc-iconbtn" style={{
+                    display: "inline-flex", alignItems: "center", gap: "7px", flexShrink: 0,
+                    background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.1)",
+                    color: "#cbd5e1", padding: "8px 13px", borderRadius: "10px",
+                    cursor: "pointer", fontSize: "13.5px", fontWeight: 500, transition: "all .18s ease",
                 }}>
-                    <button onClick={resetGame} style={{
-                        background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)",
-                        color: "#cbd5e1", padding: "8px 16px", borderRadius: "10px", cursor: "pointer",
-                        fontSize: "14px", fontWeight: 500, transition: "all 0.2s",
-                    }} onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.14)"; }}
-                       onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}>
-                        ← Back to Games
-                    </button>
-                    <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "10px", minWidth: 0 }}>
-                        <span style={{ fontSize: "22px" }}>{meta.emoji}</span>
-                        <span style={{ fontWeight: 600, fontSize: "16px", color: "#e2e8f0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                            {selectedGame}
-                        </span>
+                    <span style={{ fontSize: "15px", lineHeight: 1 }}>←</span>
+                    <span className="bc-hide-sm">Games</span>
+                </button>
+
+                <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "9px", minWidth: 0 }}>
+                    <span style={{ fontSize: "20px", lineHeight: 1, flexShrink: 0 }}>{meta.emoji}</span>
+                    <span style={{
+                        fontWeight: 650, fontSize: "15.5px", color: "#eef2ff", letterSpacing: ".1px",
+                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                    }}>{selectedGame}</span>
+                    {badge && (
                         <span style={{
-                            fontSize: "11px", padding: "3px 8px", borderRadius: "6px",
-                            background: CATEGORY_META[catOf(selectedGame)]
-                                ? "rgba(99,102,241,0.15)"
-                                : "rgba(255,255,255,0.08)",
-                            color: CATEGORY_META[catOf(selectedGame)] ? "#a5b4fc" : "#cbd5e1",
-                            border: "1px solid rgba(99,102,241,0.25)",
-                        }}>
-                            {CATEGORY_META[catOf(selectedGame)]?.label || "Unknown"}
-                        </span>
-                    </div>
-                    <button onClick={replayGame} style={{
-                        background: "linear-gradient(135deg, #6366f1, #06b6d4)",
-                        border: "none", color: "white", padding: "8px 16px", borderRadius: "10px",
-                        cursor: "pointer", fontSize: "14px", fontWeight: 600,
-                        boxShadow: "0 2px 12px rgba(99,102,241,0.3)",
-                    }}>🔄 Restart</button>
-                    {meta.description && (
-                        <button onClick={() => setShowInfo(v => !v)} style={{
-                            background: showInfo ? "rgba(99,102,241,0.3)" : "rgba(255,255,255,0.06)",
+                            fontSize: "10.5px", fontWeight: 600, padding: "3px 9px", borderRadius: "999px",
+                            flexShrink: 0, whiteSpace: "nowrap",
+                            background: "rgba(99,102,241,.16)", color: "#a5b4fc",
+                            border: "1px solid rgba(99,102,241,.28)",
+                        }}>{badge.emoji} {badge.label}</span>
+                    )}
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+                    {infoEl && !wide && (
+                        <button onClick={() => setShowInfo(v => !v)} className="bc-iconbtn" style={{
+                            display: "inline-flex", alignItems: "center", gap: "7px",
+                            background: showInfo ? "rgba(99,102,241,.24)" : "rgba(255,255,255,.06)",
                             border: "1px solid",
-                            borderColor: showInfo ? "rgba(99,102,241,0.5)" : "rgba(255,255,255,0.12)",
-                            color: showInfo ? "#a5b4fc" : "#cbd5e1",
-                            padding: "8px 16px", borderRadius: "10px", cursor: "pointer",
-                            fontSize: "14px", fontWeight: 500, transition: "all 0.2s",
-                        }}>ℹ️ {showInfo ? "Hide Info" : "How to Play"}</button>
+                            borderColor: showInfo ? "rgba(129,140,248,.45)" : "rgba(255,255,255,.1)",
+                            color: showInfo ? "#c7d2fe" : "#cbd5e1",
+                            padding: "8px 13px", borderRadius: "10px", cursor: "pointer",
+                            fontSize: "13.5px", fontWeight: 500, transition: "all .18s ease",
+                        }}>
+                            <span style={{ fontSize: "14px", lineHeight: 1 }}>ℹ</span>
+                            <span className="bc-hide-sm">{showInfo ? "Hide" : "How to Play"}</span>
+                        </button>
                     )}
-                </div>
-
-                {/* Info panel — description + how to play */}
-                {showInfo && meta.description && (
-                    <div style={{
-                        background: "rgba(15,15,35,0.92)", backdropFilter: "blur(8px)",
-                        borderBottom: "1px solid rgba(99,102,241,0.2)",
-                        padding: "16px 20px", color: "#cbd5e1", fontSize: "13.5px",
-                        lineHeight: "1.6",
+                    <button onClick={replayGame} className="bc-iconbtn" style={{
+                        display: "inline-flex", alignItems: "center", gap: "7px",
+                        background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+                        border: "1px solid transparent", color: "white",
+                        padding: "8px 15px", borderRadius: "10px", cursor: "pointer",
+                        fontSize: "13.5px", fontWeight: 600, transition: "all .18s ease",
+                        boxShadow: "0 4px 14px rgba(99,102,241,.28)",
                     }}>
-                        {/* Description */}
-                        <div style={{ marginBottom: "12px", color: "#e2e8f0" }}>
-                            {meta.description}
-                        </div>
-                        {/* How to play steps */}
-                        {meta.howToPlay && meta.howToPlay.length > 0 && (
-                            <div>
-                                <div style={{
-                                    fontSize: "11px", fontWeight: 600, letterSpacing: "1.5px",
-                                    textTransform: "uppercase", color: "#818cf8", marginBottom: "8px",
-                                }}>How to Play</div>
-                                <ul style={{ margin: 0, paddingLeft: "18px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "4px 16px" }}>
-                                    {meta.howToPlay.map((step, i) => (
-                                        <li key={i} style={{ marginBottom: "3px" }}>{step}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-                    </div>
-                )}
+                        <span style={{ fontSize: "14px", lineHeight: 1 }}>↻</span>
+                        <span className="bc-hide-sm">Restart</span>
+                    </button>
+                </div>
+            </header>
+        );
 
-                {/* Game area */}
+        /* ── stage: game canvas or game-over ── */
+        const stageEl = lastScore !== null ? (
+            <div className="bc-fade-up" style={{
+                minHeight: "62vh", display: "flex", flexDirection: "column",
+                alignItems: "center", justifyContent: "center",
+                gap: "16px", padding: "24px 12px", color: "white",
+            }}>
                 <div style={{
-                    flex: 1, position: "relative",
-                    overflowY: "auto", overflowX: "hidden",
-                    WebkitOverflowScrolling: "touch",
-                    touchAction: "pan-y",
-                    paddingBottom: showDpad ? "150px" : "12px",
+                    width: "92px", height: "92px", borderRadius: "28px",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "46px", lineHeight: 1,
+                    background: "linear-gradient(135deg, rgba(99,102,241,.22), rgba(6,182,212,.16))",
+                    border: "1px solid rgba(129,140,248,.3)",
+                    boxShadow: "0 18px 46px -18px rgba(99,102,241,.65)",
                 }}>
-                    {lastScore !== null ? (
-                        <div style={{ height: "100%", minHeight: "70vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "white", gap: "20px", padding: "20px" }}>
-                            <div style={{ fontSize: "72px", lineHeight: 1 }}>
-                                {lastScore >= 80 ? "🏆" : lastScore >= 50 ? "🎉" : "😅"}
-                            </div>
-                            <div style={{ fontSize: "14px", color: "#cbd5e1", textTransform: "uppercase", letterSpacing: "2px" }}>
-                                Game Over
-                            </div>
-                            <div style={{ fontSize: "48px", fontWeight: 700, background: "linear-gradient(135deg, #fbbf24, #f59e0b)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                                Score: {lastScore}
-                            </div>
-                            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
-                                <button onClick={replayGame} style={{
-                                    padding: "14px 32px", background: "linear-gradient(135deg, #6366f1, #06b6d4)",
-                                    color: "white", border: "none", borderRadius: "12px", cursor: "pointer",
-                                    fontSize: "15px", fontWeight: 600, boxShadow: "0 4px 16px rgba(99,102,241,0.3)",
-                                }}>🔄 Play Again</button>
-                                <button onClick={resetGame} style={{
-                                    padding: "14px 32px", background: "rgba(255,255,255,0.06)",
-                                    color: "#cbd5e1", border: "1px solid rgba(255,255,255,0.15)",
-                                    borderRadius: "12px", cursor: "pointer", fontSize: "15px", fontWeight: 500,
-                                }}>🎮 Back to List</button>
-                            </div>
-                            {(() => {
-                                const primary = duelFor(selectedGame);
-                                const others = Object.entries(DUEL_SITES).filter(([k]) => k !== primary);
-                                const site = primary ? DUEL_SITES[primary] : null;
-                                return (
-                                    <div style={{
-                                        maxWidth: "440px", width: "100%", padding: "18px 20px",
-                                        borderRadius: "14px", background: "rgba(99,102,241,0.10)",
-                                        border: "1px solid rgba(99,102,241,0.35)", textAlign: "center",
-                                    }}>
-                                        <div style={{ fontSize: "14px", color: "#e2e8f0", marginBottom: "10px" }}>
-                                            Beating AI is easy — <strong>real opponents aren't</strong>
-                                        </div>
-                                        {site ? (
-                                            <a href={site.url} target="_blank" rel="noopener noreferrer" style={{
-                                                display: "inline-block", padding: "11px 26px", borderRadius: "10px",
-                                                background: "linear-gradient(135deg, #f59e0b, #ef4444)", color: "white",
-                                                textDecoration: "none", fontSize: "14px", fontWeight: 600,
-                                                boxShadow: "0 4px 14px rgba(239,68,68,0.25)",
-                                            }}>{site.name} — {site.tagline} →</a>
-                                        ) : (
-                                            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center" }}>
-                                                {Object.values(DUEL_SITES).map(s => (
-                                                    <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" style={{
-                                                        padding: "9px 16px", borderRadius: "10px", background: "rgba(255,255,255,0.07)",
-                                                        color: "#e2e8f0", textDecoration: "none", fontSize: "13px",
-                                                        border: "1px solid rgba(255,255,255,0.15)",
-                                                    }}>{s.name} →</a>
-                                                ))}
-                                            </div>
-                                        )}
-                                        <div style={{ marginTop: "10px", fontSize: "11.5px", color: "#94a3b8" }}>
-                                            {others.map(([k, s]) => (
-                                                <a key={k} href={s.url} target="_blank" rel="noopener noreferrer"
-                                                    style={{ color: "#818cf8", textDecoration: "none", margin: "0 6px" }}>{s.name}</a>
-                                            ))}
-                                        </div>
-                                    </div>
-                                );
-                            })()}
-                        </div>
-                    ) : (
-                        <Suspense fallback={
-                            <div style={{ height: "100%", minHeight: "70vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#cbd5e1", gap: "16px" }}>
-                                <div style={{
-                                    width: "48px", height: "48px", border: "4px solid rgba(255,255,255,0.1)",
-                                    borderTopColor: "#6366f1", borderRadius: "50%",
-                                    animation: "spin 0.9s linear infinite",
-                                }} />
-                                <div style={{ fontSize: "14px", color: "#94a3b8" }}>Loading {selectedGame}…</div>
-                                <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-                            </div>
-                        }>
-                            <GameComp onComplete={handleComplete} />
-                        </Suspense>
-                    )}
+                    {lastScore >= 80 ? "🏆" : lastScore >= 50 ? "🎉" : "😅"}
                 </div>
 
-                {/* Virtual D-pad for keyboard-driven games on touch devices */}
-                {showDpad && (
+                <div style={{ fontSize: "11.5px", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "3px", fontWeight: 600 }}>
+                    Game Over
+                </div>
+
+                <div style={{
+                    display: "flex", flexDirection: "column", alignItems: "center",
+                    padding: "16px 46px", borderRadius: "20px",
+                    background: "rgba(255,255,255,.035)",
+                    border: "1px solid rgba(251,191,36,.2)",
+                    boxShadow: "0 20px 54px -26px rgba(251,191,36,.55)",
+                }}>
+                    <div style={{ fontSize: "10.5px", color: "#94a3b8", letterSpacing: "2px", textTransform: "uppercase" }}>Your Score</div>
                     <div style={{
-                        position: "fixed", right: "12px", bottom: "12px", zIndex: 999,
-                        display: "grid", gridTemplateColumns: "repeat(3, 54px)",
-                        gridTemplateRows: "repeat(3, 54px)", gap: "6px",
-                        opacity: 0.92, touchAction: "none", userSelect: "none",
-                        WebkitUserSelect: "none", WebkitTapHighlightColor: "transparent",
-                    }} onContextMenu={e => e.preventDefault()}>
-                        {[
-                            { key: "ArrowUp", code: "ArrowUp", label: "▲", gc: "1 / 2", gr: "1 / 2" },
-                            { key: "ArrowLeft", code: "ArrowLeft", label: "◀", gc: "1 / 2", gr: "2 / 3" },
-                            { key: "ArrowDown", code: "ArrowDown", label: "▼", gc: "2 / 3", gr: "2 / 3" },
-                            { key: "ArrowRight", code: "ArrowRight", label: "▶", gc: "3 / 4", gr: "2 / 3" },
-                        ].map(b => (
-                            <button
-                                key={b.code}
-                                onPointerDown={e => { e.preventDefault(); dpadDown(b.key, b.code); }}
-                                onPointerUp={e => { e.preventDefault(); dpadUp(b.key, b.code); }}
-                                onPointerLeave={() => dpadUp(b.key, b.code)}
-                                onPointerCancel={() => dpadUp(b.key, b.code)}
-                                style={{
-                                    gridColumn: b.gc, gridRow: b.gr,
-                                    background: "rgba(99,102,241,0.25)", border: "1px solid rgba(99,102,241,0.5)",
-                                    color: "#c7d2fe", borderRadius: "14px", fontSize: "20px", fontWeight: 700,
-                                    touchAction: "none", userSelect: "none", WebkitUserSelect: "none",
-                                    WebkitTapHighlightColor: "transparent", cursor: "pointer", padding: 0,
-                                }}
-                            >{b.label}</button>
-                        ))}
-                        <button
-                            onPointerDown={e => { e.preventDefault(); dpadDown(" ", "Space"); }}
-                            onPointerUp={e => { e.preventDefault(); dpadUp(" ", "Space"); }}
-                            onPointerLeave={() => dpadUp(" ", "Space")}
-                            onPointerCancel={() => dpadUp(" ", "Space")}
-                            style={{
-                                gridColumn: "1 / 4", gridRow: "3 / 4",
-                                background: "rgba(6,182,212,0.25)", border: "1px solid rgba(6,182,212,0.5)",
-                                color: "#a5f3fc", borderRadius: "14px", fontSize: "13px", fontWeight: 700,
-                                letterSpacing: "2px", touchAction: "none", userSelect: "none",
-                                WebkitUserSelect: "none", WebkitTapHighlightColor: "transparent",
-                                cursor: "pointer", padding: 0,
-                            }}
-                        >SPACE</button>
+                        fontSize: "52px", fontWeight: 800, lineHeight: 1.1,
+                        background: "linear-gradient(135deg, #fbbf24, #f59e0b)",
+                        WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                    }}>{lastScore}</div>
+                </div>
+
+                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
+                    <button onClick={replayGame} className="bc-lift" style={{
+                        padding: "13px 30px", background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+                        color: "white", border: "none", borderRadius: "12px", cursor: "pointer",
+                        fontSize: "14.5px", fontWeight: 600, transition: "transform .16s ease, box-shadow .16s ease",
+                        boxShadow: "0 10px 26px -10px rgba(99,102,241,.75)",
+                    }}>🔄 Play Again</button>
+                    <button onClick={resetGame} className="bc-lift" style={{
+                        padding: "13px 30px", background: "rgba(255,255,255,.05)",
+                        color: "#cbd5e1", border: "1px solid rgba(255,255,255,.14)",
+                        borderRadius: "12px", cursor: "pointer", fontSize: "14.5px", fontWeight: 500,
+                        transition: "transform .16s ease, background .16s ease",
+                    }}>🎮 Back to List</button>
+                </div>
+
+                {(() => {
+                    const primary = duelFor(selectedGame);
+                    const others = Object.entries(DUEL_SITES).filter(([k]) => k !== primary);
+                    const site = primary ? DUEL_SITES[primary] : null;
+                    return (
+                        <div style={{
+                            maxWidth: "460px", width: "100%", padding: "20px 22px",
+                            borderRadius: "16px",
+                            background: "rgba(99,102,241,.09)",
+                            border: "1px solid rgba(99,102,241,.3)",
+                            textAlign: "center",
+                            boxShadow: "0 20px 54px -30px rgba(99,102,241,.8)",
+                        }}>
+                            <div style={{ fontSize: "14px", color: "#e2e8f0", marginBottom: "12px" }}>
+                                Beating AI is easy — <strong style={{ color: "#fff" }}>real opponents aren't</strong>
+                            </div>
+                            {site ? (
+                                <a href={site.url} target="_blank" rel="noopener noreferrer" className="bc-lift" style={{
+                                    display: "inline-block", padding: "12px 28px", borderRadius: "11px",
+                                    background: "linear-gradient(135deg, #f59e0b, #ef4444)", color: "white",
+                                    textDecoration: "none", fontSize: "14px", fontWeight: 600,
+                                    boxShadow: "0 10px 26px -10px rgba(239,68,68,.7)",
+                                }}>{site.name} — {site.tagline} →</a>
+                            ) : (
+                                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center" }}>
+                                    {Object.values(DUEL_SITES).map(s => (
+                                        <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" style={{
+                                            padding: "10px 18px", borderRadius: "10px", background: "rgba(255,255,255,.07)",
+                                            color: "#e2e8f0", textDecoration: "none", fontSize: "13px",
+                                            border: "1px solid rgba(255,255,255,.15)",
+                                        }}>{s.name} →</a>
+                                    ))}
+                                </div>
+                            )}
+                            <div style={{ marginTop: "12px", fontSize: "11.5px", color: "#94a3b8" }}>
+                                {others.map(([k, s]) => (
+                                    <a key={k} href={s.url} target="_blank" rel="noopener noreferrer"
+                                        style={{ color: "#818cf8", textDecoration: "none", margin: "0 7px" }}>{s.name}</a>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                })()}
+            </div>
+        ) : (
+            <div style={{
+                width: "100%", maxWidth: "820px", margin: "0 auto",
+                background: "rgba(255,255,255,.022)",
+                border: "1px solid rgba(255,255,255,.065)",
+                borderRadius: "20px",
+                boxShadow: "0 32px 74px -36px rgba(0,0,0,.82)",
+                padding: "16px",
+            }}>
+                <Suspense fallback={
+                    <div style={{ minHeight: "52vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#cbd5e1", gap: "16px" }}>
+                        <div className="bc-spin" style={{
+                            width: "46px", height: "46px", border: "3px solid rgba(255,255,255,.1)",
+                            borderTopColor: "#6366f1", borderRadius: "50%",
+                        }} />
+                        <div style={{ fontSize: "13.5px", color: "#94a3b8" }}>Loading {selectedGame}…</div>
                     </div>
-                )}
+                }>
+                    <GameComp onComplete={handleComplete} />
+                </Suspense>
+            </div>
+        );
+
+        /* ── virtual D-pad (touch devices, keyboard-driven games) ── */
+        const dpadEl = showDpad ? (
+            <div style={{
+                position: "fixed", right: "14px", bottom: "14px", zIndex: 999,
+                display: "grid", gridTemplateColumns: "repeat(3, 56px)",
+                gridTemplateRows: "repeat(3, 56px)", gap: "7px",
+                opacity: 0.9, touchAction: "none", userSelect: "none",
+                WebkitUserSelect: "none", WebkitTapHighlightColor: "transparent",
+            }} onContextMenu={e => e.preventDefault()}>
+                {[
+                    { key: "ArrowUp", code: "ArrowUp", label: "▲", gc: "1 / 2", gr: "1 / 2" },
+                    { key: "ArrowLeft", code: "ArrowLeft", label: "◀", gc: "1 / 2", gr: "2 / 3" },
+                    { key: "ArrowDown", code: "ArrowDown", label: "▼", gc: "2 / 3", gr: "2 / 3" },
+                    { key: "ArrowRight", code: "ArrowRight", label: "▶", gc: "3 / 4", gr: "2 / 3" },
+                ].map(b => (
+                    <button
+                        key={b.code}
+                        onPointerDown={e => { e.preventDefault(); dpadDown(b.key, b.code); }}
+                        onPointerUp={e => { e.preventDefault(); dpadUp(b.key, b.code); }}
+                        onPointerLeave={() => dpadUp(b.key, b.code)}
+                        onPointerCancel={() => dpadUp(b.key, b.code)}
+                        style={{
+                            gridColumn: b.gc, gridRow: b.gr,
+                            background: "rgba(99,102,241,.28)",
+                            border: "1px solid rgba(129,140,248,.5)",
+                            color: "#c7d2fe", borderRadius: "15px", fontSize: "20px", fontWeight: 700,
+                            backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)",
+                            touchAction: "none", userSelect: "none", WebkitUserSelect: "none",
+                            WebkitTapHighlightColor: "transparent", cursor: "pointer", padding: 0,
+                            boxShadow: "0 6px 18px -6px rgba(0,0,0,.6)",
+                        }}
+                    >{b.label}</button>
+                ))}
+                <button
+                    onPointerDown={e => { e.preventDefault(); dpadDown(" ", "Space"); }}
+                    onPointerUp={e => { e.preventDefault(); dpadUp(" ", "Space"); }}
+                    onPointerLeave={() => dpadUp(" ", "Space")}
+                    onPointerCancel={() => dpadUp(" ", "Space")}
+                    style={{
+                        gridColumn: "1 / 4", gridRow: "3 / 4",
+                        background: "rgba(6,182,212,.26)",
+                        border: "1px solid rgba(103,232,249,.5)",
+                        color: "#a5f3fc", borderRadius: "15px", fontSize: "12.5px", fontWeight: 700,
+                        letterSpacing: "2px", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)",
+                        touchAction: "none", userSelect: "none", WebkitUserSelect: "none",
+                        WebkitTapHighlightColor: "transparent", cursor: "pointer", padding: 0,
+                        boxShadow: "0 6px 18px -6px rgba(0,0,0,.6)",
+                    }}
+                >SPACE</button>
+            </div>
+        ) : null;
+
+        /* ── Wide: two columns — game stage + info sidebar ── */
+        if (wide) {
+            return (
+                <div style={{
+                    height: "100vh",
+                    background: "linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #1a1a3e 100%)",
+                    display: "flex", flexDirection: "column", overflow: "hidden",
+                }}>
+                    <style>{GLOBAL_STYLES}</style>
+                    {headerEl}
+                    <div style={{ flex: 1, minHeight: 0, display: "grid", gridTemplateColumns: "minmax(0,1fr) 352px" }}>
+                        <div className="bc-scroll" style={{
+                            overflowY: "auto", overflowX: "hidden",
+                            padding: showDpad ? "22px 26px 170px" : "22px 26px 30px",
+                        }}>
+                            {stageEl}
+                        </div>
+                        <aside className="bc-scroll" style={{
+                            overflowY: "auto",
+                            borderLeft: "1px solid rgba(255,255,255,.07)",
+                            background: "rgba(11,11,26,.5)",
+                            padding: "24px 22px 48px",
+                        }}>
+                            <div style={{
+                                fontSize: "10.5px", fontWeight: 700, letterSpacing: "1.8px",
+                                textTransform: "uppercase", color: "#64748b", marginBottom: "16px",
+                            }}>About this game</div>
+                            {infoEl}
+                        </aside>
+                    </div>
+                    {dpadEl}
+                </div>
+            );
+        }
+
+        /* ── Narrow: single column — game first, info below ── */
+        return (
+            <div style={{
+                minHeight: "100vh",
+                background: "linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #1a1a3e 100%)",
+                display: "flex", flexDirection: "column",
+            }}>
+                <style>{GLOBAL_STYLES}</style>
+                {headerEl}
+                <div style={{ padding: showDpad ? "16px 14px 170px" : "16px 14px 28px" }}>
+                    {stageEl}
+                    {infoEl && showInfo && (
+                        <div className="bc-fade-in" style={{
+                            width: "100%", maxWidth: "820px", margin: "18px auto 0",
+                            background: "rgba(255,255,255,.022)",
+                            border: "1px solid rgba(255,255,255,.065)",
+                            borderRadius: "18px",
+                            padding: "18px 18px 20px",
+                        }}>
+                            <div style={{
+                                fontSize: "10.5px", fontWeight: 700, letterSpacing: "1.8px",
+                                textTransform: "uppercase", color: "#64748b", marginBottom: "14px",
+                            }}>About this game</div>
+                            {infoEl}
+                        </div>
+                    )}
+                </div>
+                {dpadEl}
             </div>
         );
     }
