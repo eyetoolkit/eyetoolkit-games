@@ -106,6 +106,7 @@ const games = {
     ColumnsPuzzle: lazy(() => import("./puzzle/ColumnsPuzzle")),
     NumberCrossword: lazy(() => import("./puzzle/NumberCrossword")),
     RubiksCube2x2: lazy(() => import("./puzzle/RubiksCube2x2")),
+    NonsenseQuiz: lazy(() => import("./puzzle/NonsenseQuiz")),
     // Sports
     GolfPutt: lazy(() => import("./sports/GolfPutt")),
     DartGame: lazy(() => import("./sports/DartGame")),
@@ -1329,6 +1330,18 @@ const GAME_META = {
             "Try the layer-by-layer method: solve one face, then the opposite."
         ],
     },
+    NonsenseQuiz: {
+        emoji: "🤪",
+        desc: "Answer silly riddle-style quiz questions — wordplay and puns",
+        description: "Nonsense Quiz is a light wordplay quiz: each round asks a silly riddle and you pick the funniest correct answer from four options. Free, no ads, no login — play instantly on Bytecade Games.",
+        howToPlay: [
+            "Read the nonsense question and the four answer options.",
+            "Pick the answer that fits the pun or wordplay — it is often the most literal one.",
+            "You have six questions per round; correct answers light up green.",
+            "Answer quickly — the game auto-advances after each choice.",
+            "Aim for a perfect score of 6/6."
+        ],
+    },
     ScratchCard: {
         emoji: "🎫",
         desc: "Scratch to reveal your prize — instant win game",
@@ -1731,7 +1744,7 @@ const GAME_META = {
 const CATEGORY_META = {
     arcade:   { emoji: "🕹", label: "Arcade" },
     reflex:   { emoji: "⚡", label: "Reflex" },
-    word:     { emoji: "📝", label: "Word" },
+    word:     { emoji: "🔤", label: "Word" },
     brain:    { emoji: "🧠", label: "Brain" },
     creative: { emoji: "🎨", label: "Creative" },
     luck:     { emoji: "🍀", label: "Luck" },
@@ -1745,7 +1758,7 @@ const CATEGORIES = [
     { key: "all",      label: "All" },
     { key: "arcade",   label: "🕹 Arcade" },
     { key: "reflex",   label: "⚡ Reflex" },
-    { key: "word",     label: "📝 Word" },
+    { key: "word",     label: "🔤 Word" },
     { key: "brain",    label: "🧠 Brain" },
     { key: "creative", label: "🎨 Creative" },
     { key: "luck",     label: "🍀 Luck" },
@@ -1759,10 +1772,11 @@ const CATEGORIES = [
 const catOf = (name) => {
     for (const [cat, paths] of Object.entries({
         arcade:   "Snake,MiniTetris,MiniPacman,Breakout,FlappyJelly,PingPong,SpaceInvader,Frogger,Asteroids,JumpRunner,Galaga,DigDug,Bomberman,DonkeyKong",
-        reflex:   "WhackAMole,ReactionTest,SpeedClick,AimTrainer,FruitSlice,TimingTap,RhythmTap,ColorSwitch,ArrowDodge,BubblePop,ShootingGallery,TypingWarrior,RopeCut,StroopTest,BombDefuse",
+        reflex:   "WhackAMole,ReactionTest,SpeedClick,AimTrainer,FruitSlice,TimingTap,RhythmTap,ColorSwitch,ArrowDodge,BubblePop,ShootingGallery,RopeCut,StroopTest,BombDefuse",
+        word:     "TypingWarrior,NonsenseQuiz,CipherDecode,DrawAndGuess",
 
-        brain:    "MathChallenge,NBack,SimonSays,PatternRecognition,NumberMemory,BalanceScale,SequenceComplete,Game24,PrimeCheck,CipherDecode,LogicGate,BaseConvert,UnitConvert,FractionCompare,MathBreakout",
-        creative: "PixelArt,DrawAndGuess,ShadowMatch,ColorMixer,DotConnect,FlagQuiz,EmojiCombo,MandalaPaint,GradientSort,JigsawPuzzle,SpotDifference,TileMosaic,SymmetryDraw,SpriteAnimator",
+        brain:    "MathChallenge,NBack,SimonSays,PatternRecognition,NumberMemory,BalanceScale,SequenceComplete,Game24,PrimeCheck,LogicGate,BaseConvert,UnitConvert,FractionCompare,MathBreakout",
+        creative: "PixelArt,ShadowMatch,ColorMixer,DotConnect,FlagQuiz,EmojiCombo,MandalaPaint,GradientSort,JigsawPuzzle,SpotDifference,TileMosaic,SymmetryDraw,SpriteAnimator",
         luck:     "CoinFlip,DicePredict,Roulette,ScratchCard,RPS,LuckyBox,FortuneWheel,SlotMachine,BingoGame,TreasureMap,DicePoker,TreasureDig,LuckySeven,CardFortune",
         puzzle:   "Game2048,Minesweeper,MiniSudoku,SlidePuzzle,Match3,LightsOut,PipeConnect,Sokoban,TileMatch,Nonogram,HanoiTower,ColorCode,BlockStack,ColorSort,KillerSudoku,OneStroke,ColumnsPuzzle,NumberCrossword,RubiksCube2x2",
         sports:   "GolfPutt,DartGame,BasketballShoot,SoccerPK,ArcheryGame,BowlingGame,FishingGame,SkiSlalom,PingPongRally,RocketLaunch",
@@ -1849,6 +1863,8 @@ body {
   background: linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #1a1a3e 100%);
   color: white;
 }
+html, body { overflow-x: hidden; max-width: 100%; }
+.bc-wrap { overflow-x: hidden; max-width: 100vw; }
 @keyframes bcFadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @keyframes bcFadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes bcSpin { to { transform: rotate(360deg); } }
@@ -1862,7 +1878,19 @@ body {
 .bc-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.11); border-radius: 8px; }
 .bc-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.18); }
 button { font-family: inherit; }
-@media (max-width: 560px) { .bc-hide-sm { display: none !important; } }
+/* ── Mobile navigation ── */
+.bc-nav-desktop { display: flex; gap: 4px; }
+.bc-nav-toggle { display: none; }
+.bc-nav-drawer { display: none; }
+@media (max-width: 720px) {
+  .bc-hide-sm { display: none !important; }
+  .bc-nav-desktop { display: none !important; }
+  .bc-nav-toggle { display: inline-flex !important; }
+  .bc-nav-drawer { display: block !important; }
+  .bc-hero-h1 { font-size: 26px !important; line-height: 1.25 !important; }
+  .bc-hero-sub { font-size: 14px !important; }
+  .bc-shell-pad { padding-left: 16px !important; padding-right: 16px !important; }
+}
 @media (hover: hover) {
   .bc-iconbtn:hover { background: rgba(255,255,255,.14) !important; border-color: rgba(255,255,255,.24) !important; }
   .bc-lift:hover { transform: translateY(-2px); }
@@ -1934,6 +1962,7 @@ const GameTester = () => {
     const [filter, setFilter] = useState("all");
     const [search, setSearch] = useState("");
     const [showInfo, setShowInfo] = useState(true);
+    const [navOpen, setNavOpen] = useState(false);
 
     // pushState-based routing so every game gets its own shareable URL
     const setSelectedGame = useCallback((name) => {
@@ -2492,7 +2521,7 @@ const GameTester = () => {
 
     /* ── Portal view ── */
     return (
-        <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #1a1a3e 100%)", color: "white" }}>
+        <div className="bc-wrap" style={{ minHeight: "100vh", background: "linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #1a1a3e 100%)", color: "white" }}>
             <style>{GLOBAL_STYLES}</style>
 
             {/* Header */}
@@ -2501,26 +2530,26 @@ const GameTester = () => {
                 background: "rgba(15,15,35,0.85)", backdropFilter: "blur(12px)",
                 borderBottom: "1px solid rgba(255,255,255,0.08)",
             }}>
-                <div style={{
+                <div className="bc-shell-pad" style={{
                     maxWidth: "1200px", margin: "0 auto", padding: "14px 24px",
                     display: "flex", alignItems: "center", gap: "12px",
                 }}>
                     {/* Logo */}
                     <div style={{
                         display: "flex", alignItems: "center", gap: "10px",
-                        fontSize: "20px", fontWeight: 700, color: "white",
+                        fontSize: "20px", fontWeight: 700, color: "white", minWidth: 0, flexShrink: 0,
                     }}>
                         <span style={{
-                            width: "36px", height: "36px", borderRadius: "10px",
+                            width: "36px", height: "36px", borderRadius: "10px", flexShrink: 0,
                             background: "linear-gradient(135deg, #6366f1, #06b6d4)",
                             display: "flex", alignItems: "center", justifyContent: "center",
                             fontSize: "18px", boxShadow: "0 2px 10px rgba(99,102,241,0.4)",
                         }}>🎮</span>
-                        <span>Bytecade Games</span>
+                        <span style={{ whiteSpace: "nowrap" }}>Bytecade Games</span>
                     </div>
                     <div style={{ flex: 1 }} />
-                    {/* Nav */}
-                    <nav style={{ display: "flex", gap: "4px" }}>
+                    {/* Desktop nav */}
+                    <nav className="bc-nav-desktop">
                         {[
                             { label: "Home", href: "/" },
                             { label: "Privacy", href: "/privacy" },
@@ -2541,22 +2570,61 @@ const GameTester = () => {
                             </a>
                         ))}
                     </nav>
+                    {/* Mobile menu toggle */}
+                    <button
+                        className="bc-nav-toggle"
+                        aria-label="Toggle navigation menu"
+                        aria-expanded={navOpen}
+                        onClick={() => setNavOpen(v => !v)}
+                        style={{
+                            alignItems: "center", justifyContent: "center",
+                            width: "40px", height: "40px", flexShrink: 0,
+                            background: "rgba(255,255,255,0.06)",
+                            border: "1px solid rgba(255,255,255,0.12)",
+                            color: "#cbd5e1", borderRadius: "10px", cursor: "pointer",
+                            fontSize: "18px", lineHeight: 1,
+                        }}
+                    >{navOpen ? "✕" : "☰"}</button>
                 </div>
+                {/* Mobile nav drawer */}
+                <nav className="bc-nav-drawer" style={{
+                    borderTop: "1px solid rgba(255,255,255,0.08)",
+                    background: "rgba(12,12,28,0.97)",
+                }}>
+                    {navOpen && (
+                        <div className="bc-shell-pad" style={{ padding: "10px 16px 14px", display: "flex", flexDirection: "column", gap: "2px" }}>
+                            {[
+                                { label: "Home", href: "/" },
+                                { label: "Privacy", href: "/privacy" },
+                                { label: "Terms", href: "/terms" },
+                                { label: "Cookies", href: "/cookies" },
+                                { label: "About", href: "/about" },
+                            ].map(link => (
+                                <a key={link.label} href={link.href} onClick={(e) => { e.preventDefault(); setNavOpen(false); navigate(link.href); }} style={{
+                                    color: "#cbd5e1", textDecoration: "none",
+                                    padding: "11px 12px", borderRadius: "9px",
+                                    fontSize: "15px", fontWeight: 500,
+                                }}>{link.label}</a>
+                            ))}
+                        </div>
+                    )}
+                </nav>
             </header>
 
-            <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }} id="home">
+            <main className="bc-shell-pad" style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }} id="home">
                 {/* Hero */}
                 <section style={{
                     textAlign: "center", marginBottom: "36px", padding: "40px 20px 20px",
                 }}>
-                    <h1 style={{
-                        fontSize: "clamp(28px, 5vw, 44px)", fontWeight: 800, margin: "0 0 12px",
+                    <h1 className="bc-hero-h1" style={{
+                        fontSize: "clamp(26px, 5vw, 44px)", fontWeight: 800, margin: "0 0 12px",
                         background: "linear-gradient(135deg, #a5b4fc 0%, #22d3ee 100%)",
                         WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                        lineHeight: 1.2, overflowWrap: "break-word",
                     }}>
-                        Over {gameNames.length} free mini games to play right now
+                        {gameNames.length}+ free mini games to play right now
                     </h1>
-                    <p style={{
+                    <p className="bc-hero-sub" style={{
                         fontSize: "clamp(14px, 2.5vw, 17px)", color: "#cbd5e1", margin: 0,
                         fontWeight: 400,
                     }}>
@@ -2673,8 +2741,8 @@ const GameTester = () => {
                     </div>
                 ) : (
                     <div style={{
-                        display: "grid", gap: "16px",
-                        gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+                        display: "grid", gap: "14px",
+                        gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 220px), 1fr))",
                     }}>
                         {filtered.map(name => {
                             const cat = catOf(name);
@@ -2769,43 +2837,6 @@ const GameTester = () => {
                 <div>© 2026 Bytecade Games · Apache-2.0 Licensed</div>
             </footer>
             <CookieConsent />
-
-            {/* Privacy & Terms sections */}
-            <section id="privacy" style={{
-                maxWidth: "800px", margin: "40px auto 0", padding: "28px 24px",
-                background: "rgba(255,255,255,0.04)", borderRadius: "14px",
-                border: "1px solid rgba(255,255,255,0.08)", textAlign: "left",
-            }}>
-                <h2 style={{ color: "#e0e7ff", margin: "0 0 12px", fontSize: "22px" }}>🔒 Privacy Policy</h2>
-                <p style={{ color: "#94a3b8", lineHeight: 1.7, fontSize: "14px", margin: "0 0 10px" }}>
-                    Bytecade Games respects your privacy. This site runs entirely in your browser — we do not collect personal information, do not require accounts, and do not track your gameplay across the web.
-                </p>
-                <ul style={{ color: "#94a3b8", fontSize: "14px", lineHeight: 1.7, paddingLeft: "18px", margin: 0 }}>
-                    <li>No personal data is collected or transmitted</li>
-                    <li>Game scores and settings are stored locally in your browser (localStorage) — you can clear them at any time</li>
-                    <li>No third-party analytics, ad trackers, or cookies are used</li>
-                    <li>We do not use cookies for tracking; technical cookies may be set by Cloudflare for security</li>
-                    <li>Source code is open-source (Apache-2.0) — you can audit it yourself</li>
-                </ul>
-            </section>
-
-            <section id="terms" style={{
-                maxWidth: "800px", margin: "28px auto 40px", padding: "28px 24px",
-                background: "rgba(255,255,255,0.04)", borderRadius: "14px",
-                border: "1px solid rgba(255,255,255,0.08)", textAlign: "left",
-            }}>
-                <h2 style={{ color: "#e0e7ff", margin: "0 0 12px", fontSize: "22px" }}>📜 Terms of Service</h2>
-                <p style={{ color: "#94a3b8", lineHeight: 1.7, fontSize: "14px", margin: "0 0 10px" }}>
-                    Bytecade Games is provided "as is" for free personal use. By using this site, you agree to the following:
-                </p>
-                <ul style={{ color: "#94a3b8", fontSize: "14px", lineHeight: 1.7, paddingLeft: "18px", margin: 0 }}>
-                    <li>Games are for entertainment purposes only</li>
-                    <li>Do not use this site for any illegal or harmful activity</li>
-                    <li>We are not responsible for any indirect or consequential damages</li>
-                    <li>The site may change or become unavailable at any time</li>
-                    <li>All game code is licensed under Apache-2.0 — see <a href="https://github.com/eyetoolkit/eyetoolkit-games" style={{ color: "#6366f1" }}>GitHub</a> for details</li>
-                </ul>
-            </section>
 
         </div>
     );
