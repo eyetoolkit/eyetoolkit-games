@@ -1848,6 +1848,7 @@ const GameTester = () => {
     const [lastScore, setLastScore] = useState(null);
     const [filter, setFilter] = useState("all");
     const [search, setSearch] = useState("");
+    const [showInfo, setShowInfo] = useState(true);
 
     // pushState-based routing so every game gets its own shareable URL
     const setSelectedGame = useCallback((name) => {
@@ -2028,7 +2029,46 @@ const GameTester = () => {
                         cursor: "pointer", fontSize: "14px", fontWeight: 600,
                         boxShadow: "0 2px 12px rgba(99,102,241,0.3)",
                     }}>🔄 Restart</button>
+                    {meta.description && (
+                        <button onClick={() => setShowInfo(v => !v)} style={{
+                            background: showInfo ? "rgba(99,102,241,0.3)" : "rgba(255,255,255,0.06)",
+                            border: "1px solid",
+                            borderColor: showInfo ? "rgba(99,102,241,0.5)" : "rgba(255,255,255,0.12)",
+                            color: showInfo ? "#a5b4fc" : "#cbd5e1",
+                            padding: "8px 16px", borderRadius: "10px", cursor: "pointer",
+                            fontSize: "14px", fontWeight: 500, transition: "all 0.2s",
+                        }}>ℹ️ {showInfo ? "Hide Info" : "How to Play"}</button>
+                    )}
                 </div>
+
+                {/* Info panel — description + how to play */}
+                {showInfo && meta.description && (
+                    <div style={{
+                        background: "rgba(15,15,35,0.92)", backdropFilter: "blur(8px)",
+                        borderBottom: "1px solid rgba(99,102,241,0.2)",
+                        padding: "16px 20px", color: "#cbd5e1", fontSize: "13.5px",
+                        lineHeight: "1.6",
+                    }}>
+                        {/* Description */}
+                        <div style={{ marginBottom: "12px", color: "#e2e8f0" }}>
+                            {meta.description}
+                        </div>
+                        {/* How to play steps */}
+                        {meta.howToPlay && meta.howToPlay.length > 0 && (
+                            <div>
+                                <div style={{
+                                    fontSize: "11px", fontWeight: 600, letterSpacing: "1.5px",
+                                    textTransform: "uppercase", color: "#818cf8", marginBottom: "8px",
+                                }}>How to Play</div>
+                                <ul style={{ margin: 0, paddingLeft: "18px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "4px 16px" }}>
+                                    {meta.howToPlay.map((step, i) => (
+                                        <li key={i} style={{ marginBottom: "3px" }}>{step}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {/* Game area */}
                 <div style={{
@@ -2396,10 +2436,12 @@ const GameTester = () => {
 
                                     {/* Description */}
                                     <div style={{
-                                        fontSize: "12.5px", color: "#cbd5e1", marginBottom: "12px",
+                                        fontSize: "12px", color: "#94a3b8", marginBottom: "10px",
                                         lineHeight: "1.5", minHeight: "38px",
                                     }}>
-                                        {meta.desc}
+                                        {meta.description
+                                            ? meta.description.replace(" Free, no ads, no login — play instantly on Bytecade Games.", "")
+                                            : meta.desc}
                                     </div>
 
                                     {/* Category badge */}
