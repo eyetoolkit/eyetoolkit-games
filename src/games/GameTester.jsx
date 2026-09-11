@@ -38,15 +38,6 @@ const games = {
     RopeCut: lazy(() => import("./reflex/RopeCut")),
     StroopTest: lazy(() => import("./reflex/StroopTest")),
     BombDefuse: lazy(() => import("./reflex/BombDefuse")),
-    // Word
-    Anagram: lazy(() => import("./word/Anagram")),
-    WordSearch: lazy(() => import("./word/WordSearch")),
-    EndWordChain: lazy(() => import("./word/EndWordChain")),
-    TypingRace: lazy(() => import("./word/TypingRace")),
-    MiniCrossword: lazy(() => import("./word/MiniCrossword")),
-    SpellingFix: lazy(() => import("./word/SpellingFix")),
-    SynonymQuiz: lazy(() => import("./word/SynonymQuiz")),
-    AntonymQuiz: lazy(() => import("./word/AntonymQuiz")),
     // Brain
     MathChallenge: lazy(() => import("./brain/MathChallenge")),
     NBack: lazy(() => import("./brain/NBack")),
@@ -181,9 +172,6 @@ const GAME_META = {
     Othello:       { emoji: "⚫", desc: "Flip your opponent's discs to claim more territory" },
     Blackjack:     { emoji: "🃏", desc: "Beat the dealer without going over 21" },
     ChessPuzzle:   { emoji: "♟️", desc: "Mate in N moves — find the winning sequence" },
-    WordSearch:    { emoji: "🔎", desc: "Find hidden words in a grid of letters" },
-    Anagram:       { emoji: "🔄", desc: "Rearrange letters to form new words" },
-    TypingRace:    { emoji: "⌨️", desc: "How fast can you type?" },
     SimonSays:     { emoji: "🎵", desc: "Watch the color sequence, then repeat it" },
     NBack:         { emoji: "🧠", desc: "Dual n-back — train your working memory" },
     MemoryMatch:   { emoji: "🃏", desc: "Flip cards to find matching pairs" },
@@ -234,7 +222,7 @@ const catOf = (name) => {
     for (const [cat, paths] of Object.entries({
         arcade:   "Snake,MiniTetris,MiniPacman,Breakout,FlappyJelly,PingPong,SpaceInvader,Frogger,Asteroids,JumpRunner,Galaga,DigDug,Bomberman,DonkeyKong",
         reflex:   "WhackAMole,ReactionTest,SpeedClick,AimTrainer,FruitSlice,TimingTap,RhythmTap,ColorSwitch,ArrowDodge,BubblePop,ShootingGallery,TypingWarrior,RopeCut,StroopTest,BombDefuse",
-        word:     "Anagram,WordSearch,EndWordChain,TypingRace,MiniCrossword,SpellingFix,SynonymQuiz,AntonymQuiz",
+
         brain:    "MathChallenge,NBack,SimonSays,PatternRecognition,NumberMemory,BalanceScale,SequenceComplete,Game24,PrimeCheck,CipherDecode,LogicGate,BaseConvert,UnitConvert,FractionCompare,MathBreakout",
         creative: "PixelArt,DrawAndGuess,ShadowMatch,ColorMixer,DotConnect,FlagQuiz,EmojiCombo,MandalaPaint,GradientSort,JigsawPuzzle,SpotDifference,TileMosaic,SymmetryDraw,SpriteAnimator",
         luck:     "CoinFlip,DicePredict,Roulette,ScratchCard,RPS,LuckyBox,FortuneWheel,SlotMachine,BingoGame,TreasureMap,DicePoker,TreasureDig,LuckySeven,CardFortune",
