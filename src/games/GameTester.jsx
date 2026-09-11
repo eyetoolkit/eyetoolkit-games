@@ -1993,7 +1993,8 @@ const GameTester = () => {
                     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
                     "publisher": { "@type": "Organization", "name": "Bytecade Games", "url": SITE_URL }
                 });
-            } else {
+            } else if (!currentPage) {
+                // Homepage meta — static legal pages are handled by the Legal component
                 const title = "Bytecade Games — 130+ Free Mini Games";
                 const desc = "Bytecade Games — 130+ free open-source browser mini games. No downloads, no ads, no accounts.";
                 document.title = title;
@@ -2011,7 +2012,7 @@ const GameTester = () => {
                 removeJsonLd("ld-page");
             }
         } catch (_) { /* noop */ }
-    }, [selectedGame]);
+    }, [selectedGame, currentPage]);
 
     const gameNames = useMemo(() => Object.keys(games), []);
     const filtered = useMemo(() =>
