@@ -1878,6 +1878,14 @@ html, body { overflow-x: hidden; max-width: 100%; }
 .bc-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.11); border-radius: 8px; }
 .bc-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.18); }
 button { font-family: inherit; }
+/* ── Cookie bar clearance ──
+   The consent bar is position:fixed, so it would sit on top of the last row of
+   cards (or a game's D-pad) until the visitor answers. Reserve the space while
+   it is on screen. */
+body.bc-has-cc footer { padding-bottom: calc(var(--bc-cc-height, 104px) + 28px) !important; }
+@media (max-width: 1099px) {
+  body.bc-has-cc .bc-stage-scroll { padding-bottom: calc(var(--bc-cc-height, 104px) + 30px) !important; }
+}
 /* ── Home: search + cards ── */
 .bc-search-input { height: 48px; }
 .bc-search-input::placeholder { color: #64748b; }
@@ -2480,7 +2488,7 @@ const GameTester = () => {
                     <style>{GLOBAL_STYLES}</style>
                     {headerEl}
                     <div style={{ flex: 1, minHeight: 0, display: "grid", gridTemplateColumns: "minmax(0,1fr) 380px" }}>
-                        <div className="bc-scroll" style={{
+                        <div className="bc-scroll bc-stage-scroll" style={{
                             overflowY: "auto", overflowX: "hidden",
                             padding: showDpad ? "22px 26px 170px" : "22px 26px 30px",
                             // Centre the stage in the leftover space so short games
@@ -2572,7 +2580,7 @@ const GameTester = () => {
             }}>
                 <style>{GLOBAL_STYLES}</style>
                 {headerEl}
-                <div style={{ padding: showDpad ? "16px 14px 170px" : "16px 14px 28px" }}>
+                <div className="bc-stage-scroll" style={{ padding: showDpad ? "16px 14px 170px" : "16px 14px 28px" }}>
                     {stageEl}
                     {infoEl && showInfo && (
                         <div className="bc-fade-in" style={{

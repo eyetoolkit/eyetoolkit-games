@@ -11,6 +11,19 @@ export default function CookieConsent() {
         } catch (_) { /* storage blocked → don't nag */ }
     }, []);
 
+    // Reserve space at the bottom while the bar is on screen, otherwise the
+    // fixed bar permanently covers the last row of game cards on small screens.
+    useEffect(() => {
+        if (!visible) return;
+        const root = document.documentElement;
+        root.style.setProperty("--bc-cc-height", "104px");
+        document.body.classList.add("bc-has-cc");
+        return () => {
+            document.body.classList.remove("bc-has-cc");
+            root.style.removeProperty("--bc-cc-height");
+        };
+    }, [visible]);
+
     const decide = (val) => {
         try { localStorage.setItem(KEY, val); } catch (_) { /* noop */ }
         setVisible(false);
