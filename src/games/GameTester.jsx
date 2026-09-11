@@ -2474,6 +2474,10 @@ const GameTester = () => {
                         <div className="bc-scroll" style={{
                             overflowY: "auto", overflowX: "hidden",
                             padding: showDpad ? "22px 26px 170px" : "22px 26px 30px",
+                            // Centre the stage in the leftover space so short games
+                            // (Snake, PingPong) don't leave a dead zone underneath.
+                            display: "flex", flexDirection: "column",
+                            justifyContent: "center",
                         }}>
                             {stageEl}
                         </div>
@@ -2850,8 +2854,8 @@ const GameTester = () => {
                                     style={{
                                         textAlign: "left", padding: "20px", borderRadius: "16px",
                                         cursor: "pointer",
-                                        background: `linear-gradient(160deg, rgba(${tint},.10) 0%, rgba(255,255,255,0.045) 46%, rgba(255,255,255,0.03) 100%)`,
-                                        border: `1px solid rgba(${tint},.20)`, color: "white",
+                                        background: `linear-gradient(160deg, rgba(${tint},.16) 0%, rgba(255,255,255,0.05) 44%, rgba(255,255,255,0.03) 100%)`,
+                                        border: `1px solid rgba(${tint},.30)`, color: "white",
                                         transition: "all 0.25s ease", position: "relative", overflow: "hidden",
                                         fontFamily: "inherit",
                                         animationDelay: `${Math.min(idx, 24) * 18}ms`,
@@ -2871,8 +2875,8 @@ const GameTester = () => {
                                 >
                                     {/* Category colour band along the top edge */}
                                     <span aria-hidden="true" style={{
-                                        position: "absolute", top: 0, left: 0, right: 0, height: "3px",
-                                        background: `linear-gradient(90deg, rgba(${tint},.9), rgba(${tint},.15))`,
+                                        position: "absolute", top: 0, left: 0, right: 0, height: "4px",
+                                        background: `linear-gradient(90deg, rgb(${tint}), rgba(${tint},.25))`,
                                     }} />
 
                                     {/* Emoji header */}
