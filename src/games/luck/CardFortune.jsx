@@ -76,7 +76,7 @@ const CardFortune = ({ onComplete }) => {
                 ✨ Tarot Fortune ✨
             </div>
             <div style={{ fontSize: "13px" }}>
-                <span style={{ color: "#FFD700" }}>{drawn.length}/{maxDraw} drawn
+                <span style={{ color: "#FFD700" }}>{drawn.length}/{maxDraw} drawn</span>
                 {flipped.size > 0 && flipped.size < drawn.length && <span style={{ color: "#9B59B6", marginLeft: "8px" }}>Flip the card</span>}
             </div>
             <div style={{ display: "flex", gap: "12px", perspective: "600px" }}>
