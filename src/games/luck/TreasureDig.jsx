@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 138: 보물 발굴
- * 격자에서 보물을 파내세요 — 지뢰찾기 스타일
+ * 🎮 Game 138: Treasure Dig
+ * Dig treasures from the grid — minesweeper style
  */
 import { useState, useCallback } from "react";
 
@@ -120,13 +120,13 @@ const TreasureDig = ({ onComplete }) => {
                     );
                 })}
             </div>
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>숫자 = 주변 보물 수 | {maxDigs}회 안에 {TREASURES}개 찾기!</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>Numbers = adjacent treasures | {maxDigs}digs to find {TREASURES}treasures!</div>
             {done && <div style={{
                 fontSize: "18px", fontWeight: "bold",
                 color: found >= TREASURES ? "#64ffda" : "#FF6B6B",
                 textShadow: "0 0 15px currentColor",
             }}>
-                {found >= TREASURES ? "🎉 모든 보물 발굴!" : `발굴 종료! ${found}/${TREASURES}`}
+                {found >= TREASURES ? "🎉 All treasures dug up!" : `Dig complete! ${found}/${TREASURES}`}
             </div>}
         </div>
     );

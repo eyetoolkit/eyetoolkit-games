@@ -1,11 +1,11 @@
 /**
- * 🎮 Game 103: 루빅스 큐브 2×2
- * 2D 전개도(십자형) 회전 UI — 6면 모두 같은 색이면 클리어
+ * 🎮 Game 103: Rubik's Cube 2x2
+ * 2D net rotation UI — match all 6 faces
  */
 import { useState, useCallback } from "react";
 
 const FACE_COLORS = { U: "#FFD700", D: "#FFFFFF", F: "#FF6B6B", B: "#FF8C42", L: "#6BCB77", R: "#4D96FF" };
-const FACE_NAMES = { U: "윗면", D: "아랫면", F: "앞면", B: "뒷면", L: "왼면", R: "오른면" };
+const FACE_NAMES = { U: "Top", D: "Bottom", F: "Front", B: "Back", L: "Left", R: "Right" };
 
 const createSolved = () => ({
     U: ["U", "U", "U", "U"], D: ["D", "D", "D", "D"],
@@ -101,7 +101,7 @@ const RubiksCube2x2 = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                이동: <span style={{ color: "#FFD700" }}>{moves}</span>
+                Moves: <span style={{ color: "#FFD700" }}>{moves}</span>
             </div>
             {/* Cross layout: top=U, middle=L,F,R,B, bottom=D */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
@@ -122,9 +122,9 @@ const RubiksCube2x2 = ({ onComplete }) => {
                 ))}
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                각 면을 같은 색으로 맞추세요
+                Match each face to one color
             </div>
-            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎉 완료! {moves}회</div>}
+            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎉 Done! {moves} moves</div>}
         </div>
     );
 };

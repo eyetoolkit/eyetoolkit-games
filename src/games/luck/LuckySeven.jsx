@@ -1,5 +1,5 @@
 /**
- * 🎮 럭키 세븐 — 다이스 콤보 + 보너스 라운드 + 잭팟 + 멀티 다이스
+ * 🎮 Lucky Seven — dice combo + bonus round + jackpot + multi-dice
  */
 import { useState, useCallback } from "react";
 
@@ -60,7 +60,7 @@ const LuckySeven = ({ onComplete }) => {
             } else if (diff === 2) {
                 pts = 12; label = "😊 Close";
             } else if (isDouble) {
-                pts = 15; label = "🎲 더블!";
+                pts = 15; label = "🎲 Double!";
             } else {
                 pts = 5; label = "";
             }
@@ -123,8 +123,8 @@ const LuckySeven = ({ onComplete }) => {
                 <div style={{ padding: "2px 10px", borderRadius: "6px", background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.2)" }}>
                     💰 <span style={{ color: "#FFD700", fontWeight: "bold", fontSize: "16px" }}>{totalScore}</span>
                 </div>
-                {streak >= 2 && <span style={{ color: "#A855F7", fontWeight: "bold" }}>🔥 {streak}연속! +10pt</span>}
-                {bonusRound && <span style={{ color: "#FFD700", fontSize: "10px" }}>⭐ 보너스!</span>}
+                {streak >= 2 && <span style={{ color: "#A855F7", fontWeight: "bold" }}>🔥 {streak}Streak! +10pt</span>}
+                {bonusRound && <span style={{ color: "#FFD700", fontSize: "10px" }}>⭐ Bonus!</span>}
             </div>
 
             {/* Mode toggle */}
@@ -137,13 +137,13 @@ const LuckySeven = ({ onComplete }) => {
                             color: mode === m ? "#A855F7" : "#8892b0",
                             border: mode === m ? "1px solid #A855F7" : "1px solid rgba(255,255,255,0.1)",
                             borderRadius: "6px", cursor: "pointer",
-                        }}>{m === "two" ? "🎲🎲 2개 (목표 7)" : "🎲🎲🎲 3개 (목표 10)"}</button>
+                        }}>{m === "two" ? "🎲🎲 2 hits (target 7)" : "🎲🎲🎲 3 hits (target 10)"}</button>
                 ))}
             </div>
 
             {/* Target */}
             <div style={{ fontSize: "12px", color: "#8892b0", display: "flex", alignItems: "center", gap: "4px" }}>
-                목표 합:
+                Target sum:
                 <span style={{
                     fontSize: "20px", fontWeight: "bold", color: "#64ffda",
                     animation: lastResult?.perfect ? "sevenGlow 1s infinite" : "none",
@@ -185,7 +185,7 @@ const LuckySeven = ({ onComplete }) => {
                     }}>
                         = {lastResult.sum} {lastResult.label}
                     </div>
-                    <div style={{ fontSize: "13px", color: "#8892b0" }}>+{lastResult.pts}점</div>
+                    <div style={{ fontSize: "13px", color: "#8892b0" }}>+{lastResult.pts} pts</div>
                 </div>
             )}
 
@@ -198,17 +198,17 @@ const LuckySeven = ({ onComplete }) => {
                     boxShadow: rolling ? "none" : "0 4px 16px rgba(255,215,0,0.3)",
                     transition: "all 0.3s",
                 }}>
-                    {rolling ? "🎲 굴리는 중..." : "🎲 굴리기!"}
+                    {rolling ? "🎲 Rolling..." : "🎲 Roll!"}
                 </button>
             )}
 
             {done && (
                 <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "22px", fontWeight: "bold", color: "#64ffda", textShadow: "0 0 20px rgba(100,255,218,0.4)" }}>
-                        🏆 총점: {totalScore}
+                        🏆 Total: {totalScore}
                     </div>
                     <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                        🎯 적중: {history.filter(h => h.target).length}회 | 최대 연속: {streak}
+                        🎯 Hits: {history.filter(h => h.target).length}x | Best streak: {streak}
                     </div>
                 </div>
             )}

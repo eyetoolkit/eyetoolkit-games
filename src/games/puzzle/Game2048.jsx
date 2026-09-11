@@ -1,7 +1,7 @@
 /**
  * 🎮 Game 1: 2048
- * 타일을 합쳐서 최대한 높은 숫자를 만드세요!
- * 스코어 = min(100, (maxTile / 2048) * 100)
+ * Merge tiles for the highest number!
+ * score = min(100, (maxTile / 2048) * 100)
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -51,13 +51,13 @@ const rotateGrid = (grid) => {
 };
 
 // ═══════════════════════════════════════════════════
-// 📖 튜토리얼 컴포넌트
+// tutorial component
 // ═══════════════════════════════════════════════════
 const TUTORIAL_STEPS = [
     {
         icon: "👆",
-        title: "타일 이동하기",
-        content: "방향키(↑↓←→) 또는 화면을 스와이프하면\n모든 타일이 해당 방향으로 이동해요!",
+        title: "Moving tiles",
+        content: "Use arrow keys or swipe to move\nall tiles in that direction!",
         visual: (
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", margin: "12px 0" }}>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 32px)", gap: "4px" }}>
@@ -69,19 +69,19 @@ const TUTORIAL_STEPS = [
                     <div style={{ background: "rgba(255,255,255,0.15)", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, fontSize: "16px" }}>→</div>
                 </div>
                 <div style={{ fontSize: "13px", color: "#8892b0", textAlign: "left", lineHeight: 1.6 }}>
-                    📱 모바일: 스와이프<br/>
-                    💻 PC: 방향키
+                    📱 Mobile: swipe<br/>
+                    💻 PC: arrow keys
                 </div>
             </div>
         ),
     },
     {
         icon: "🔢",
-        title: "같은 숫자 합치기",
-        content: "같은 숫자 타일이 만나면 합쳐져요!\n2 + 2 = 4,  4 + 4 = 8,  8 + 8 = 16 ...",
+        title: "Merging tiles",
+        content: "When two tiles with the same number meet, they merge!\n2 + 2 = 4,  4 + 4 = 8,  8 + 8 = 16 ...",
         visual: (
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", margin: "12px 0" }}>
-                {/* 합치기 예시 */}
+                {/* merge example */}
                 <div style={{ width: 44, height: 44, background: "#eee4da", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", color: "#776e65", fontSize: "18px" }}>2</div>
                 <div style={{ fontSize: "18px", color: "#8892b0" }}>+</div>
                 <div style={{ width: 44, height: 44, background: "#eee4da", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", color: "#776e65", fontSize: "18px" }}>2</div>
@@ -93,17 +93,17 @@ const TUTORIAL_STEPS = [
     },
     {
         icon: "🏆",
-        title: "전략 & 목표",
-        content: "2048 타일을 만들면 최고 점수!\n큰 숫자를 한쪽 구석에 모으는 게 핵심이에요.",
+        title: "Strategy & goal",
+        content: "Reach the 2048 tile for the top score!\nKeep big numbers cornered.",
         visual: (
             <div style={{ margin: "12px 0" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px", marginBottom: "10px" }}>
                     <div style={{ width: 40, height: 40, background: "#edc22e", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", color: "#f9f6f2", fontSize: "11px", boxShadow: "0 0 12px rgba(237,194,46,0.6)" }}>2048</div>
-                    <span style={{ fontSize: "13px", color: "#FFD700" }}>← 목표!</span>
+                    <span style={{ fontSize: "13px", color: "#FFD700" }}>← goal!</span>
                 </div>
                 <div style={{ display: "flex", gap: "10px", justifyContent: "center", fontSize: "12px", color: "#8892b0" }}>
-                    <span>💡 큰 수는 구석에</span>
-                    <span>💡 한 방향 유지</span>
+                    <span>💡 Keep big numbers in a corner</span>
+                    <span>💡 Stick to one direction</span>
                 </div>
             </div>
         ),
@@ -143,7 +143,7 @@ const TutorialOverlay = ({ onClose }) => {
                     animation: "tutorialFadeIn 0.3s ease",
                 }}
             >
-                {/* 단계 인디케이터 */}
+                {/* step indicators */}
                 <div style={{ display: "flex", justifyContent: "center", gap: "6px", marginBottom: "16px" }}>
                     {TUTORIAL_STEPS.map((_, i) => (
                         <div
@@ -159,10 +159,10 @@ const TutorialOverlay = ({ onClose }) => {
                     ))}
                 </div>
 
-                {/* 아이콘 */}
+                {/* icon */}
                 <div style={{ fontSize: "40px", marginBottom: "8px" }}>{current.icon}</div>
 
-                {/* 제목 */}
+                {/* title */}
                 <h3 style={{
                     fontSize: "18px",
                     fontWeight: "bold",
@@ -174,15 +174,15 @@ const TutorialOverlay = ({ onClose }) => {
                     {current.title}
                 </h3>
 
-                {/* 설명 */}
+                {/* description */}
                 <p style={{ fontSize: "14px", color: "#ccd6f6", margin: 0, lineHeight: 1.7, whiteSpace: "pre-line" }}>
                     {current.content}
                 </p>
 
-                {/* 시각적 가이드 */}
+                {/* visual guide */}
                 {current.visual}
 
-                {/* 버튼 영역 */}
+                {/* buttons */}
                 <div style={{ display: "flex", gap: "10px", marginTop: "16px", justifyContent: "center" }}>
                     {!isLast && (
                         <button
@@ -200,7 +200,7 @@ const TutorialOverlay = ({ onClose }) => {
                             onMouseOver={(e) => (e.target.style.background = "rgba(255,255,255,0.15)")}
                             onMouseOut={(e) => (e.target.style.background = "rgba(255,255,255,0.08)")}
                         >
-                            건너뛰기
+                            Skip
                         </button>
                     )}
                     <button
@@ -226,7 +226,7 @@ const TutorialOverlay = ({ onClose }) => {
                             e.target.style.boxShadow = "0 4px 12px rgba(12,191,255,0.3)";
                         }}
                     >
-                        {isLast ? "🎮 시작하기!" : `다음 (${step + 1}/${TUTORIAL_STEPS.length})`}
+                        {isLast ? "🎮 Start!" : `Next (${step + 1}/${TUTORIAL_STEPS.length})`}
                     </button>
                 </div>
             </div>
@@ -346,12 +346,12 @@ const Game2048 = ({ onComplete }) => {
             onTouchEnd={handleTouchEnd}
         >
             <div style={{ fontSize: "16px", fontWeight: "bold", display: "flex", alignItems: "center", gap: "8px" }}>
-                <span>스코어: <span style={{ color: "#FFD700" }}>{score}</span></span>
-                <span style={{ fontSize: "12px", color: "#8892b0" }}>최대: {getMaxTile(grid)}</span>
-                {/* 도움말 버튼 */}
+                <span>Score: <span style={{ color: "#FFD700" }}>{score}</span></span>
+                <span style={{ fontSize: "12px", color: "#8892b0" }}>Max: {getMaxTile(grid)}</span>
+                {/* help button */}
                 <button
                     onClick={() => setShowTutorial(true)}
-                    title="게임 방법 보기"
+                    title="How to play"
                     style={{
                         width: "24px",
                         height: "24px",
@@ -420,7 +420,7 @@ const Game2048 = ({ onComplete }) => {
                 ))}
                 {gameOver && (
                     <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.4)", borderRadius: "8px" }}>
-                        <div style={{ fontSize: "18px", fontWeight: "bold", color: "#FF6B6B" }}>게임 오버! {getMaxTile(grid)}</div>
+                        <div style={{ fontSize: "18px", fontWeight: "bold", color: "#FF6B6B" }}>Game over! {getMaxTile(grid)}</div>
                     </div>
                 )}
                 {showTutorial && (
@@ -429,8 +429,8 @@ const Game2048 = ({ onComplete }) => {
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0", textAlign: "center", lineHeight: 1.6 }}>
                 {gameOver
-                    ? "게임 오버!"
-                    : "↑↓←→ 방향키 또는 스와이프로 이동 · 같은 숫자끼리 합쳐져요!"
+                    ? "Game over!"
+                    : "Arrow keys or swipe to move · same numbers merge!"
                 }
             </div>
         </div>

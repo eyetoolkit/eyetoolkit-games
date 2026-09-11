@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 16: 슈팅 갤러리 — 히트 파티클 + 콤보 + 타이머 바
+ * 🎮 Game 16: Shooting Gallery — hit particles + combo + timer bar
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -66,7 +66,7 @@ const ShootingGallery = ({ onComplete }) => {
         <div style={{ height: "100%", display: "flex", flexDirection: "column", color: "white" }}>
             <style>{`@keyframes hitBurst { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }`}</style>
             <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 14px", fontSize: "13px" }}>
-                <span>⏱ <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}초</span></span>
+                <span>⏱ <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}s</span></span>
                 <span>🎯 <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}</span></span>
                 {comboRef.current >= 3 && <span style={{ color: "#A855F7" }}>🔥 x{combo}</span>}
             </div>
@@ -101,7 +101,7 @@ const ShootingGallery = ({ onComplete }) => {
                 ))}
             </div>
             <div style={{ textAlign: "center", padding: "8px", fontSize: "11px", color: "#8892b0" }}>
-                {gameActive ? "표적을 클릭!" : `게임 종료! ${score}개 명중`}
+                {gameActive ? "Click the targets!" : `Game over! ${score} hits`}
             </div>
         </div>
     );

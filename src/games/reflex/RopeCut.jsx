@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 109: 로프 자르기
- * 로프(체인)를 순서대로 잘라 캔디를 입에 넣기
+ * 🎮 Game 109: Rope Cut
+ * Cut ropes in order to feed the candy
  */
 import { useState, useCallback } from "react";
 
@@ -112,8 +112,8 @@ const RopeCut = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                별: <span style={{ color: "#FFD700" }}>{collectedStars.size}/{level.stars.length}</span>
-                <span style={{ marginLeft: 12, color: "#8892b0" }}>로프를 클릭해 자르세요</span>
+                Star: <span style={{ color: "#FFD700" }}>{collectedStars.size}/{level.stars.length}</span>
+                <span style={{ marginLeft: 12, color: "#8892b0" }}>Click a rope to cut it</span>
             </div>
             <div style={{
                 width: 300, height: 420, position: "relative",
@@ -186,7 +186,7 @@ const RopeCut = ({ onComplete }) => {
                     fontSize: "16px", fontWeight: "bold",
                     color: result === "success" ? "#64ffda" : "#FF6B6B",
                 }}>
-                    {result === "success" ? "🎉 성공!" : "😢 실패..."} 별 {collectedStars.size}개
+                    {result === "success" ? "🎉 Success!" : "😢 Failed..."} Star {collectedStars.size}
                 </div>
             )}
         </div>

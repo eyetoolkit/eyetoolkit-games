@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 43: 패턴 인식 — CSS 도형 패턴 시각화
+ * 🎮 Game 43: Pattern Recognition — CSS shape pattern visualization
  */
 import { useCallback, useState } from "react";
 
@@ -49,10 +49,10 @@ const PatternRecognition = ({ onComplete }) => {
             <style>{`@keyframes patternPop { 0% { transform: scale(0); } 100% { transform: scale(1); } }`}</style>
 
             <div style={{ fontSize: "13px" }}>
-                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | 정답 <span style={{ color: "#64ffda" }}>{correct}</span>
+                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | Answer <span style={{ color: "#64ffda" }}>{correct}</span>
             </div>
 
-            <div style={{ fontSize: "12px", color: "#8892b0" }}>패턴을 파악하고 빈칸에 들어갈 도형을 고르세요!</div>
+            <div style={{ fontSize: "12px", color: "#8892b0" }}>Spot the pattern and pick the missing shape!</div>
 
             {/* Pattern display */}
             <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", justifyContent: "center", maxWidth: 280 }}>
@@ -101,7 +101,7 @@ const PatternRecognition = ({ onComplete }) => {
 
             {feedback && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: feedback === "correct" ? "#64ffda" : "#FF6B6B" }}>
-                    {feedback === "correct" ? "✅ 정답!" : "❌ 틀렸어요"}
+                    {feedback === "correct" ? "✅ Correct!" : "❌ Wrong"}
                 </div>
             )}
         </div>

@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 45: N-Back — 이전 기억 매칭 + 뇌파 애니메이션
+ * 🎮 Game 45: N-Back — memory matching + brainwave animation
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -63,7 +63,7 @@ const NBack = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "13px" }}>
-                🧠 {N}-Back | <span style={{ color: "#FFD700" }}>{roundRef.current}/{ROUNDS}</span> | 정답 <span style={{ color: "#64ffda" }}>{score}</span>
+                🧠 {N}-Back | <span style={{ color: "#FFD700" }}>{roundRef.current}/{ROUNDS}</span> | Answer <span style={{ color: "#64ffda" }}>{score}</span>
             </div>
 
             {/* Recent letters trail */}
@@ -113,7 +113,7 @@ const NBack = ({ onComplete }) => {
                             background: "rgba(100,255,218,0.1)", color: "#64ffda",
                             border: "2px solid rgba(100,255,218,0.3)",
                             opacity: !showing || responded ? 0.4 : 1,
-                        }}>✅ 같다!</button>
+                        }}>✅ Same!</button>
                     <button onClick={() => handleMatch(false)} disabled={!showing || responded}
                         style={{
                             padding: "12px 24px", fontSize: "14px", fontWeight: "bold",
@@ -121,13 +121,13 @@ const NBack = ({ onComplete }) => {
                             background: "rgba(255,107,107,0.08)", color: "#FF6B6B",
                             border: "2px solid rgba(255,107,107,0.3)",
                             opacity: !showing || responded ? 0.4 : 1,
-                        }}>❌ 다르다</button>
+                        }}>❌ Different</button>
                 </div>
             )}
 
             {done && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>
-                    🧠 {score}/{total} 정답!
+                    🧠 {score}/{total} Correct!
                 </div>
             )}
         </div>

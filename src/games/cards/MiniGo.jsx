@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 112: 바둑 (9×9)
- * 미니 바둑판 — 간단한 AI와 대전
+ * 🎮 Game 112: Go (9×9)
+ * Mini Go board — simple AI opponent
  */
 import { useState, useCallback } from "react";
 
@@ -132,9 +132,9 @@ const MiniGo = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>⚫ 흑(나): <span style={{ color: "#64ffda" }}>{scores.black}</span></span>
-                <span>⚪ 백(AI): <span style={{ color: "#FFD700" }}>{scores.white}</span></span>
-                <span>수: {moveCount}</span>
+                <span>⚫ Black (You): <span style={{ color: "#64ffda" }}>{scores.black}</span></span>
+                <span>⚪ White (AI): <span style={{ color: "#FFD700" }}>{scores.white}</span></span>
+                <span>moves: {moveCount}</span>
             </div>
             <div style={{
                 display: "grid", gridTemplateColumns: `repeat(${SIZE}, ${CELL}px)`, gap: "0px",
@@ -173,11 +173,11 @@ const MiniGo = ({ onComplete }) => {
                 padding: "8px 20px", fontSize: "13px", background: "rgba(255,255,255,0.1)",
                 color: "white", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "8px", cursor: "pointer",
             }}>
-                패스
+                Pass
             </button>
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>교차점을 클릭해 돌 놓기 | 덤 2.5</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>Click an intersection to place | komi 2.5</div>
             {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>
-                게임 종료! {scores.black >= scores.white + 2.5 ? "흑 승리!" : "백 승리!"}
+                Game over! {scores.black >= scores.white + 2.5 ? "Black wins!" : "White wins!"}
             </div>}
         </div>
     );

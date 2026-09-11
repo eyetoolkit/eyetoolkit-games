@@ -1,15 +1,15 @@
 /**
- * 🎮 Game 142: 무역상
- * 물건을 사고 팔아 이익을 남기세요
+ * 🎮 Game 142: Merchant Sim
+ * Buy low, sell high for profit
  */
 import { useState, useCallback } from "react";
 
 const GOODS = [
-    { name: "쌀", emoji: "🍚", basePrice: 10 },
-    { name: "생선", emoji: "🐟", basePrice: 15 },
-    { name: "보석", emoji: "💎", basePrice: 50 },
-    { name: "천", emoji: "🧶", basePrice: 20 },
-    { name: "향료", emoji: "🌶️", basePrice: 30 },
+    { name: "Rice", emoji: "🍚", basePrice: 10 },
+    { name: "Fish", emoji: "🐟", basePrice: 15 },
+    { name: "Gems", emoji: "💎", basePrice: 50 },
+    { name: "Cloth", emoji: "🧶", basePrice: 20 },
+    { name: "Spices", emoji: "🌶️", basePrice: 30 },
 ];
 
 const MerchantSim = ({ onComplete }) => {
@@ -125,7 +125,7 @@ const MerchantSim = ({ onComplete }) => {
                                         color: "#64ffda", border: "1px solid rgba(100,255,218,0.3)",
                                         borderRadius: "6px", cursor: gold < g.price ? "not-allowed" : "pointer",
                                         opacity: gold < g.price ? 0.4 : 1,
-                                    }}>구매</button>
+                                    }}>Buy</button>
                                 <button onClick={() => sell(g.name, g.price)} disabled={!qty}
                                     style={{
                                         flex: 1, padding: "4px", fontSize: "10px", fontWeight: "bold",
@@ -133,7 +133,7 @@ const MerchantSim = ({ onComplete }) => {
                                         color: "#FF6B6B", border: "1px solid rgba(255,107,107,0.3)",
                                         borderRadius: "6px", cursor: !qty ? "not-allowed" : "pointer",
                                         opacity: !qty ? 0.4 : 1,
-                                    }}>판매</button>
+                                    }}>Sell</button>
                             </div>
                         </div>
                     );
@@ -144,7 +144,7 @@ const MerchantSim = ({ onComplete }) => {
                 color: lastAction.type === "buy" ? "#64ffda" : "#FFD700",
                 animation: "actionFloat 0.6s ease forwards",
             }}>
-                {lastAction.type === "buy" ? `📥 ${lastAction.name} 구매 -${lastAction.price}G` : `📤 ${lastAction.name} 판매 +${lastAction.price}G`}
+                {lastAction.type === "buy" ? `📥 Bought ${lastAction.name} -${lastAction.price}G` : `📤 Sold ${lastAction.name} +${lastAction.price}G`}
             </div>}
             {!done && (
                 <button onClick={nextDay} style={{
@@ -153,7 +153,7 @@ const MerchantSim = ({ onComplete }) => {
                     color: "#FFD93D", border: "1px solid rgba(255,215,0,0.3)", borderRadius: "10px",
                     cursor: "pointer", boxShadow: "0 2px 8px rgba(255,215,0,0.1)",
                 }}>
-                    {day < maxDays ? "🌅 다음 날 →" : "📊 마감 정산"}
+                    {day < maxDays ? "🌅 Next day →" : "📊 Daily report"}
                 </button>
             )}
             {done && (
@@ -162,7 +162,7 @@ const MerchantSim = ({ onComplete }) => {
                     color: profit >= 0 ? "#64ffda" : "#FF6B6B",
                     textShadow: "0 0 15px currentColor",
                 }}>
-                    💰 최종: {gold}G | {profit >= 0 ? "+" : ""}{profit}G
+                    💰 Final: {gold}G | {profit >= 0 ? "+" : ""}{profit}G
                 </div>
             )}
         </div>

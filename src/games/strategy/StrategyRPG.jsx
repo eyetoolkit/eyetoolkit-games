@@ -1,12 +1,12 @@
 /**
- * 🎮 Game 87: 전략 RPG 배틀 — 3x3 전장 그리드 + 캐릭터 비주얼
+ * 🎮 Game 87: Strategy RPG Battle — 3x3 grid + character visuals
  */
 import { useCallback, useState } from "react";
 
 const UNITS = [
-    { name: "전사", emoji: "⚔️", hp: 8, atk: 3, range: 1 },
-    { name: "궁수", emoji: "🏹", hp: 5, atk: 4, range: 2 },
-    { name: "마법사", emoji: "🔮", hp: 4, atk: 5, range: 3 },
+    { name: "Warrior", emoji: "⚔️", hp: 8, atk: 3, range: 1 },
+    { name: "Archer", emoji: "🏹", hp: 5, atk: 4, range: 2 },
+    { name: "Mage", emoji: "🔮", hp: 4, atk: 5, range: 3 },
 ];
 
 const initBoard = () => {
@@ -26,7 +26,7 @@ const StrategyRPG = ({ onComplete }) => {
     const [board, setBoard] = useState(initBoard);
     const [selected, setSelected] = useState(null);
     const [turn, setTurn] = useState(1);
-    const [log, setLog] = useState("아군 유닛을 선택하세요!");
+    const [log, setLog] = useState("Select a friendly unit!");
     const [flash, setFlash] = useState(null);
     const MAX_TURNS = 6;
 
@@ -37,7 +37,7 @@ const StrategyRPG = ({ onComplete }) => {
             // Select player unit
             if (cell && cell.team === "player" && cell.hp > 0) {
                 setSelected({ r, c });
-                setLog(`${cell.emoji} ${cell.name} 선택 — 적을 클릭하세요`);
+                setLog(`${cell.emoji} ${cell.name} selected — click an enemy`);
             }
             return;
         }
@@ -47,7 +47,7 @@ const StrategyRPG = ({ onComplete }) => {
             const attacker = board[selected.r][selected.c];
             const dist = Math.abs(selected.r - r) + Math.abs(selected.c - c);
             if (dist > attacker.range) {
-                setLog("사거리 밖입니다!");
+                setLog("Out of range!");
                 setSelected(null);
                 return;
             }
@@ -58,7 +58,7 @@ const StrategyRPG = ({ onComplete }) => {
             setTimeout(() => setFlash(null), 300);
 
             if (newBoard[r][c].hp <= 0) {
-                setLog(`${cell.emoji} 처치! 💀`);
+                setLog(`${cell.emoji} Slain! 💀`);
                 newBoard[r][c] = null;
             } else {
                 setLog(`${attacker.emoji} → ${cell.emoji} ${attacker.atk}dmg!`);
@@ -86,14 +86,14 @@ const StrategyRPG = ({ onComplete }) => {
                 // Check win/lose
                 const enemies = newBoard.flat().filter((u) => u && u.team === "enemy");
                 const players = newBoard.flat().filter((u) => u && u.team === "player");
-                if (enemies.length === 0) { setTimeout(() => onComplete(100), 500); setLog("🎉 승리!"); }
-                else if (players.length === 0 || turn + 1 > MAX_TURNS) { setTimeout(() => onComplete(Math.round((1 - enemies.length / 3) * 60)), 500); setLog("패배..."); }
+                if (enemies.length === 0) { setTimeout(() => onComplete(100), 500); setLog("🎉 Victory!"); }
+                else if (players.length === 0 || turn + 1 > MAX_TURNS) { setTimeout(() => onComplete(Math.round((1 - enemies.length / 3) * 60)), 500); setLog("Defeat..."); }
             }, 500);
 
             setSelected(null);
         } else {
             setSelected(null);
-            setLog("아군 유닛을 선택하세요!");
+            setLog("Select a friendly unit!");
         }
     }, [board, selected, turn, onComplete]);
 
@@ -101,7 +101,7 @@ const StrategyRPG = ({ onComplete }) => {
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <style>{`@keyframes dmgFlash { 0%,100% { background: transparent; } 50% { background: rgba(239,68,68,0.4); } }`}</style>
 
-            <div style={{ fontSize: "13px" }}>턴 <span style={{ color: "#FFD700" }}>{turn}/{MAX_TURNS}</span></div>
+            <div style={{ fontSize: "13px" }}>Turn <span style={{ color: "#FFD700" }}>{turn}/{MAX_TURNS}</span></div>
 
             {/* Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "4px" }}>

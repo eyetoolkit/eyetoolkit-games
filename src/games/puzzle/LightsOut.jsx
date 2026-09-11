@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 3: 라이츠 아웃 — 리플 토글 + 이동 카운터 + 히트맵
+ * 🎮 Game 3: Lights Out — ripple toggle + move counter + heatmap
  */
 import { useCallback, useState } from "react";
 
@@ -53,8 +53,8 @@ const LightsOut = ({ onComplete }) => {
             `}</style>
 
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>이동: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{moves}</span></span>
-                <span>남은 불: <span style={{ color: litCount === 0 ? "#64ffda" : "#FF6B6B" }}>{litCount}/{totalCells}</span></span>
+                <span>Moves: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{moves}</span></span>
+                <span>Lights left: <span style={{ color: litCount === 0 ? "#64ffda" : "#FF6B6B" }}>{litCount}/{totalCells}</span></span>
             </div>
 
             {/* Progress bar */}
@@ -101,7 +101,7 @@ const LightsOut = ({ onComplete }) => {
             </div>
 
             <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                모든 불을 끄세요! 클릭하면 주변도 토글
+                Turn off all lights! Clicking toggles neighbors
             </div>
         </div>
     );

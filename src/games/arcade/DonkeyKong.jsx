@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 116: 동키콩
- * 사다리와 점프로 꼭대기 도달!
+ * 🎮 Game 116: DonkeyKong
+ * Ladders and jumps to reach the top!
  */
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -183,12 +183,12 @@ const DonkeyKong = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#FFD700" }}>{display.score}</span></span>
-                <span>생명: <span style={{ color: "#FF6B6B" }}>{"❤️".repeat(display.lives)}</span></span>
+                <span>Score: <span style={{ color: "#FFD700" }}>{display.score}</span></span>
+                <span>Lives: <span style={{ color: "#FF6B6B" }}>{"❤️".repeat(display.lives)}</span></span>
             </div>
             <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H}
                 style={{ borderRadius: "10px", border: "2px solid rgba(255,255,255,0.1)" }} />
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>←→ 이동 | ↑ 사다리/점프 | 꼭대기 도달!</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>←→ move | ↑ ladder/jump | Reach the top!</div>
         </div>
     );
 };

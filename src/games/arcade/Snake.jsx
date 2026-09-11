@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 33: 스네이크 — 몸통 그라데이션 + 먹기 이펙트 + 방향 패드
+ * 🎮 Game 33: Snake — body gradient + eat effects + D-pad
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -74,7 +74,7 @@ const Snake = ({ onComplete }) => {
 
             <div style={{ fontSize: "13px" }}>
                 🍎 <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}</span>
-                {score >= 10 && <span style={{ color: "#FFD700", marginLeft: 8 }}>🏆 대단해!</span>}
+                {score >= 10 && <span style={{ color: "#FFD700", marginLeft: 8 }}>🏆 Amazing!</span>}
             </div>
 
             <div style={{
@@ -129,8 +129,8 @@ const Snake = ({ onComplete }) => {
                         alignItems: "center", justifyContent: "center",
                         background: "rgba(0,0,0,0.5)", borderRadius: "10px",
                     }}>
-                        <div style={{ fontSize: "18px", fontWeight: "bold", color: "#FF6B6B" }}>💀 게임 오버</div>
-                        <div style={{ color: "#FFD700" }}>🍎 {score}개</div>
+                        <div style={{ fontSize: "18px", fontWeight: "bold", color: "#FF6B6B" }}>💀 Game over</div>
+                        <div style={{ color: "#FFD700" }}>🍎 x{score}</div>
                     </div>
                 )}
             </div>

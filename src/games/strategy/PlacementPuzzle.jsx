@@ -1,14 +1,14 @@
 /**
- * 🎮 Game 86: 배치 퍼즐 — 드래그 배치 그리드
+ * 🎮 Game 86: Placement Puzzle — drag & drop grid
  */
 import { useCallback, useState } from "react";
 
 const BUILDINGS = [
-    { emoji: "🏠", name: "집", score: 2, bonus: "🏪 옆: +2" },
-    { emoji: "🏪", name: "상점", score: 3, bonus: "🏠 옆: +1" },
-    { emoji: "🌳", name: "공원", score: 2, bonus: "🏠 옆: +3" },
-    { emoji: "🏭", name: "공장", score: 5, bonus: "🌳 옆: -2" },
-    { emoji: "🏫", name: "학교", score: 4, bonus: "🏠 옆: +2" },
+    { emoji: "🏠", name: "House", score: 2, bonus: "🏪 adjacent: +2" },
+    { emoji: "🏪", name: "Shop", score: 3, bonus: "🏠 adjacent: +1" },
+    { emoji: "🌳", name: "Park", score: 2, bonus: "🏠 adjacent: +3" },
+    { emoji: "🏭", name: "Factory", score: 5, bonus: "🌳 adjacent: -2" },
+    { emoji: "🏫", name: "School", score: 4, bonus: "🏠 adjacent: +2" },
 ];
 const SIZE = 4;
 
@@ -59,7 +59,7 @@ const PlacementPuzzle = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                배치: <span style={{ color: "#FFD700" }}>{placed}/{MAX}</span> | 점수: <span style={{ color: "#64ffda" }}>{score}</span>
+                Placed: <span style={{ color: "#FFD700" }}>{placed}/{MAX}</span> | Score: <span style={{ color: "#64ffda" }}>{score}</span>
             </div>
 
             {/* Grid */}
@@ -93,7 +93,7 @@ const PlacementPuzzle = ({ onComplete }) => {
                     <span style={{ fontSize: "28px" }}>{currentBuilding.emoji}</span>
                     <div>
                         <div style={{ fontSize: "13px", fontWeight: "bold" }}>{currentBuilding.name}</div>
-                        <div style={{ fontSize: "10px", color: "#8892b0" }}>기본 {currentBuilding.score}점 | {currentBuilding.bonus}</div>
+                        <div style={{ fontSize: "10px", color: "#8892b0" }}>base {currentBuilding.score} pts | {currentBuilding.bonus}</div>
                     </div>
                 </div>
             )}
@@ -106,7 +106,7 @@ const PlacementPuzzle = ({ onComplete }) => {
             </div>
 
             {placed >= MAX && (
-                <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>🏆 최종 점수: {score}점</div>
+                <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>🏆 Final score: {score} pts</div>
             )}
         </div>
     );

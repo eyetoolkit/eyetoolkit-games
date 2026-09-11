@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 78: 슬롯 머신 (고도화)
- * 릴 스크롤 애니메이션 + 당첨 이펙트 + 페이라인 표시
+ * 🎮 Game 78: Slot Machine
+ * reel scroll + win effects + paylines
  */
 import { useCallback, useState } from "react";
 
@@ -86,7 +86,7 @@ const SlotMachine = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                스핀: {spins}/{MAX_SPINS} | 점수: <span style={{ color: "#FFD700" }}>{total}</span>
+                Spins: {spins}/{MAX_SPINS} | Score: <span style={{ color: "#FFD700" }}>{total}</span>
             </div>
             {/* Progress dots */}
             <div style={{ display: "flex", gap: "4px" }}>
@@ -174,7 +174,7 @@ const SlotMachine = ({ onComplete }) => {
             )}
 
             {spinning.some(Boolean) && (
-                <div style={{ fontSize: "14px", color: "#FFD700" }}>🎰 돌아가는 중...</div>
+                <div style={{ fontSize: "14px", color: "#FFD700" }}>🎰 Spinning...</div>
             )}
         </div>
     );

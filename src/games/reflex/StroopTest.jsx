@@ -1,12 +1,12 @@
 /**
- * 🎮 스트룹 테스트 — 난이도 레벨 + 타임 프레셔 + 콤보 보너스 + 랭크
+ * 🎮 Stroop Test — difficulty levels + time pressure + combo bonus + rank
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const COLORS = [
-    { name: "빨강", hex: "#FF4444" }, { name: "파랑", hex: "#4488FF" },
-    { name: "초록", hex: "#44DD44" }, { name: "노랑", hex: "#FFDD44" },
-    { name: "보라", hex: "#AA66FF" },
+    { name: "Red", hex: "#FF4444" }, { name: "Blue", hex: "#4488FF" },
+    { name: "Green", hex: "#44DD44" }, { name: "Yellow", hex: "#FFDD44" },
+    { name: "Purple", hex: "#AA66FF" },
 ];
 const ROUNDS = 15;
 
@@ -132,12 +132,12 @@ const StroopTest = ({ onComplete }) => {
             {/* HUD */}
             <div style={{ display: "flex", gap: "12px", fontSize: "12px", alignItems: "center" }}>
                 <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span>
-                <span>정답: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{correct}</span></span>
+                <span>Answer: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{correct}</span></span>
                 <span style={{ padding: "2px 8px", borderRadius: "6px", background: `rgba(168,85,247,0.2)`, color: "#A855F7", fontWeight: "bold", fontSize: "11px" }}>
                     Lv.{level}
                 </span>
                 {combo >= 2 && <span style={{ color: comboColor, fontWeight: "bold", animation: "comboPop 0.3s ease" }}>
-                    🔥 {combo}콤보
+                    🔥 {combo} combo
                 </span>}
                 {bonusPoints > 0 && <span style={{ fontSize: "10px", color: "#FFD700" }}>+{bonusPoints}pt</span>}
             </div>
@@ -164,8 +164,8 @@ const StroopTest = ({ onComplete }) => {
             </div>
 
             <div style={{ fontSize: "11px", color: "#8892b0", textAlign: "center" }}>
-                아래 글자의 <strong style={{ color: "#FFD700" }}>색깔</strong>을 맞추세요!
-                {level >= 2 && <span style={{ color: "#A855F7", marginLeft: "6px" }}>(빨리!)</span>}
+                For the word below, match the <strong style={{ color: "#FFD700" }}>color</strong>!
+                {level >= 2 && <span style={{ color: "#A855F7", marginLeft: "6px" }}>(faster!)</span>}
             </div>
 
             <div style={{
@@ -199,10 +199,10 @@ const StroopTest = ({ onComplete }) => {
                 <div style={{ fontSize: "20px", fontWeight: "bold" }}>
                     {feedback === "correct" ? (
                         <span style={{ color: "#64ffda" }}>
-                            ✅ {timer > 70 ? "⚡ 번개 반응!" : timer > 40 ? "👍 빠름!" : "정답!"}
+                            ✅ {timer > 70 ? "⚡ Lightning reflex!" : timer > 40 ? "👍 Fast!" : "Correct!"}
                         </span>
                     ) : feedback === "timeout" ? (
-                        <span style={{ color: "#FF6B6B" }}>⏰ 시간초과!</span>
+                        <span style={{ color: "#FF6B6B" }}>⏰ Time's up!</span>
                     ) : (
                         <span style={{ color: "#FF6B6B" }}>❌</span>
                     )}

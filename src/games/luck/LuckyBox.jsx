@@ -1,16 +1,16 @@
 /**
- * 🎮 행운의 상자 — 특별 아이템 + 멀티선택 + 전략적 스왑 + 포인트
+ * 🎮 Lucky Box — special items + multi-select + strategic swap + points
  */
 import { useCallback, useState } from "react";
 
 const ROUNDS = 8;
 const ITEMS = [
-    { emoji: "💎", name: "다이아몬드", points: 30, color: "#64ffda", tier: "legendary" },
-    { emoji: "👑", name: "왕관", points: 25, color: "#FFD700", tier: "epic" },
-    { emoji: "💰", name: "금화", points: 15, color: "#FFA500", tier: "rare" },
-    { emoji: "⭐", name: "별", points: 10, color: "#A855F7", tier: "uncommon" },
-    { emoji: "📦", name: "빈 상자", points: 0, color: "#666", tier: "common" },
-    { emoji: "💣", name: "폭탄", points: -10, color: "#FF6B6B", tier: "trap" },
+    { emoji: "💎", name: "Diamond", points: 30, color: "#64ffda", tier: "legendary" },
+    { emoji: "👑", name: "Crown", points: 25, color: "#FFD700", tier: "epic" },
+    { emoji: "💰", name: "Gold coins", points: 15, color: "#FFA500", tier: "rare" },
+    { emoji: "⭐", name: "Star", points: 10, color: "#A855F7", tier: "uncommon" },
+    { emoji: "📦", name: "Empty box", points: 0, color: "#666", tier: "common" },
+    { emoji: "💣", name: "Bomb", points: -10, color: "#FF6B6B", tier: "trap" },
 ];
 
 const LuckyBox = ({ onComplete }) => {
@@ -96,11 +96,11 @@ const LuckyBox = ({ onComplete }) => {
 
             {/* HUD */}
             <div style={{ display: "flex", gap: "12px", fontSize: "12px", alignItems: "center" }}>
-                <span>라운드 <span style={{ color: "#FFD700", fontWeight: "bold" }}>{round + 1}/{ROUNDS}</span></span>
+                <span>Round <span style={{ color: "#FFD700", fontWeight: "bold" }}>{round + 1}/{ROUNDS}</span></span>
                 <div style={{ padding: "2px 10px", borderRadius: "6px", background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.2)" }}>
                     💰 <span style={{ color: "#FFD700", fontWeight: "bold", fontSize: "16px" }}>{totalPoints}</span>
                 </div>
-                {streak >= 2 && <span style={{ color: "#A855F7", fontWeight: "bold" }}>🔥 {streak}연속 +5pt</span>}
+                {streak >= 2 && <span style={{ color: "#A855F7", fontWeight: "bold" }}>🔥 {streak}streak +5pt</span>}
             </div>
 
             {/* History */}
@@ -113,7 +113,7 @@ const LuckyBox = ({ onComplete }) => {
                 ))}
             </div>
 
-            <div style={{ fontSize: "13px", color: "#8892b0" }}>💎 보물이 든 상자를 고르세요! ⚠️ 💣 폭탄 주의!</div>
+            <div style={{ fontSize: "13px", color: "#8892b0" }}>💎 Pick the box with treasure! ⚠️ Watch for 💣!</div>
 
             {/* Boxes */}
             <div style={{ display: "flex", gap: "16px" }}>
@@ -172,7 +172,7 @@ const LuckyBox = ({ onComplete }) => {
                     padding: "6px 16px", fontSize: "12px", fontWeight: "bold",
                     background: "rgba(168,85,247,0.15)", color: "#A855F7",
                     border: "1px solid rgba(168,85,247,0.3)", borderRadius: "8px", cursor: "pointer",
-                }}>🔄 상자 교체 ({swapsLeft}회 남음)</button>
+                }}>🔄 Swap box ({swapsLeft} left)</button>
             )}
 
             {picked !== null && (
@@ -183,11 +183,11 @@ const LuckyBox = ({ onComplete }) => {
                             : boxes[picked].color,
                     animation: "floatUp 0.4s ease",
                 }}>
-                    {boxes[picked].tier === "legendary" ? "🎉 전설 아이템!" :
-                        boxes[picked].tier === "epic" ? "✨ 에픽 아이템!" :
-                            boxes[picked].tier === "trap" ? "💥 폭탄! -10점" :
-                                boxes[picked].tier === "rare" ? "💰 좋은 발견!" :
-                                    boxes[picked].tier === "uncommon" ? "⭐ 별 획득!" : "📦 빈 상자..."}
+                    {boxes[picked].tier === "legendary" ? "🎉 Legendary item!" :
+                        boxes[picked].tier === "epic" ? "✨ Epic item!" :
+                            boxes[picked].tier === "trap" ? "💥 Bomb! -10 pts" :
+                                boxes[picked].tier === "rare" ? "💰 Good find!" :
+                                    boxes[picked].tier === "uncommon" ? "⭐ Got a star!" : "📦 Empty box..."}
                 </div>
             )}
         </div>

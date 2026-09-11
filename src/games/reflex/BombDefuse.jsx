@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 110: 폭탄 해체
- * 제한 시간 내에 올바른 순서로 와이어를 자르세요!
+ * 🎮 Game 110: Bomb Defuse
+ * Cut the wires in the correct order before time runs out!
  */
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -21,10 +21,10 @@ const generatePuzzle = () => {
 
 const getHint = (order, color) => {
     const colorNames = {
-        "#FF6B6B": "빨간색", "#4D96FF": "파란색", "#6BCB77": "초록색",
-        "#FFD93D": "노란색", "#9B59B6": "보라색", "#FF8C42": "주황색",
+        "#FF6B6B": "Red", "#4D96FF": "Blue", "#6BCB77": "Green",
+        "#FFD93D": "Yellow", "#9B59B6": "Purple", "#FF8C42": "Orange",
     };
-    return `${order}번째: ${colorNames[color] || "?"} 와이어`;
+    return `${order}: wire ${colorNames[color] || "?"} wire`;
 };
 
 const BombDefuse = ({ onComplete }) => {
@@ -93,9 +93,9 @@ const BombDefuse = ({ onComplete }) => {
         }}>
             <style>{`@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }`}</style>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>시간: <span style={{ color: timeLeft <= 10 ? "#FF6B6B" : "#FFD700", fontWeight: "bold" }}>{timeLeft}s</span></span>
-                <span>실수: <span style={{ color: "#FF6B6B" }}>{mistakes}/3</span></span>
-                <span>진행: <span style={{ color: "#64ffda" }}>{cutWires.size}/{puzzle.wireCount}</span></span>
+                <span>Time: <span style={{ color: timeLeft <= 10 ? "#FF6B6B" : "#FFD700", fontWeight: "bold" }}>{timeLeft}s</span></span>
+                <span>Mistakes: <span style={{ color: "#FF6B6B" }}>{mistakes}/3</span></span>
+                <span>Progress: <span style={{ color: "#64ffda" }}>{cutWires.size}/{puzzle.wireCount}</span></span>
             </div>
 
             {/* Bomb body */}
@@ -132,8 +132,8 @@ const BombDefuse = ({ onComplete }) => {
                                     display: "flex", alignItems: "center", justifyContent: "center",
                                 }}
                             >
-                                {isCut && <span style={{ fontSize: "12px", color: "#8892b0" }}>✂️ 절단됨</span>}
-                                {!isCut && <span style={{ fontSize: "11px", fontWeight: "bold", color: "rgba(0,0,0,0.5)" }}>클릭해서 자르기</span>}
+                                {isCut && <span style={{ fontSize: "12px", color: "#8892b0" }}>✂️ Cut</span>}
+                                {!isCut && <span style={{ fontSize: "11px", fontWeight: "bold", color: "rgba(0,0,0,0.5)" }}>Click to cut</span>}
                             </div>
                         );
                     })}
@@ -146,7 +146,7 @@ const BombDefuse = ({ onComplete }) => {
                 borderRadius: "10px", border: "1px solid rgba(255,255,255,0.1)",
                 maxWidth: 280,
             }}>
-                <div style={{ fontSize: "11px", color: "#8892b0", marginBottom: "6px" }}>📋 절단 순서:</div>
+                <div style={{ fontSize: "11px", color: "#8892b0", marginBottom: "6px" }}>📋 Cut order:</div>
                 {puzzle.clues.sort((a, b) => a.order - b.order).map((clue) => (
                     <div key={clue.order} style={{
                         fontSize: "12px", padding: "2px 0",
@@ -168,7 +168,7 @@ const BombDefuse = ({ onComplete }) => {
                     fontSize: "18px", fontWeight: "bold",
                     color: result === "defused" ? "#64ffda" : "#FF6B6B",
                 }}>
-                    {result === "defused" ? "💚 해체 성공!" : "💥 폭발!"}
+                    {result === "defused" ? "💚 Defused!" : "💥 Boom!"}
                 </div>
             )}
         </div>

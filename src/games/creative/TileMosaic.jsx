@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 54: 타일 모자이크 — 선명한 비교 뷰 + 매칭 표시
+ * 🎮 Game 54: Tile Mosaic — clear compare view + match highlights
  */
 import { useCallback, useState } from "react";
 
@@ -39,13 +39,13 @@ const TileMosaic = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                일치: <span style={{ color: "#64ffda" }}>{matchCount}/{SIZE * SIZE}</span>
+                Matched: <span style={{ color: "#64ffda" }}>{matchCount}/{SIZE * SIZE}</span>
             </div>
 
             <div style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
                 {/* Target */}
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "10px", color: "#8892b0", marginBottom: 4 }}>🎯 목표</div>
+                    <div style={{ fontSize: "10px", color: "#8892b0", marginBottom: 4 }}>🎯 Target</div>
                     <div style={{
                         display: "grid", gridTemplateColumns: `repeat(${SIZE}, 28px)`, gap: "2px",
                         padding: "4px", borderRadius: "10px", background: "rgba(0,0,0,0.2)",
@@ -62,7 +62,7 @@ const TileMosaic = ({ onComplete }) => {
 
                 {/* Canvas */}
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "10px", color: "#FFD700", marginBottom: 4 }}>🎨 내 모자이크</div>
+                    <div style={{ fontSize: "10px", color: "#FFD700", marginBottom: 4 }}>🎨 Your mosaic</div>
                     <div style={{
                         display: "grid", gridTemplateColumns: `repeat(${SIZE}, 32px)`, gap: "2px",
                         padding: "4px", borderRadius: "10px", background: "rgba(0,0,0,0.2)",
@@ -112,7 +112,7 @@ const TileMosaic = ({ onComplete }) => {
                 background: "linear-gradient(135deg, rgba(100,255,218,0.15), rgba(100,255,218,0.05))",
                 color: "white", border: "2px solid #64ffda",
                 borderRadius: "10px", cursor: "pointer",
-            }}>✅ 완성!</button>
+            }}>✅ Complete!</button>
         </div>
     );
 };

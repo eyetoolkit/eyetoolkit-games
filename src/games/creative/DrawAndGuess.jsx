@@ -1,10 +1,10 @@
 /**
- * 🎮 Game 128: 그림 퀴즈 (Draw & Guess)
- * 주어진 단어를 그리고 제출
+ * 🎮 Game 128: Draw & Guess
+ * Draw the given word and submit
  */
 import { useState, useRef, useCallback } from "react";
 
-const WORDS = ["고양이", "집", "나무", "자동차", "꽃", "태양", "별", "하트", "물고기", "사과", "우산", "로봇", "피자", "비행기", "공"];
+const WORDS = ["Cat", "House", "Tree", "Car", "Flower", "Sun", "Star", "Heart", "Fish", "Apple", "Umbrella", "Robot", "Pizza", "Airplane", "Ball"];
 
 const DrawAndGuess = ({ onComplete }) => {
     const canvasRef = useRef(null);
@@ -62,17 +62,17 @@ const DrawAndGuess = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                그려주세요: <span style={{ color: "#FFD700", fontSize: "18px", fontWeight: "bold" }}>{word}</span>
+                Draw this: <span style={{ color: "#FFD700", fontSize: "18px", fontWeight: "bold" }}>{word}</span>
             </div>
             <canvas ref={canvasRef} width={280} height={280}
                 onMouseDown={startDraw} onMouseMove={draw} onMouseUp={endDraw} onMouseLeave={endDraw}
                 onTouchStart={startDraw} onTouchMove={draw} onTouchEnd={endDraw}
                 style={{ borderRadius: "12px", border: "2px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.03)", cursor: "crosshair", touchAction: "none" }} />
             <div style={{ display: "flex", gap: "8px" }}>
-                <button onClick={clearCanvas} style={{ padding: "8px 16px", fontSize: "13px", background: "rgba(255,107,107,0.15)", color: "#FF6B6B", border: "1px solid #FF6B6B", borderRadius: "8px", cursor: "pointer" }}>지우기</button>
-                <button onClick={submit} style={{ padding: "8px 16px", fontSize: "13px", fontWeight: "bold", background: "rgba(100,255,218,0.15)", color: "#64ffda", border: "1px solid #64ffda", borderRadius: "8px", cursor: "pointer" }}>제출</button>
+                <button onClick={clearCanvas} style={{ padding: "8px 16px", fontSize: "13px", background: "rgba(255,107,107,0.15)", color: "#FF6B6B", border: "1px solid #FF6B6B", borderRadius: "8px", cursor: "pointer" }}>Clear</button>
+                <button onClick={submit} style={{ padding: "8px 16px", fontSize: "13px", fontWeight: "bold", background: "rgba(100,255,218,0.15)", color: "#64ffda", border: "1px solid #64ffda", borderRadius: "8px", cursor: "pointer" }}>Submit</button>
             </div>
-            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎨 제출 완료!</div>}
+            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎨 Submit Done!</div>}
         </div>
     );
 };

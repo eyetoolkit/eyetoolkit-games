@@ -1,5 +1,5 @@
 /**
- * 🎮 스피드 클릭 — 피버 모드 + 이동 타겟 + 콤보 멀티플라이어
+ * 🎮 Speed Click — fever mode + moving target + combo multiplier
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -124,11 +124,11 @@ const SpeedClick = ({ onComplete }) => {
             <div style={{ display: "flex", gap: "14px", fontSize: "12px" }}>
                 <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "26px", fontWeight: "bold", color: "#FFD700", animation: count > 0 ? "countPulse 0.1s" : "none" }}>{count}</div>
-                    <div style={{ color: "#8892b0" }}>클릭</div>
+                    <div style={{ color: "#8892b0" }}>Click</div>
                 </div>
                 <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "26px", fontWeight: "bold", color: time <= 3 ? "#FF6B6B" : "#64ffda" }}>{time}s</div>
-                    <div style={{ color: "#8892b0" }}>남은 시간</div>
+                    <div style={{ color: "#8892b0" }}>Time left</div>
                 </div>
                 <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "26px", fontWeight: "bold", color: "#A855F7" }}>{cps}</div>
@@ -136,7 +136,7 @@ const SpeedClick = ({ onComplete }) => {
                 </div>
                 <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "26px", fontWeight: "bold", color: comboColors[comboLevel], animation: combo >= 10 ? "comboFire 0.5s infinite" : "none" }}>{combo}</div>
-                    <div style={{ color: "#8892b0" }}>콤보</div>
+                    <div style={{ color: "#8892b0" }}>Combo</div>
                 </div>
             </div>
 
@@ -157,7 +157,7 @@ const SpeedClick = ({ onComplete }) => {
                         borderRadius: 2, transition: "width 0.2s",
                     }} />
                 </div>
-                {fever && <div style={{ fontSize: "11px", color: "#FF6B6B", textAlign: "center", fontWeight: "bold" }}>🔥 FEVER MODE! x3 점수!</div>}
+                {fever && <div style={{ fontSize: "11px", color: "#FF6B6B", textAlign: "center", fontWeight: "bold" }}>🔥 FEVER MODE! x3 Score!</div>}
             </div>
 
             {/* Click target */}
@@ -198,16 +198,16 @@ const SpeedClick = ({ onComplete }) => {
                     animation: count > 0 ? "countPulse 0.1s ease" : "none",
                     position: "relative", zIndex: 1,
                 }}>
-                    {done ? "끝!" : !started ? "TAP!" : fever ? "🔥" : "👆"}
+                    {done ? "Done!" : !started ? "TAP!" : fever ? "🔥" : "👆"}
                 </span>
             </div>
 
             {done && (
                 <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>
-                        🏆 {count}회 클릭!
+                        🏆 {count} clicks!
                     </div>
-                    <div style={{ fontSize: "12px", color: "#8892b0" }}>최고 {bestCps} CPS | 최대 콤보 x{Math.max(combo, 1)}</div>
+                    <div style={{ fontSize: "12px", color: "#8892b0" }}>Best {bestCps} CPS | Max combo x{Math.max(combo, 1)}</div>
                 </div>
             )}
         </div>

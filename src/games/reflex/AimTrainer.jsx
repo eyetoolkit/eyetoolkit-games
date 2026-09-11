@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 107: 에임 트레이너
- * 랜덤 위치에 나타나는 타겟을 빠르게 클릭!
+ * 🎮 Game 107: Aim Trainer
+ * Quickly click targets appearing at random spots!
  */
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -65,10 +65,10 @@ const AimTrainer = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ display: "flex", gap: "20px", fontSize: "13px" }}>
-                <span>명중: <span style={{ color: "#64ffda" }}>{score}</span></span>
-                <span>실패: <span style={{ color: "#FF6B6B" }}>{misses}</span></span>
-                <span>정확도: <span style={{ color: "#FFD700" }}>{accuracy}%</span></span>
-                <span>시간: <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#fff" }}>{timeLeft}s</span></span>
+                <span>Hits: <span style={{ color: "#64ffda" }}>{score}</span></span>
+                <span>Miss: <span style={{ color: "#FF6B6B" }}>{misses}</span></span>
+                <span>Accuracy: <span style={{ color: "#FFD700" }}>{accuracy}%</span></span>
+                <span>Time: <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#fff" }}>{timeLeft}s</span></span>
             </div>
             <div
                 onClick={handleMiss}
@@ -84,7 +84,7 @@ const AimTrainer = ({ onComplete }) => {
                         position: "absolute", inset: 0, display: "flex", alignItems: "center",
                         justifyContent: "center", fontSize: "16px", color: "#8892b0",
                     }}>
-                        타겟을 클릭하여 시작!
+                        Click a target to start!
                     </div>
                 )}
                 <div
@@ -110,11 +110,11 @@ const AimTrainer = ({ onComplete }) => {
                 </div>
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                30초간 타겟을 최대한 많이 클릭!
+                Click as many targets as you can in 30 seconds!
             </div>
             {done && (
                 <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>
-                    🎯 {score}개 명중! 정확도 {accuracy}%
+                    🎯 {score} hits! accuracy {accuracy}%
                 </div>
             )}
         </div>

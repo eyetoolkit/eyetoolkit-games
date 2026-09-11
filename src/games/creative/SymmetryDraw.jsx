@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 53: 대칭 그리기 — 거울선 + 실시간 매칭 + 드래그 페인트
+ * 🎮 Game 53: Symmetry drawing — mirror line + live matching + drag paint
  */
 import { useCallback, useState } from "react";
 
@@ -35,10 +35,10 @@ const SymmetryDraw = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                정확도: <span style={{ color: accuracy > 80 ? "#64ffda" : accuracy > 50 ? "#FFD700" : "#FF6B6B" }}>{accuracy}%</span>
+                Accuracy: <span style={{ color: accuracy > 80 ? "#64ffda" : accuracy > 50 ? "#FFD700" : "#FF6B6B" }}>{accuracy}%</span>
             </div>
 
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>왼쪽을 보고 오른쪽에 대칭을 그리세요!</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>Draw the right side mirroring the left!</div>
 
             <div style={{ display: "flex", alignItems: "stretch" }}>
                 {/* Left (pattern) */}
@@ -135,7 +135,7 @@ const SymmetryDraw = ({ onComplete }) => {
                 background: accuracy > 80 ? "linear-gradient(135deg, rgba(100,255,218,0.2), rgba(100,255,218,0.05))" : "rgba(255,255,255,0.06)",
                 color: "white", border: `2px solid ${accuracy > 80 ? "#64ffda" : "rgba(255,255,255,0.15)"}`,
                 borderRadius: "10px", cursor: "pointer",
-            }}>✅ 완성! ({accuracy}%)</button>
+            }}>✅ Complete! ({accuracy}%)</button>
         </div>
     );
 };

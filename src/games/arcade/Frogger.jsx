@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 117: 프로거
- * 차를 피해 강을 건너기
+ * 🎮 Game 117: Frogger
+ * Cross the road and river
  */
 import { useState, useEffect, useRef } from "react";
 
@@ -155,7 +155,7 @@ const Frogger = ({ onComplete }) => {
             // Goal
             ctx.fillStyle = "#64ffda";
             ctx.font = "14px sans-serif";
-            ctx.fillText("🏠 안전!", CANVAS_W / 2 - 25, 20);
+            ctx.fillText("🏠 Safe!", CANVAS_W / 2 - 25, 20);
 
             animRef.current = requestAnimationFrame(loop);
         };
@@ -167,8 +167,8 @@ const Frogger = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>진행: <span style={{ color: "#FFD700" }}>{display.score}</span></span>
-                <span>생명: <span style={{ color: "#FF6B6B" }}>{"❤️".repeat(display.lives)}</span></span>
+                <span>Progress: <span style={{ color: "#FFD700" }}>{display.score}</span></span>
+                <span>Lives: <span style={{ color: "#FF6B6B" }}>{"❤️".repeat(display.lives)}</span></span>
             </div>
             <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H}
                 style={{ borderRadius: "10px", border: "2px solid rgba(255,255,255,0.1)" }} />

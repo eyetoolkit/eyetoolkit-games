@@ -1,12 +1,12 @@
 /**
- * 🎮 Game 54: 점 잇기 — SVG 점 연결 + 그림 완성
+ * 🎮 Game 54: Dot Connect — SVG dot connect + picture reveal
  */
 import { useCallback, useState } from "react";
 
 const PUZZLES = [
-    { name: "별", dots: [{ x: 50, y: 10 }, { x: 62, y: 38 }, { x: 95, y: 38 }, { x: 68, y: 58 }, { x: 78, y: 90 }, { x: 50, y: 70 }, { x: 22, y: 90 }, { x: 32, y: 58 }, { x: 5, y: 38 }, { x: 38, y: 38 }], emoji: "⭐" },
-    { name: "집", dots: [{ x: 20, y: 80 }, { x: 20, y: 40 }, { x: 50, y: 15 }, { x: 80, y: 40 }, { x: 80, y: 80 }, { x: 60, y: 80 }, { x: 60, y: 55 }, { x: 40, y: 55 }, { x: 40, y: 80 }, { x: 20, y: 80 }], emoji: "🏠" },
-    { name: "하트", dots: [{ x: 50, y: 30 }, { x: 35, y: 15 }, { x: 15, y: 20 }, { x: 10, y: 40 }, { x: 15, y: 60 }, { x: 30, y: 72 }, { x: 50, y: 90 }, { x: 70, y: 72 }, { x: 85, y: 60 }, { x: 90, y: 40 }, { x: 85, y: 20 }, { x: 65, y: 15 }, { x: 50, y: 30 }], emoji: "❤️" },
+    { name: "Star", dots: [{ x: 50, y: 10 }, { x: 62, y: 38 }, { x: 95, y: 38 }, { x: 68, y: 58 }, { x: 78, y: 90 }, { x: 50, y: 70 }, { x: 22, y: 90 }, { x: 32, y: 58 }, { x: 5, y: 38 }, { x: 38, y: 38 }], emoji: "⭐" },
+    { name: "House", dots: [{ x: 20, y: 80 }, { x: 20, y: 40 }, { x: 50, y: 15 }, { x: 80, y: 40 }, { x: 80, y: 80 }, { x: 60, y: 80 }, { x: 60, y: 55 }, { x: 40, y: 55 }, { x: 40, y: 80 }, { x: 20, y: 80 }], emoji: "🏠" },
+    { name: "Heart", dots: [{ x: 50, y: 30 }, { x: 35, y: 15 }, { x: 15, y: 20 }, { x: 10, y: 40 }, { x: 15, y: 60 }, { x: 30, y: 72 }, { x: 50, y: 90 }, { x: 70, y: 72 }, { x: 85, y: 60 }, { x: 90, y: 40 }, { x: 85, y: 20 }, { x: 65, y: 15 }, { x: 50, y: 30 }], emoji: "❤️" },
 ];
 
 const DotConnect = ({ onComplete }) => {
@@ -35,7 +35,7 @@ const DotConnect = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "13px" }}>
-                {done ? puzzle.emoji : "🔢"} {puzzle.name} 그리기 — <span style={{ color: "#FFD700" }}>{connected.length}/{puzzle.dots.length}</span>
+                {done ? puzzle.emoji : "🔢"} {puzzle.name} drawing — <span style={{ color: "#FFD700" }}>{connected.length}/{puzzle.dots.length}</span>
             </div>
 
             <div style={{
@@ -94,7 +94,7 @@ const DotConnect = ({ onComplete }) => {
             </div>
 
             <div style={{ fontSize: "10px", color: "#8892b0" }}>
-                {done ? "🎉 완성!" : `다음: ${nextDot !== null ? nextDot + 1 : ""}번 점을 클릭하세요`}
+                {done ? "🎉 Complete!" : `Next: ${nextDot !== null ? nextDot + 1 : ""} tap the dot`}
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 122: 분수 비교
- * 두 분수 중 큰 쪽을 빠르게 선택
+ * 🎮 Game 122: Fraction Compare
+ * Quickly pick the larger fraction
  */
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -85,10 +85,10 @@ const FractionCompare = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "14px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#64ffda" }}>{score}/{round}</span></span>
-                <span>시간: <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}s</span></span>
+                <span>Score: <span style={{ color: "#64ffda" }}>{score}/{round}</span></span>
+                <span>Time: <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}s</span></span>
             </div>
-            <div style={{ fontSize: "14px", color: "#8892b0" }}>더 큰 분수를 클릭!</div>
+            <div style={{ fontSize: "14px", color: "#8892b0" }}>Click the larger fraction!</div>
             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                 {renderFraction(left, "left")}
                 <span style={{ fontSize: "24px", color: "#8892b0" }}>vs</span>
@@ -96,10 +96,10 @@ const FractionCompare = ({ onComplete }) => {
             </div>
             {feedback && (
                 <div style={{ fontSize: "20px", color: feedback === "correct" ? "#64ffda" : "#FF6B6B" }}>
-                    {feedback === "correct" ? "✅ 정답!" : "❌ 오답!"}
+                    {feedback === "correct" ? "✅ Correct!" : "❌ Wrong!"}
                 </div>
             )}
-            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>완료! {score}/{round} 정답</div>}
+            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>Done! {score}/{round} Answer</div>}
         </div>
     );
 };

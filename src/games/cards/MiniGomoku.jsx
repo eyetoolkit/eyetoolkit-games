@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 29: 미니 오목 — 최근 돌 표시 + 돌 배치 애니
+ * 🎮 Game 29: Mini Gomoku — last-stone marker + placement anim
  */
 import { useCallback, useState } from "react";
 
@@ -46,11 +46,11 @@ const MiniGomoku = ({ onComplete }) => {
         if (gameOver || board[r][c] !== EMPTY) return;
         const nb = board.map(row => [...row]);
         nb[r][c] = PLAYER; setLastMove([r, c]);
-        if (checkFive(nb, PLAYER)) { setBoard(nb); setGameOver(true); setMessage("🏆 승리!"); setTimeout(() => onComplete(100), 800); return; }
+        if (checkFive(nb, PLAYER)) { setBoard(nb); setGameOver(true); setMessage("🏆 Victory!"); setTimeout(() => onComplete(100), 800); return; }
         const am = aiPlay(nb);
-        if (am) { nb[am[0]][am[1]] = AI; if (checkFive(nb, AI)) { setBoard(nb); setGameOver(true); setMessage("😢 패배!"); setTimeout(() => onComplete(35), 800); return; } }
+        if (am) { nb[am[0]][am[1]] = AI; if (checkFive(nb, AI)) { setBoard(nb); setGameOver(true); setMessage("😢 Defeat!"); setTimeout(() => onComplete(35), 800); return; } }
         setBoard(nb);
-        if (nb.every(row => row.every(c => c !== EMPTY))) { setGameOver(true); setMessage("🤝 무승부!"); setTimeout(() => onComplete(60), 800); }
+        if (nb.every(row => row.every(c => c !== EMPTY))) { setGameOver(true); setMessage("🤝 Draw!"); setTimeout(() => onComplete(60), 800); }
     }, [board, gameOver, aiPlay, onComplete]);
 
     const cs = 36;
@@ -60,7 +60,7 @@ const MiniGomoku = ({ onComplete }) => {
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <style>{`@keyframes stoneDrop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }`}</style>
             <div style={{ fontSize: "13px" }}>
-                ⚫ 나 vs ⚪ AI <span style={{ color: "#8892b0", marginLeft: 8 }}>({stoneCount}수)</span>
+                ⚫ Me vs ⚪ AI <span style={{ color: "#8892b0", marginLeft: 8 }}>({stoneCount} moves)</span>
             </div>
             <div style={{
                 display: "grid", gridTemplateColumns: `repeat(${SIZE}, ${cs}px)`,
@@ -94,7 +94,7 @@ const MiniGomoku = ({ onComplete }) => {
                 }))}
             </div>
             {message && <div style={{ fontSize: "16px", fontWeight: "bold" }}>{message}</div>}
-            {!gameOver && <div style={{ fontSize: "10px", color: "#8892b0" }}>교차점에 돌을 놓으세요</div>}
+            {!gameOver && <div style={{ fontSize: "10px", color: "#8892b0" }}>Place a stone on an intersection</div>}
         </div>
     );
 };

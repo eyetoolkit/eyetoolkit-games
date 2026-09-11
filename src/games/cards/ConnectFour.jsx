@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 25: 커넥트 포 — 7×6 보드 + 드롭 애니메이션
+ * 🎮 Game 25: Connect Four — 7x6 board + drop animation
  */
 import { useCallback, useState } from "react";
 
@@ -94,7 +94,7 @@ const ConnectFour = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "13px" }}>
-                {winner ? `${winner} 승리!` : `차례: ${turn}`} | 🔴 = 나 / 🟡 = AI
+                {winner ? `${winner} wins!` : `Turn: ${turn}`} | 🔴 = Me / 🟡 = AI
             </div>
 
             {/* Board */}

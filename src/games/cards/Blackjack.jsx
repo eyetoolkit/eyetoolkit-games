@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 22: 블랙잭
- * AI 딜러와 1:1 블랙잭! 21에 가장 가까이!
+ * 🎮 Game 22: Blackjack
+ * Heads-up blackjack vs AI! Get closest to 21!
  */
 import { useCallback, useRef, useState } from "react";
 
@@ -57,7 +57,7 @@ const Blackjack = ({ onComplete }) => {
         setPhase("playing");
         setMessage("");
         if (cardValue(p) === 21) {
-            setMessage("🎉 블랙잭!");
+            setMessage("🎉 Blackjack!");
             winsRef.current += 1;
             setWins(winsRef.current);
             setPhase("result");
@@ -68,7 +68,7 @@ const Blackjack = ({ onComplete }) => {
         const newHand = [...playerHand, draw()];
         setPlayerHand(newHand);
         if (cardValue(newHand) > 21) {
-            setMessage("💥 버스트! 패배");
+            setMessage("💥 Bust! Defeat");
             setPhase("result");
         }
     }, [playerHand, draw]);
@@ -80,13 +80,13 @@ const Blackjack = ({ onComplete }) => {
         setDealerHand(dh);
         const pv = cardValue(playerHand), dv = cardValue(dh);
         if (dv > 21 || pv > dv) {
-            setMessage("🏆 승리!");
+            setMessage("🏆 Victory!");
             winsRef.current += 1;
             setWins(winsRef.current);
         } else if (pv === dv) {
-            setMessage("🤝 무승부");
+            setMessage("🤝 Draw");
         } else {
-            setMessage("😢 패배");
+            setMessage("😢 Defeat");
         }
         setPhase("result");
     }, [dealerHand, playerHand, draw]);
@@ -119,7 +119,7 @@ const Blackjack = ({ onComplete }) => {
 
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px", color: "white" }}>
-            <div style={{ fontSize: "13px" }}>라운드: <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | 승리: <span style={{ color: "#64ffda" }}>{wins}</span></div>
+            <div style={{ fontSize: "13px" }}>Round: <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | Victory: <span style={{ color: "#64ffda" }}>{wins}</span></div>
             <div style={{ display: "flex", gap: "4px" }}>
                 {Array.from({ length: ROUNDS }).map((_, i) => (
                     <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: i < round ? "#64ffda" : i === round ? "#FFD700" : "rgba(255,255,255,0.1)" }} />
@@ -127,31 +127,31 @@ const Blackjack = ({ onComplete }) => {
             </div>
 
             {phase === "bet" ? (
-                <button onClick={deal} style={btnStyle}>🃏 카드 받기</button>
+                <button onClick={deal} style={btnStyle}>🃏 Deal</button>
             ) : (
                 <>
                     <div style={{ textAlign: "center" }}>
-                        <div style={{ fontSize: "12px", color: "#8892b0", marginBottom: "4px" }}>딜러 ({phase === "playing" ? "?" : cardValue(dealerHand)})</div>
+                        <div style={{ fontSize: "12px", color: "#8892b0", marginBottom: "4px" }}>Dealer ({phase === "playing" ? "?" : cardValue(dealerHand)})</div>
                         <div style={{ display: "flex", gap: "6px", justifyContent: "center" }}>
                             {dealerHand.map((c, i) => <div key={i}>{renderCard(c, phase === "playing" && i === 1)}</div>)}
                         </div>
                     </div>
                     <div style={{ textAlign: "center" }}>
-                        <div style={{ fontSize: "12px", color: "#8892b0", marginBottom: "4px" }}>나 ({cardValue(playerHand)})</div>
+                        <div style={{ fontSize: "12px", color: "#8892b0", marginBottom: "4px" }}>Me ({cardValue(playerHand)})</div>
                         <div style={{ display: "flex", gap: "6px", justifyContent: "center" }}>
                             {playerHand.map((c, i) => <div key={i}>{renderCard(c)}</div>)}
                         </div>
                     </div>
                     {phase === "playing" && (
                         <div style={{ display: "flex", gap: "10px" }}>
-                            <button onClick={hit} style={btnStyle}>히트</button>
-                            <button onClick={stand} style={{ ...btnStyle, background: "rgba(100,255,218,0.2)", borderColor: "#64ffda" }}>스탠드</button>
+                            <button onClick={hit} style={btnStyle}>Hit</button>
+                            <button onClick={stand} style={{ ...btnStyle, background: "rgba(100,255,218,0.2)", borderColor: "#64ffda" }}>Stand</button>
                         </div>
                     )}
                     {message && <div style={{ fontSize: "18px", fontWeight: "bold" }}>{message}</div>}
                     {phase === "result" && (
                         <button onClick={nextRound} style={btnStyle}>
-                            {round + 1 >= ROUNDS ? "결과 보기" : "다음 라운드 →"}
+                            {round + 1 >= ROUNDS ? "Show result" : "Next round →"}
                         </button>
                     )}
                 </>

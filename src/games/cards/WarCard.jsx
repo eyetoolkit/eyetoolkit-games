@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 115: 전쟁 카드게임 (War)
- * 높은 카드가 이기는 간단한 카드게임
+ * 🎮 Game 115: War Card Game
+ * Simple card game — high card wins
  */
 import { useState, useCallback } from "react";
 
@@ -26,7 +26,7 @@ const WarCard = ({ onComplete }) => {
     const [playerScore, setPlayerScore] = useState(0);
     const [aiScore, setAiScore] = useState(0);
     const [round, setRound] = useState(0);
-    const [message, setMessage] = useState("카드를 뒤집으세요!");
+    const [message, setMessage] = useState("Flip the cards!");
     const [done, setDone] = useState(false);
     const maxRounds = 15;
 
@@ -46,12 +46,12 @@ const WarCard = ({ onComplete }) => {
         let newPS = playerScore, newAS = aiScore;
         if (pCard.value > aCard.value) {
             newPS++; setPlayerScore(newPS);
-            setMessage("승리! 🎉");
+            setMessage("Victory! 🎉");
         } else if (pCard.value < aCard.value) {
             newAS++; setAiScore(newAS);
-            setMessage("패배 😢");
+            setMessage("Defeat 😢");
         } else {
-            setMessage("무승부! 🤝");
+            setMessage("Draw! 🤝");
         }
 
         if (newRound >= maxRounds || playerDeck.length <= 1 || aiDeck.length <= 1) {
@@ -87,16 +87,16 @@ const WarCard = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "14px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>나: <span style={{ color: "#64ffda" }}>{playerScore}</span></span>
-                <span>라운드: <span style={{ color: "#FFD700" }}>{round}/{maxRounds}</span></span>
+                <span>Me: <span style={{ color: "#64ffda" }}>{playerScore}</span></span>
+                <span>Round: <span style={{ color: "#FFD700" }}>{round}/{maxRounds}</span></span>
                 <span>AI: <span style={{ color: "#FF6B6B" }}>{aiScore}</span></span>
             </div>
             <div style={{ display: "flex", gap: "30px", alignItems: "center" }}>
-                {renderCard(playerCard, "내 카드")}
+                {renderCard(playerCard, "My card")}
                 <div style={{ fontSize: "24px" }}>VS</div>
-                {renderCard(aiCard, "AI 카드")}
+                {renderCard(aiCard, "AI card")}
             </div>
-            <div style={{ fontSize: "16px", fontWeight: "bold", color: message.includes("승") ? "#64ffda" : message.includes("패") ? "#FF6B6B" : "#FFD700" }}>
+            <div style={{ fontSize: "16px", fontWeight: "bold", color: message.includes("W") ? "#64ffda" : message.includes("L") ? "#FF6B6B" : "#FFD700" }}>
                 {message}
             </div>
             {!done && (
@@ -105,11 +105,11 @@ const WarCard = ({ onComplete }) => {
                     background: "linear-gradient(135deg, #FF6B6B, #FF8C42)", color: "white",
                     border: "none", borderRadius: "12px", cursor: "pointer",
                 }}>
-                    카드 뒤집기!
+                    Card flip!
                 </button>
             )}
             {done && <div style={{ fontSize: "18px", color: "#64ffda", fontWeight: "bold" }}>
-                게임 종료! {playerScore > aiScore ? "승리!" : playerScore < aiScore ? "패배..." : "무승부!"}
+                Game over! {playerScore > aiScore ? "Victory!" : playerScore < aiScore ? "Defeat..." : "Draw!"}
             </div>}
         </div>
     );

@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 137: 행운의 룰렛
- * 룰렛 돌려 최고 배당 노리기
+ * 🎮 Game 137: Fortune Wheel
+ * Spin the wheel for the best odds
  */
 import { useState, useCallback, useRef } from "react";
 
@@ -58,7 +58,7 @@ const FortuneWheel = ({ onComplete }) => {
                 @keyframes pointerBounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(3px)} }
             `}</style>
             <div style={{ display: "flex", gap: "20px", fontSize: "13px", alignItems: "center" }}>
-                <span>점수: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{totalScore}</span></span>
+                <span>Score: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{totalScore}</span></span>
                 <div style={{ display: "flex", gap: "4px" }}>
                     {[0, 1, 2].map(i => (
                         <div key={i} style={{
@@ -118,7 +118,7 @@ const FortuneWheel = ({ onComplete }) => {
                 animation: "scorePopIn 0.3s ease",
                 textShadow: `0 0 15px ${result.multiplier > 0 ? "rgba(100,255,218,0.4)" : "rgba(255,107,107,0.4)"}`,
             }}>
-                {result.multiplier > 0 ? `🎉 ${result.label} = +${result.multiplier * 10}점!` : "💨 꽝!"}
+                {result.multiplier > 0 ? `🎉 ${result.label} = +${result.multiplier * 10} pts!` : "💨 Nothing!"}
             </div>}
             {!done && (
                 <button onClick={spin} disabled={spinning} style={{
@@ -129,14 +129,14 @@ const FortuneWheel = ({ onComplete }) => {
                     boxShadow: spinning ? "none" : "0 4px 16px rgba(255,107,107,0.3)",
                     transition: "all 0.3s",
                 }}>
-                    {spinning ? "돌아가는 중..." : "🎰 돌리기!"}
+                    {spinning ? "Spinning..." : "🎰 Spin!"}
                 </button>
             )}
             {done && <div style={{
                 fontSize: "18px", fontWeight: "bold",
                 color: "#64ffda",
                 textShadow: "0 0 20px rgba(100,255,218,0.3)",
-            }}>총점: {totalScore}</div>}
+            }}>Total: {totalScore}</div>}
         </div>
     );
 };

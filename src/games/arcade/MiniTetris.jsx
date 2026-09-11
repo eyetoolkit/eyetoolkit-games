@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 34: 테트리스 — 블록 광택 + 라인 카운트 바 + 게임오버
+ * 🎮 Game 34: Tetris — block gloss + line counter + game over
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -88,8 +88,8 @@ const MiniTetris = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "6px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                라인: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{lines}</span>
-                {lines >= 5 && <span style={{ color: "#A855F7", marginLeft: 8 }}>🔥 달인!</span>}
+                Lines: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{lines}</span>
+                {lines >= 5 && <span style={{ color: "#A855F7", marginLeft: 8 }}>🔥 Expert!</span>}
             </div>
             <div style={{
                 display: "grid", gridTemplateColumns: `repeat(${COLS}, ${CELL}px)`,
@@ -107,7 +107,7 @@ const MiniTetris = ({ onComplete }) => {
                 ))}
             </div>
             {!gameActive && (
-                <div style={{ fontSize: "14px", fontWeight: "bold", color: "#FF6B6B" }}>💀 게임 오버! {lines} 라인</div>
+                <div style={{ fontSize: "14px", fontWeight: "bold", color: "#FF6B6B" }}>💀 Game over! {lines} line</div>
             )}
             <div style={{ display: "flex", gap: "4px" }}>
                 <button onClick={() => !collides(board, piece, pos.r, pos.c - 1) && setPos((p) => ({ ...p, c: p.c - 1 }))} style={ctrlBtn}>◀</button>

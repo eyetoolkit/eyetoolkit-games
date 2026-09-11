@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 21: 메모리 매치 — 카드 플립 3D + 매칭 파티클
+ * 🎮 Game 21: Memory Match — 3D card flip + match particles
  */
 import { useCallback, useState } from "react";
 
@@ -63,8 +63,8 @@ const MemoryMatch = ({ onComplete }) => {
             `}</style>
 
             <div style={{ display: "flex", gap: "16px", fontSize: "12px" }}>
-                <span>이동: <span style={{ color: "#FFD700" }}>{moves}</span></span>
-                <span>매치: <span style={{ color: "#64ffda" }}>{matches}/6</span></span>
+                <span>Moves: <span style={{ color: "#FFD700" }}>{moves}</span></span>
+                <span>Matches: <span style={{ color: "#64ffda" }}>{matches}/6</span></span>
             </div>
 
             {/* Progress */}
@@ -102,7 +102,7 @@ const MemoryMatch = ({ onComplete }) => {
 
             {matches >= 6 && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>
-                    🎉 완벽! ({moves}번 만에 클리어!)
+                    🎉 Perfect! (cleared in {moves} moves)
                 </div>
             )}
         </div>

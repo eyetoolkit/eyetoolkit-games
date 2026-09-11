@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 100: 로켓 런치 — Canvas 궤적 시뮬레이션
+ * 🎮 Game 100: Rocket Launch — canvas trajectory simulation
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -149,7 +149,7 @@ const RocketLaunch = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                🚀 {launches}/{MAX} | 최고: <span style={{ color: "#FFD700" }}>{bestDist}m</span>
+                🚀 {launches}/{MAX} | Best: <span style={{ color: "#FFD700" }}>{bestDist}m</span>
             </div>
 
             <canvas ref={canvasRef} width={280} height={160}
@@ -157,11 +157,11 @@ const RocketLaunch = ({ onComplete }) => {
 
             <div style={{ width: 240, display: "flex", flexDirection: "column", gap: "4px" }}>
                 <label style={{ fontSize: "11px", display: "flex", alignItems: "center", gap: "6px" }}>
-                    📐 각도: <span style={{ color: "#FFD700", width: 30 }}>{angle}°</span>
+                    📐 Angle: <span style={{ color: "#FFD700", width: 30 }}>{angle}°</span>
                     <input type="range" min="15" max="75" value={angle} onChange={(e) => setAngle(+e.target.value)} disabled={flying} style={{ flex: 1, accentColor: "#FFD700" }} />
                 </label>
                 <label style={{ fontSize: "11px", display: "flex", alignItems: "center", gap: "6px" }}>
-                    💪 파워: <span style={{ color: "#EF4444", width: 30 }}>{power}%</span>
+                    💪 Power: <span style={{ color: "#EF4444", width: 30 }}>{power}%</span>
                     <input type="range" min="10" max="100" value={power} onChange={(e) => setPower(+e.target.value)} disabled={flying} style={{ flex: 1, accentColor: "#EF4444" }} />
                 </label>
             </div>
@@ -171,7 +171,7 @@ const RocketLaunch = ({ onComplete }) => {
                 background: flying ? "rgba(100,100,100,0.3)" : "linear-gradient(135deg, rgba(239,68,68,0.3), rgba(255,165,0,0.15))",
                 color: "white", border: `2px solid ${flying ? "#666" : "#EF4444"}`,
                 borderRadius: "12px", cursor: flying ? "wait" : "pointer",
-            }}>🔥 발사!</button>
+            }}>🔥 Launch!</button>
         </div>
     );
 };

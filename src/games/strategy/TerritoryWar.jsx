@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 89: 영토 확장 — 색칠 영토 맵
+ * 🎮 Game 89: Territory War — paint the map
  */
 import { useCallback, useState } from "react";
 
@@ -75,7 +75,7 @@ const TerritoryWar = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                턴 <span style={{ color: "#FFD700" }}>{turn}/{MAX_TURNS}</span> | 🧑 {owned.size} vs 🤖 {aiOwned.size}
+                Turn <span style={{ color: "#FFD700" }}>{turn}/{MAX_TURNS}</span> | 🧑 {owned.size} vs 🤖 {aiOwned.size}
             </div>
 
             {/* Territory grid */}
@@ -124,7 +124,7 @@ const TerritoryWar = ({ onComplete }) => {
                 ))}
             </div>
 
-            <div style={{ fontSize: "10px", color: "#8892b0" }}>색을 골라 영토를 확장하세요!</div>
+            <div style={{ fontSize: "10px", color: "#8892b0" }}>Pick a color and expand your territory!</div>
         </div>
     );
 };

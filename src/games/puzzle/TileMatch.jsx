@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 147: 타일 매칭
- * 같은 타일 2개를 연달아 클릭하여 제거
+ * 🎮 Game 147: Tile Match
+ * Connect two matching tiles to remove them
  */
 import { useState, useCallback } from "react";
 
@@ -57,8 +57,8 @@ const TileMatch = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "14px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                이동: <span style={{ color: "#FFD700" }}>{moves}</span>
-                <span style={{ marginLeft: 12 }}>남은 쌍: <span style={{ color: "#64ffda" }}>{board.filter(t => !t.matched).length / 2}</span></span>
+                Moves: <span style={{ color: "#FFD700" }}>{moves}</span>
+                <span style={{ marginLeft: 12 }}>Pairs left: <span style={{ color: "#64ffda" }}>{board.filter(t => !t.matched).length / 2}</span></span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: `repeat(${SIZE}, 60px)`, gap: "6px" }}>
                 {board.map((tile, i) => {
@@ -78,7 +78,7 @@ const TileMatch = ({ onComplete }) => {
                     );
                 })}
             </div>
-            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎉 모든 쌍 발견! {moves}회</div>}
+            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎉 All pairs found! {moves} moves</div>}
         </div>
     );
 };

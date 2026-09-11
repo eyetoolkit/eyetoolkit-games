@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 125: 단위 변환 퀴즈
- * cm→in, kg→lb 빠르게 계산
+ * 🎮 Game 125: Unit Convert Quiz
+ * Fast cm→in, kg→lb conversions
  */
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -71,24 +71,24 @@ const UnitConvert = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "14px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#64ffda" }}>{score}</span></span>
-                <span>시간: <span style={{ color: timeLeft <= 10 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}s</span></span>
+                <span>Score: <span style={{ color: "#64ffda" }}>{score}</span></span>
+                <span>Time: <span style={{ color: timeLeft <= 10 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}s</span></span>
             </div>
             <div style={{ padding: "16px 24px", background: "rgba(255,255,255,0.06)", borderRadius: "12px" }}>
                 <div style={{ fontSize: "24px", fontWeight: "bold", fontFamily: "monospace" }}>{problem.text}</div>
             </div>
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>소수점 1자리까지, 10% 오차 허용</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>One decimal place, 10% tolerance</div>
             <div style={{ display: "flex", gap: "8px" }}>
                 <input value={input} onChange={e => setInput(e.target.value)}
                     onKeyDown={e => e.key === "Enter" && submit()}
                     style={{ padding: "10px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.06)", color: "white", fontSize: "18px", width: "100px", textAlign: "center" }}
                     placeholder="?" autoFocus />
-                <button onClick={submit} style={{ padding: "10px 20px", fontSize: "14px", fontWeight: "bold", background: "rgba(100,255,218,0.15)", color: "#64ffda", border: "1px solid #64ffda", borderRadius: "8px", cursor: "pointer" }}>확인</button>
+                <button onClick={submit} style={{ padding: "10px 20px", fontSize: "14px", fontWeight: "bold", background: "rgba(100,255,218,0.15)", color: "#64ffda", border: "1px solid #64ffda", borderRadius: "8px", cursor: "pointer" }}>OK</button>
             </div>
             {feedback && <div style={{ fontSize: "16px", color: feedback === "correct" ? "#64ffda" : "#FF6B6B" }}>
-                {feedback === "correct" ? "✅ 정답!" : `❌ 정답: ${problem.answer}`}
+                {feedback === "correct" ? "✅ Correct!" : `❌ Answer: ${problem.answer}`}
             </div>}
-            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>완료! {score}문제 정답</div>}
+            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>Done! {score}question Answer</div>}
         </div>
     );
 };

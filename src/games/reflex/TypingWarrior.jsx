@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 17: 키보드 워리어 — 타이머 바 + 콤보 + 위험 컬러
- * 모바일: 가상 QWERTY 키보드로 터치 입력 지원
+ * 🎮 Game 17: Keyboard Warrior — timer bar + combo + danger colors
+ * Mobile: touch input via virtual QWERTY
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -26,7 +26,7 @@ const TypingWarrior = ({ onComplete }) => {
     const missRef = useRef(0);
     const comboRef = useRef(0);
 
-    // 모바일 감지
+    // mobile detection
     useEffect(() => {
         const check = () => setIsMobile(window.innerWidth <= 768 || 'ontouchstart' in window);
         check();
@@ -63,7 +63,7 @@ const TypingWarrior = ({ onComplete }) => {
         return () => clearInterval(anim);
     }, []);
 
-    // 공통 키 처리 로직
+    // common key handling
     const processKey = useCallback((key) => {
         if (!gameActive) return;
         const upper = key.toUpperCase();
@@ -79,7 +79,7 @@ const TypingWarrior = ({ onComplete }) => {
         });
     }, [gameActive]);
 
-    // 물리 키보드 이벤트
+    // physical keyboard events
     const handleKey = useCallback((e) => {
         processKey(e.key);
     }, [processKey]);
@@ -91,13 +91,13 @@ const TypingWarrior = ({ onComplete }) => {
 
     const progress = (timeLeft / GAME_TIME) * 100;
 
-    // 현재 화면에 있는 글자들 (가상 키보드 하이라이트용)
+    // letters currently on screen (virtual keyboard highlight)
     const activeChars = new Set(letters.map(l => l.char));
 
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", color: "white" }}>
             <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 14px", fontSize: "13px" }}>
-                <span>⏱ <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}초</span></span>
+                <span>⏱ <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}s</span></span>
                 <span>⌨️ <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}</span></span>
                 {lastKey && <span style={{ color: "#0cbfff" }}>[ {lastKey} ]</span>}
                 {combo >= 3 && <span style={{ color: "#A855F7" }}>🔥 x{combo}</span>}
@@ -120,7 +120,7 @@ const TypingWarrior = ({ onComplete }) => {
                 ))}
             </div>
 
-            {/* 모바일 가상 QWERTY 키보드 */}
+            {/* mobile virtual QWERTY keyboard */}
             {isMobile && gameActive ? (
                 <div style={{ padding: "4px 2px", background: "rgba(0,0,0,0.6)", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
                     {QWERTY_ROWS.map((row, ri) => (
@@ -153,14 +153,14 @@ const TypingWarrior = ({ onComplete }) => {
                 </div>
             ) : (
                 <div style={{ textAlign: "center", padding: "6px", fontSize: "11px", color: "#8892b0" }}>
-                    {gameActive ? (isMobile ? "아래 키보드로 글자를 터치!" : "키보드로 글자를 타이핑!") : `게임 종료! ${score}개`}
+                    {gameActive ? (isMobile ? "Tap the letters on the keyboard below!" : "Type the letters on your keyboard!") : `Game over! ${score}`}
                 </div>
             )}
 
-            {/* 게임 종료 메시지 (모바일) */}
+            {/* game over message (mobile) */}
             {isMobile && !gameActive && (
                 <div style={{ textAlign: "center", padding: "6px", fontSize: "11px", color: "#8892b0" }}>
-                    게임 종료! {score}개
+                    Game over! {score}
                 </div>
             )}
         </div>

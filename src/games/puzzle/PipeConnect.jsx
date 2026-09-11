@@ -1,7 +1,7 @@
 /**
- * 🎮 Game 104: 파이프 연결
- * 💧 수도꼭지(좌상단)에서 배수구(우하단)까지 물이 흐르게 파이프를 회전!
- * 풀이 가능한 퍼즐을 생성한 뒤 랜덤 회전으로 스크램블
+ * 🎮 Game 104: Pipe Connect
+ * Rotate pipes so water flows from tap to drain!
+ * Generate a solvable puzzle, then scramble randomly
  */
 import { useState, useCallback, useMemo } from "react";
 
@@ -221,9 +221,9 @@ const PipeConnect = ({ onComplete }) => {
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             {/* Header */}
             <div style={{ display: "flex", gap: "12px", fontSize: "13px", alignItems: "center" }}>
-                <span>🔧 <span style={{ color: "#FFD700" }}>{moves}</span>회</span>
+                <span>🔧 <span style={{ color: "#FFD700" }}>{moves}</span>x</span>
                 <span>💧 <span style={{ color: reachedGoal ? "#64ffda" : "#4D96FF" }}>{progress}%</span></span>
-                {brokenEdges.length > 0 && <span style={{ color: "#FF6B6B", fontSize: "11px" }}>❌ 끊김 {brokenEdges.length}곳</span>}
+                {brokenEdges.length > 0 && <span style={{ color: "#FF6B6B", fontSize: "11px" }}>❌ broken {brokenEdges.length}spot(s)</span>}
             </div>
 
             {/* Progress bar */}
@@ -239,7 +239,7 @@ const PipeConnect = ({ onComplete }) => {
                     fontSize: "12px", display: "flex", alignItems: "center", gap: "3px",
                     color: "#4D96FF", fontWeight: "bold",
                 }}>
-                    🚰 시작
+                    🚰 Start
                 </div>
                 {/* Sink label */}
                 <div style={{
@@ -247,7 +247,7 @@ const PipeConnect = ({ onComplete }) => {
                     fontSize: "12px", display: "flex", alignItems: "center", gap: "3px",
                     color: reachedGoal ? "#64ffda" : "#8892b0", fontWeight: "bold",
                 }}>
-                    {reachedGoal ? "✅ 도착!" : "🔽 목표"}
+                    {reachedGoal ? "✅ Arrived!" : "🔽 Goal"}
                 </div>
 
                 <div style={{
@@ -316,7 +316,7 @@ const PipeConnect = ({ onComplete }) => {
             {/* Instructions & Hint */}
             <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                 <div style={{ fontSize: "11px", color: "#8892b0", lineHeight: 1.3 }}>
-                    클릭으로 파이프 회전 → <span style={{ color: "#4D96FF" }}>💧</span>에서 <span style={{ color: "#64ffda" }}>🔽</span>까지 연결!
+                    Click pipes to rotate → <span style={{ color: "#4D96FF" }}>💧</span> to the <span style={{ color: "#64ffda" }}>🔽</span> to connect!
                 </div>
                 {!done && (
                     <button onClick={showHint} style={{
@@ -324,11 +324,11 @@ const PipeConnect = ({ onComplete }) => {
                         background: "rgba(255,215,0,0.1)", color: "#FFD700",
                         border: "1px solid rgba(255,215,0,0.3)", borderRadius: "8px",
                         cursor: "pointer", whiteSpace: "nowrap",
-                    }}>💡 힌트</button>
+                    }}>💡 Hint</button>
                 )}
             </div>
 
-            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎉 파이프 연결 완료!</div>}
+            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎉 Pipe Connect Done!</div>}
         </div>
     );
 };

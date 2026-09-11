@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 73: 룰렛 — CSS 회전 휠 + 포인터
+ * 🎮 Game 73: Roulette — CSS spinning wheel + pointer
  */
 import { useCallback, useState } from "react";
 
@@ -58,7 +58,7 @@ const Roulette = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                라운드 <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | 적중 <span style={{ color: "#64ffda" }}>{correct}</span>
+                Round <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | Hits <span style={{ color: "#64ffda" }}>{correct}</span>
             </div>
 
             {/* Roulette Wheel */}
@@ -103,7 +103,7 @@ const Roulette = ({ onComplete }) => {
                     color: result.win ? "#64ffda" : "#FF6B6B",
                     animation: "pulse 0.5s ease",
                 }}>
-                    {result.win ? "✅ 적중!" : "❌ 빗나감"}
+                    {result.win ? "✅ Hit!" : "❌ Miss"}
                 </div>
             )}
 
@@ -115,17 +115,17 @@ const Roulette = ({ onComplete }) => {
                         background: "linear-gradient(135deg, rgba(239,68,68,0.4), rgba(239,68,68,0.2))",
                         color: "white", border: "2px solid #EF4444", borderRadius: "14px", cursor: "pointer",
                         boxShadow: "0 4px 15px rgba(239,68,68,0.2)",
-                    }}>🔴 빨강</button>
+                    }}>🔴 Red</button>
                     <button onClick={() => spin("black")} style={{
                         padding: "12px 24px", fontSize: "15px", fontWeight: "bold",
                         background: "linear-gradient(135deg, rgba(50,50,50,0.6), rgba(30,30,30,0.4))",
                         color: "white", border: "2px solid #666", borderRadius: "14px", cursor: "pointer",
                         boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
-                    }}>⚫ 검정</button>
+                    }}>⚫ Black</button>
                 </div>
             )}
 
-            {spinning && <div style={{ fontSize: "14px", color: "#FFD700" }}>🎡 회전 중...</div>}
+            {spinning && <div style={{ fontSize: "14px", color: "#FFD700" }}>🎡 Spinning...</div>}
         </div>
     );
 };

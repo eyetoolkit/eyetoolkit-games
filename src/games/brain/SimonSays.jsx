@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 46: 사이먼 세즈 — 컬러 패드 + 펄스 애니메이션
+ * 🎮 Game 46: Simon Says — color pads + pulse animation
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -69,9 +69,9 @@ const SimonSays = ({ onComplete }) => {
             <style>{`@keyframes padPulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }`}</style>
 
             <div style={{ fontSize: "13px" }}>
-                레벨: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{level}</span>
-                {isPlaying && <span style={{ color: "#8892b0", marginLeft: 8 }}>👀 기억하세요...</span>}
-                {!isPlaying && !gameOver && <span style={{ color: "#64ffda", marginLeft: 8 }}>👆 따라하세요!</span>}
+                Level: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{level}</span>
+                {isPlaying && <span style={{ color: "#8892b0", marginLeft: 8 }}>👀 Memorize...</span>}
+                {!isPlaying && !gameOver && <span style={{ color: "#64ffda", marginLeft: 8 }}>👆 Repeat it!</span>}
             </div>
 
             {/* Progress dots */}
@@ -107,7 +107,7 @@ const SimonSays = ({ onComplete }) => {
 
             {gameOver && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: "#FF6B6B" }}>
-                    💀 게임 오버! 레벨 {level} 달성
+                    💀 Game over! Level {level} reached
                 </div>
             )}
         </div>

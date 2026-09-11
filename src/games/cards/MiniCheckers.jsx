@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 111: 미니 체커
- * 6×6 체커 — AI와 대전
+ * 🎮 Game 111: Mini Checkers
+ * 6x6 checkers — vs AI
  */
 import { useState, useCallback } from "react";
 
@@ -158,7 +158,7 @@ const MiniCheckers = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                {done ? "게임 종료!" : turn === "player" ? "당신의 차례 (어두운 말)" : "AI 생각 중..."}
+                {done ? "Game over!" : turn === "player" ? "Your turn (dark discs)" : "AI thinking..."}
             </div>
             <div style={{ display: "grid", gridTemplateColumns: `repeat(${SIZE}, ${CELL}px)`, gap: "0px", borderRadius: "8px", overflow: "hidden", border: "2px solid rgba(255,255,255,0.1)" }}>
                 {Array.from({ length: SIZE * SIZE }, (_, idx) => {
@@ -190,7 +190,7 @@ const MiniCheckers = ({ onComplete }) => {
                     );
                 })}
             </div>
-            <div style={{ fontSize: "12px", color: "#8892b0" }}>어두운 말을 선택하고 이동할 칸을 클릭</div>
+            <div style={{ fontSize: "12px", color: "#8892b0" }}>Select a dark piece, then click its destination</div>
         </div>
     );
 };

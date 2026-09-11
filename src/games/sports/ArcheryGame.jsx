@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 96: 양궁 — Canvas 과녁 + 이동 조준점 + 바람 효과
+ * 🎮 Game 96: Archery — canvas target + moving crosshair + wind
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -107,7 +107,7 @@ const ArcheryGame = ({ onComplete }) => {
         const finalY = aimY + (Math.random() - 0.5) * 3;
         const distFromCenter = Math.sqrt(Math.pow(finalX - 50, 2) + Math.pow(finalY - 50, 2));
         const pts = distFromCenter < 5 ? 10 : distFromCenter < 15 ? 8 : distFromCenter < 25 ? 6 : distFromCenter < 35 ? 4 : 2;
-        const label = pts >= 10 ? "🎯 10점!" : pts >= 8 ? "8점!" : pts >= 6 ? "6점!" : pts >= 4 ? "4점" : "2점";
+        const label = pts >= 10 ? "🎯 10 pts!" : pts >= 8 ? "8 pts!" : pts >= 6 ? "6 pts!" : pts >= 4 ? "4 pts" : "2 pts";
 
         setArrows((a) => [...a, { x: finalX, y: finalY }]);
         const newScore = score + pts;
@@ -126,8 +126,8 @@ const ArcheryGame = ({ onComplete }) => {
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "12px" }}>
                 <span>🏹 {shots}/{MAX}</span>
-                <span>점수: <span style={{ color: "#FFD700" }}>{score}</span></span>
-                <span>바람: <span style={{ color: wind > 0 ? "#3B82F6" : "#EF4444" }}>{wind > 0 ? "→" : "←"} {Math.abs(wind)}</span></span>
+                <span>Score: <span style={{ color: "#FFD700" }}>{score}</span></span>
+                <span>Wind: <span style={{ color: wind > 0 ? "#3B82F6" : "#EF4444" }}>{wind > 0 ? "→" : "←"} {Math.abs(wind)}</span></span>
             </div>
 
             <canvas ref={canvasRef} width={220} height={220}
@@ -140,7 +140,7 @@ const ArcheryGame = ({ onComplete }) => {
                 background: result ? "rgba(100,100,100,0.3)" : "linear-gradient(135deg, rgba(34,197,94,0.3), rgba(34,197,94,0.1))",
                 color: "white", border: `2px solid ${result ? "#666" : "#22C55E"}`,
                 borderRadius: "12px", cursor: result ? "wait" : "pointer",
-            }}>🏹 발사!</button>
+            }}>🏹 Fire!</button>
         </div>
     );
 };

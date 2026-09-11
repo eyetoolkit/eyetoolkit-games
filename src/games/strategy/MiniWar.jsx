@@ -1,14 +1,14 @@
 /**
- * 🎮 Game 141: 미니 전략 전쟁
- * 유닛을 배치하여 적을 격파
+ * 🎮 Game 141: Mini War
+ * Deploy units to defeat the enemy
  */
 import { useState, useCallback } from "react";
 
 const UNITS = [
-    { name: "검사", emoji: "⚔️", attack: 3, defense: 2, cost: 2 },
-    { name: "궁수", emoji: "🏹", attack: 4, defense: 1, cost: 3 },
-    { name: "기사", emoji: "🐴", attack: 5, defense: 3, cost: 4 },
-    { name: "방패병", emoji: "🛡️", attack: 1, defense: 5, cost: 3 },
+    { name: "Swordsman", emoji: "⚔️", attack: 3, defense: 2, cost: 2 },
+    { name: "Archer", emoji: "🏹", attack: 4, defense: 1, cost: 3 },
+    { name: "Knight", emoji: "🐴", attack: 5, defense: 3, cost: 4 },
+    { name: "Shieldbearer", emoji: "🛡️", attack: 1, defense: 5, cost: 3 },
 ];
 
 const MiniWar = ({ onComplete }) => {
@@ -68,7 +68,7 @@ const MiniWar = ({ onComplete }) => {
                 boxShadow: "0 4px 20px rgba(255,107,107,0.1)",
                 animation: battleResult ? "battleShake 0.3s" : "none",
             }}>
-                <div style={{ fontSize: "11px", color: "#FF6B6B", marginBottom: "6px", fontWeight: "bold", letterSpacing: "1px" }}>☠ 적군</div>
+                <div style={{ fontSize: "11px", color: "#FF6B6B", marginBottom: "6px", fontWeight: "bold", letterSpacing: "1px" }}>☠ Enemy army</div>
                 <div style={{ display: "flex", gap: "8px" }}>
                     {enemy.map((u, i) => (
                         <div key={i} style={{
@@ -109,12 +109,12 @@ const MiniWar = ({ onComplete }) => {
                 border: "1px solid rgba(100,255,218,0.15)",
                 boxShadow: "0 4px 20px rgba(100,255,218,0.06)",
             }}>
-                <div style={{ fontSize: "11px", color: "#64ffda", marginBottom: "6px", fontWeight: "bold", letterSpacing: "1px" }}>⚔ 내 군대</div>
+                <div style={{ fontSize: "11px", color: "#64ffda", marginBottom: "6px", fontWeight: "bold", letterSpacing: "1px" }}>⚔ Your army</div>
                 <div style={{ display: "flex", gap: "6px", justifyContent: "center", flexWrap: "wrap" }}>
                     {army.map((u, i) => (
                         <span key={i} style={{ fontSize: "22px", animation: "fadeIn 0.3s ease" }}>{u.emoji}</span>
                     ))}
-                    {army.length === 0 && <span style={{ fontSize: "12px", color: "#8892b0" }}>유닛을 뽑으세요</span>}
+                    {army.length === 0 && <span style={{ fontSize: "12px", color: "#8892b0" }}>Pick your units</span>}
                 </div>
             </div>
             {!done && army.length > 0 && (
@@ -125,7 +125,7 @@ const MiniWar = ({ onComplete }) => {
                     boxShadow: "0 4px 16px rgba(255,107,107,0.3)",
                     transition: "all 0.2s",
                 }}>
-                    ⚔ 전투 개시!
+                    ⚔ Battle!
                 </button>
             )}
             {battleResult && (
@@ -135,10 +135,10 @@ const MiniWar = ({ onComplete }) => {
                         color: battleResult.won ? "#64ffda" : "#FF6B6B",
                         textShadow: battleResult.won ? "0 0 25px rgba(100,255,218,0.4)" : "0 0 25px rgba(255,107,107,0.4)",
                     }}>
-                        {battleResult.won ? "🏆 승리!" : "💀 패배"}
+                        {battleResult.won ? "🏆 Victory!" : "💀 Defeat"}
                     </div>
                     <div style={{ fontSize: "12px", color: "#8892b0", marginTop: "4px" }}>
-                        전투력 {battleResult.myPower} vs {battleResult.enemyPower}
+                        Power: {battleResult.myPower} vs {battleResult.enemyPower}
                     </div>
                 </div>
             )}

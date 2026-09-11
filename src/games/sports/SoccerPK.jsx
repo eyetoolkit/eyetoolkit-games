@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 98: 축구 PK — 진행 도트 + 슛 결과 히스토리
+ * 🎮 Game 98: Soccer PK — progress dots + shot history
  */
 import { useCallback, useState } from "react";
 
@@ -38,7 +38,7 @@ const SoccerPK = ({ onComplete }) => {
                 const goalScored = !saved;
                 const newGoals = goals + (goalScored ? 1 : 0);
                 if (goalScored) setGoals(newGoals); else setSaves(s => s + 1);
-                setResultText(goalScored ? "⚽ GOOOAL!" : "🧤 선방!");
+                setResultText(goalScored ? "⚽ GOOOAL!" : "🧤 Great save!");
                 setHistory(h => [...h, goalScored ? "⚽" : "❌"]);
                 setPhase("result");
                 setTimeout(() => {
@@ -94,7 +94,7 @@ const SoccerPK = ({ onComplete }) => {
                     {resultText}
                 </div>
             )}
-            {phase === "aim" && <div style={{ fontSize: "10px", color: "#8892b0" }}>골대 안을 클릭하여 슛!</div>}
+            {phase === "aim" && <div style={{ fontSize: "10px", color: "#8892b0" }}>Click inside the goal to shoot!</div>}
         </div>
     );
 };

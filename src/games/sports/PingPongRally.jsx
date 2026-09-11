@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 99: 탁구 랠리 — Canvas 탁구대 + 공 궤적
+ * 🎮 Game 99: Ping Pong Rally — canvas table + ball trajectory
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -124,7 +124,7 @@ const PingPongRally = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                🏓 랠리: <span style={{ color: "#64ffda" }}>{rally}</span> | 최고: <span style={{ color: "#FFD700" }}>{best}</span>
+                🏓 Rally: <span style={{ color: "#64ffda" }}>{rally}</span> | Best: <span style={{ color: "#FFD700" }}>{best}</span>
             </div>
 
             <canvas ref={canvasRef} width={260} height={200}
@@ -135,11 +135,11 @@ const PingPongRally = ({ onComplete }) => {
 
             {gameOver && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: "#FFD700" }}>
-                    게임 오버! {rally}회 랠리 🏓
+                    Game over! {rally}-rally 🏓
                 </div>
             )}
 
-            <div style={{ fontSize: "10px", color: "#8892b0" }}>마우스를 움직여 패들을 조종하세요</div>
+            <div style={{ fontSize: "10px", color: "#8892b0" }}>Move the mouse to control the paddles</div>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 108: 버블 팝
- * 같은 색 버블을 쏴서 3개 이상 연결하면 터트리기
+ * 🎮 Game 108: Bubble Pop
+ * Shoot bubbles to match 3+ of a color
  */
 import { useState, useCallback } from "react";
 
@@ -104,10 +104,10 @@ const BubblePop = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#FFD700" }}>{score}</span></span>
-                <span>이동: <span style={{ color: "#64ffda" }}>{moves}</span></span>
+                <span>Score: <span style={{ color: "#FFD700" }}>{score}</span></span>
+                <span>Moves: <span style={{ color: "#64ffda" }}>{moves}</span></span>
                 <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                    다음: <span style={{ display: "inline-block", width: 16, height: 16, borderRadius: "50%", background: nextColor }} />
+                    Next: <span style={{ display: "inline-block", width: 16, height: 16, borderRadius: "50%", background: nextColor }} />
                 </span>
             </div>
             <div style={{
@@ -134,11 +134,11 @@ const BubblePop = ({ onComplete }) => {
                 })}
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                같은 색 3개 이상 연결된 버블을 클릭!
+                Click bubbles connected 3+ of a color!
             </div>
             {done && (
                 <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>
-                    🫧 완료! 점수: {score}
+                    🫧 Done! Score: {score}
                 </div>
             )}
         </div>

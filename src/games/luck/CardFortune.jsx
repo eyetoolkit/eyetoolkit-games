@@ -1,22 +1,22 @@
 /**
- * 🎮 Game 139: 카드 점술
- * 3장의 카드를 뽑아 운세를 확인 — 타로 카드 비주얼
+ * 🎮 Game 139: Card Fortune
+ * Draw 3 fortune cards — tarot visuals
  */
 import { useState, useCallback } from "react";
 
 const CARDS = [
-    { name: "태양", meaning: "성공과 행복", score: 90, emoji: "sun" },
-    { name: "달", meaning: "직감과 꿈", score: 70, emoji: "moon" },
-    { name: "별", meaning: "희망과 영감", score: 80, emoji: "star" },
-    { name: "탑", meaning: "급변과 전환", score: 40, emoji: "tower" },
-    { name: "전차", meaning: "승리와 진전", score: 85, emoji: "chariot" },
-    { name: "세계", meaning: "완성과 달성", score: 95, emoji: "world" },
-    { name: "은둔자", meaning: "성찰과 지혜", score: 60, emoji: "hermit" },
-    { name: "힘", meaning: "용기와 인내", score: 75, emoji: "strength" },
-    { name: "바퀴", meaning: "운명의 변화", score: 50, emoji: "wheel" },
-    { name: "정의", meaning: "공정과 균형", score: 65, emoji: "justice" },
-    { name: "연인", meaning: "선택과 사랑", score: 80, emoji: "lovers" },
-    { name: "황제", meaning: "권위와 안정", score: 70, emoji: "emperor" },
+    { name: "Sun", meaning: "Success and happiness", score: 90, emoji: "sun" },
+    { name: "Moon", meaning: "Intuition and dreams", score: 70, emoji: "moon" },
+    { name: "Star", meaning: "Hope and inspiration", score: 80, emoji: "star" },
+    { name: "Tower", meaning: "Sudden change", score: 40, emoji: "tower" },
+    { name: "Chariot", meaning: "Victory and progress", score: 85, emoji: "chariot" },
+    { name: "World", meaning: "Completion and achievement", score: 95, emoji: "world" },
+    { name: "Hermit", meaning: "Reflection and wisdom", score: 60, emoji: "hermit" },
+    { name: "Strength", meaning: "Courage and patience", score: 75, emoji: "strength" },
+    { name: "Wheel", meaning: "Turning of fate", score: 50, emoji: "wheel" },
+    { name: "Justice", meaning: "Fairness and balance", score: 65, emoji: "justice" },
+    { name: "Lovers", meaning: "Choice and love", score: 80, emoji: "lovers" },
+    { name: "Emperor", meaning: "Authority and stability", score: 70, emoji: "emperor" },
 ];
 
 const EMOJIS = {
@@ -73,11 +73,11 @@ const CardFortune = ({ onComplete }) => {
                 @keyframes fortuneReveal { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
             `}</style>
             <div style={{ fontSize: "14px", fontWeight: "bold", color: "#9B59B6", letterSpacing: "2px" }}>
-                ✨ 타로 카드 점술 ✨
+                ✨ Tarot Fortune ✨
             </div>
             <div style={{ fontSize: "13px" }}>
-                <span style={{ color: "#FFD700" }}>{drawn.length}/{maxDraw}장</span> 뽑음
-                {flipped.size > 0 && flipped.size < drawn.length && <span style={{ color: "#9B59B6", marginLeft: "8px" }}>카드를 뒤집으세요</span>}
+                <span style={{ color: "#FFD700" }}>{drawn.length}/{maxDraw} drawn
+                {flipped.size > 0 && flipped.size < drawn.length && <span style={{ color: "#9B59B6", marginLeft: "8px" }}>Flip the card</span>}
             </div>
             <div style={{ display: "flex", gap: "12px", perspective: "600px" }}>
                 {drawn.map((card, i) => {
@@ -107,7 +107,7 @@ const CardFortune = ({ onComplete }) => {
                             ) : (
                                 <>
                                     <span style={{ fontSize: "32px", animation: "mysticalGlow 2s ease infinite" }}>🂠</span>
-                                    <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>클릭하여 뒤집기</span>
+                                    <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.5)" }}>click to flip</span>
                                 </>
                             )}
                         </div>
@@ -130,7 +130,7 @@ const CardFortune = ({ onComplete }) => {
                     cursor: drawing ? "wait" : "pointer",
                     boxShadow: "0 4px 16px rgba(155,89,182,0.3)",
                     transition: "all 0.3s",
-                }}>🎴 {drawing ? "뽑는 중..." : "카드 뽑기"}</button>
+                }}>🎴 {drawing ? "Drawing..." : "Draw a card"}</button>
             )}
             {done && (
                 <div style={{
@@ -143,7 +143,7 @@ const CardFortune = ({ onComplete }) => {
                         fontSize: "18px", fontWeight: "bold",
                         color: avgScore >= 80 ? "#64ffda" : avgScore >= 60 ? "#FFD700" : "#FF6B6B",
                     }}>
-                        {avgScore >= 80 ? "🌟 대길!" : avgScore >= 60 ? "✨ 길!" : "🌊 평!"}
+                        {avgScore >= 80 ? "🌟 Great fortune!" : avgScore >= 60 ? "✨ Lucky!" : "🌊 Neutral!"}
                     </div>
                     <div style={{ fontSize: "12px", color: "#9B59B6", marginTop: "4px" }}>
                         {drawn.map(c => c.name).join(" · ")}

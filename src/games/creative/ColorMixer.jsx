@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 56: 색 혼합 — RGB 슬라이더 + 타겟 매칭
+ * 🎮 Game 56: Color Mixer — RGB sliders + target matching
  */
 import { useCallback, useState } from "react";
 
@@ -37,14 +37,14 @@ const ColorMixer = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | 점수 <span style={{ color: "#64ffda" }}>{score}</span>
+                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | Score <span style={{ color: "#64ffda" }}>{score}</span>
             </div>
 
             {/* Color comparison */}
             <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
                 {/* Target */}
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "10px", color: "#8892b0", marginBottom: 4 }}>목표</div>
+                    <div style={{ fontSize: "10px", color: "#8892b0", marginBottom: 4 }}>Target</div>
                     <div style={{
                         width: 80, height: 80, borderRadius: "16px",
                         background: toCSS(target),
@@ -57,7 +57,7 @@ const ColorMixer = ({ onComplete }) => {
 
                 {/* Mixed */}
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "10px", color: "#8892b0", marginBottom: 4 }}>나의 색</div>
+                    <div style={{ fontSize: "10px", color: "#8892b0", marginBottom: 4 }}>Your color</div>
                     <div style={{
                         width: 80, height: 80, borderRadius: "16px",
                         background: toCSS(mix),
@@ -74,7 +74,7 @@ const ColorMixer = ({ onComplete }) => {
                     fontSize: "14px", fontWeight: "bold",
                     color: feedback.dist < 50 ? "#64ffda" : feedback.dist < 100 ? "#FFD700" : "#FF6B6B",
                 }}>
-                    {feedback.dist < 50 ? "🎯 거의 일치!" : feedback.dist < 100 ? "👍 비슷해요!" : "🤔 좀 멀어요"} (+{feedback.pts}점)
+                    {feedback.dist < 50 ? "🎯 Almost exact!" : feedback.dist < 100 ? "👍 Close!" : "🤔 A bit off"} (+{feedback.pts} pts)
                 </div>
             )}
 
@@ -101,7 +101,7 @@ const ColorMixer = ({ onComplete }) => {
                     background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(124,58,237,0.08))",
                     color: "white", border: "2px solid rgba(124,58,237,0.4)",
                     borderRadius: "12px", cursor: "pointer",
-                }}>🎨 제출!</button>
+                }}>🎨 Submit!</button>
             )}
         </div>
     );

@@ -1,25 +1,25 @@
 /**
- * 🎮 Game 127: 국기 맞추기
- * 국기를 보고 나라 이름을 맞추세요
+ * 🎮 Game 127: Flag Quiz
+ * Look at the flag and guess the country
  */
 import { useState, useCallback, useMemo } from "react";
 
 const FLAGS = [
-    { flag: "🇯🇵", name: "일본", options: ["일본", "중국", "태국", "베트남"] },
-    { flag: "🇺🇸", name: "미국", options: ["영국", "미국", "호주", "캐나다"] },
-    { flag: "🇬🇧", name: "영국", options: ["영국", "호주", "뉴질랜드", "노르웨이"] },
-    { flag: "🇨🇳", name: "중국", options: ["베트남", "중국", "타이완", "홍콩"] },
-    { flag: "🇩🇪", name: "독일", options: ["독일", "벨기에", "네덜란드", "오스트리아"] },
-    { flag: "🇫🇷", name: "프랑스", options: ["이탈리아", "프랑스", "러시아", "루마니아"] },
-    { flag: "🇮🇹", name: "이탈리아", options: ["이탈리아", "헝가리", "멕시코", "아일랜드"] },
-    { flag: "🇧🇷", name: "브라질", options: ["아르헨티나", "브라질", "볼리비아", "포르투갈"] },
-    { flag: "🇦🇺", name: "호주", options: ["호주", "뉴질랜드", "영국", "피지"] },
-    { flag: "🇲🇽", name: "멕시코", options: ["멕시코", "이탈리아", "스페인", "페루"] },
-    { flag: "🇪🇸", name: "스페인", options: ["포르투갈", "스페인", "멕시코", "콜롬비아"] },
-    { flag: "🇷🇺", name: "러시아", options: ["러시아", "프랑스", "네덜란드", "체코"] },
-    { flag: "🇮🇳", name: "인도", options: ["인도", "파키스탄", "방글라데시", "스리랑카"] },
-    { flag: "🇹🇭", name: "태국", options: ["태국", "베트남", "라오스", "미얀마"] },
-    { flag: "🇹🇷", name: "터키", options: ["터키", "이란", "이라크", "이집트"] },
+    { flag: "🇯🇵", name: "Japan", options: ["Japan", "China", "Thailand", "Vietnam"] },
+    { flag: "🇺🇸", name: "USA", options: ["United Kingdom", "USA", "Australia", "Canada"] },
+    { flag: "🇬🇧", name: "United Kingdom", options: ["United Kingdom", "Australia", "New Zealand", "Norway"] },
+    { flag: "🇨🇳", name: "China", options: ["Vietnam", "China", "Taiwan", "Hong Kong"] },
+    { flag: "🇩🇪", name: "Germany", options: ["Germany", "Belgium", "Netherlands", "Austria"] },
+    { flag: "🇫🇷", name: "France", options: ["Italy", "France", "Russia", "Romania"] },
+    { flag: "🇮🇹", name: "Italy", options: ["Italy", "Hungary", "Mexico", "Ireland"] },
+    { flag: "🇧🇷", name: "Brazil", options: ["Argentina", "Brazil", "Bolivia", "Portugal"] },
+    { flag: "🇦🇺", name: "Australia", options: ["Australia", "New Zealand", "United Kingdom", "Fiji"] },
+    { flag: "🇲🇽", name: "Mexico", options: ["Mexico", "Italy", "Spain", "Peru"] },
+    { flag: "🇪🇸", name: "Spain", options: ["Portugal", "Spain", "Mexico", "Colombia"] },
+    { flag: "🇷🇺", name: "Russia", options: ["Russia", "France", "Netherlands", "Czechia"] },
+    { flag: "🇮🇳", name: "India", options: ["India", "Pakistan", "Bangladesh", "Sri Lanka"] },
+    { flag: "🇹🇭", name: "Thailand", options: ["Thailand", "Vietnam", "Laos", "Myanmar"] },
+    { flag: "🇹🇷", name: "Turkey", options: ["Turkey", "Iran", "Iraq", "Egypt"] },
 ];
 
 const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
@@ -60,8 +60,8 @@ const FlagQuiz = ({ onComplete }) => {
                 .flag-opt:hover { background: rgba(255,255,255,0.12) !important; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
             `}</style>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}/{current}</span></span>
-                <span>문제: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{current + 1}/{questions.length}</span></span>
+                <span>Score: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}/{current}</span></span>
+                <span>Q: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{current + 1}/{questions.length}</span></span>
             </div>
             <div style={{ width: "260px", height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "2px" }}>
                 <div style={{ height: "100%", borderRadius: "2px", width: `${progress}%`, background: "linear-gradient(90deg, #4D96FF, #6BCB77)", transition: "width 0.4s ease" }} />
@@ -74,7 +74,7 @@ const FlagQuiz = ({ onComplete }) => {
                 animation: "fadeSlideIn 0.3s ease",
                 boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
             }}>{q.flag}</div>
-            <div style={{ fontSize: "14px", color: "#8892b0" }}>이 국기의 나라는?</div>
+            <div style={{ fontSize: "14px", color: "#8892b0" }}>Which country is this flag?</div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 130px)", gap: "8px" }}>
                 {shuffledOptions[current].map((opt) => (
                     <button key={opt} className="flag-opt" onClick={() => choose(opt)} style={{
@@ -93,12 +93,12 @@ const FlagQuiz = ({ onComplete }) => {
                 color: feedback === "correct" ? "#64ffda" : "#FF6B6B",
                 animation: "flagBounce 0.4s ease",
             }}>
-                {feedback === "correct" ? "✓ 정답!" : `✗ ${q.name}`}
+                {feedback === "correct" ? "✓ Correct!" : `✗ ${q.name}`}
             </div>}
             {done && <div style={{
                 fontSize: "18px", color: "#64ffda", fontWeight: "bold",
                 textShadow: "0 0 20px rgba(100,255,218,0.3)",
-            }}>🎉 완료! {score}/{questions.length}</div>}
+            }}>🎉 Done! {score}/{questions.length}</div>}
         </div>
     );
 };

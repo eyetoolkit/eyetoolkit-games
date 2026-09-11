@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 58: 만다라 색칠 — SVG 링 + 호버 하이라이트 + 진행률
+ * 🎮 Game 58: Mandala Paint — SVG rings + hover highlight + progress
  */
 import { useCallback, useState } from "react";
 
@@ -42,7 +42,7 @@ const MandalaPaint = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                🎨 대칭 색칠 — <span style={{ color: "#FFD700" }}>{progress}%</span>
+                🎨 Symmetry painting — <span style={{ color: "#FFD700" }}>{progress}%</span>
             </div>
 
             {/* Progress ring */}
@@ -99,7 +99,7 @@ const MandalaPaint = ({ onComplete }) => {
                 background: progress >= 80 ? "linear-gradient(135deg, rgba(100,255,218,0.2), rgba(100,255,218,0.05))" : "rgba(255,255,255,0.06)",
                 color: "white", border: `2px solid ${progress >= 80 ? "#64ffda" : "rgba(255,255,255,0.15)"}`,
                 borderRadius: "10px", cursor: "pointer",
-            }}>✅ 완성! ({progress}%)</button>
+            }}>✅ Complete! ({progress}%)</button>
         </div>
     );
 };

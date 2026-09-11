@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 145: 배달 경로
- * 최단 경로로 모든 집에 배달하세요
+ * 🎮 Game 145: Delivery Route
+ * Deliver to every house via the shortest route
  */
 import { useState, useCallback } from "react";
 
@@ -75,7 +75,7 @@ const DeliveryRoute = ({ onComplete }) => {
             `}</style>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px", alignItems: "center" }}>
                 <span>📦 <span style={{ color: "#64ffda", fontWeight: "bold" }}>{delivered.size}/{houses.size}</span></span>
-                <span>이동: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{path.length - 1}</span></span>
+                <span>Moves: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{path.length - 1}</span></span>
             </div>
             <div style={{ width: "260px", height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "2px" }}>
                 <div style={{ height: "100%", borderRadius: "2px", width: `${progress}%`, background: "linear-gradient(90deg, #64ffda, #4D96FF)", transition: "width 0.4s ease" }} />
@@ -130,14 +130,14 @@ const DeliveryRoute = ({ onComplete }) => {
                     opacity: path.length <= 1 || done ? 0.4 : 1,
                     transition: "all 0.2s",
                 }}>
-                    ↩ 되돌리기
+                    ↩ Undo
                 </button>
             </div>
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>인접 칸으로 이동하여 모든 🏠에 배달하세요!</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>Move between cells to deliver to every 🏠!</div>
             {done && <div style={{
                 fontSize: "18px", fontWeight: "bold", color: "#64ffda",
                 textShadow: "0 0 15px rgba(100,255,218,0.3)",
-            }}>📦 모든 배달 완료! {path.length - 1}회 이동</div>}
+            }}>📦 All delivered! {path.length - 1} moves</div>}
         </div>
     );
 };

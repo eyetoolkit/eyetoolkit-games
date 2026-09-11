@@ -1,15 +1,15 @@
 /**
- * 🎮 반응속도 테스트 — 멀티모드 + 랭크 시스템 + 베스트 타임 추적
+ * 🎮 Reaction Test — multi-mode + rank system + best time tracking
  */
 import { useCallback, useRef, useState } from "react";
 
 const ROUNDS = 5;
 const RANKS = [
-    { max: 180, label: "⚡ 번개급!", color: "#FF6B6B", emoji: "🏆" },
-    { max: 250, label: "🔥 불꽃 반사!", color: "#FFD700", emoji: "🥇" },
-    { max: 350, label: "😎 꽤 빠름!", color: "#64ffda", emoji: "🥈" },
-    { max: 450, label: "🙂 평균", color: "#8892b0", emoji: "🥉" },
-    { max: 9999, label: "🐢 느긋~", color: "#666", emoji: "🐌" },
+    { max: 180, label: "⚡ Lightning fast!", color: "#FF6B6B", emoji: "🏆" },
+    { max: 250, label: "🔥 Flaming reflex!", color: "#FFD700", emoji: "🥇" },
+    { max: 350, label: "😎 Pretty fast!", color: "#64ffda", emoji: "🥈" },
+    { max: 450, label: "🙂 Average", color: "#8892b0", emoji: "🥉" },
+    { max: 9999, label: "🐢 Take it easy~", color: "#666", emoji: "🐌" },
 ];
 
 const ReactionTest = ({ onComplete }) => {
@@ -98,29 +98,29 @@ const ReactionTest = ({ onComplete }) => {
 
             {phase === "ready" && <>
                 <div style={{ fontSize: "56px" }}>⚡</div>
-                <div style={{ fontSize: "20px", fontWeight: "bold" }}>반응속도 테스트</div>
-                <div style={{ fontSize: "13px", color: "#8892b0" }}>클릭하여 시작!</div>
+                <div style={{ fontSize: "20px", fontWeight: "bold" }}>Reaction Test</div>
+                <div style={{ fontSize: "13px", color: "#8892b0" }}>Click to start!</div>
                 <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center", marginTop: "8px" }}>
                     {RANKS.slice(0, 4).map((r, i) => (
                         <div key={i} style={{ fontSize: "10px", padding: "3px 8px", borderRadius: "6px", background: `${r.color}15`, color: r.color }}>
-                            {r.emoji} {r.max}ms이하 {r.label}
+                            {r.emoji} {r.max}ms or less {r.label}
                         </div>
                     ))}
                 </div>
             </>}
             {phase === "waiting" && <>
                 <div style={{ fontSize: "48px" }}>🔴</div>
-                <div style={{ fontSize: "22px", fontWeight: "bold" }}>기다리세요...</div>
-                <div style={{ fontSize: "13px", opacity: 0.7 }}>초록색이 되면 클릭!</div>
+                <div style={{ fontSize: "22px", fontWeight: "bold" }}>Wait for it...</div>
+                <div style={{ fontSize: "13px", opacity: 0.7 }}>Click when it turns green!</div>
             </>}
             {phase === "go" && <>
                 <div style={{ fontSize: "72px", animation: "pulseGo 0.4s ease infinite" }}>🟢</div>
-                <div style={{ fontSize: "32px", fontWeight: "bold" }}>지금 클릭!</div>
+                <div style={{ fontSize: "32px", fontWeight: "bold" }}>Click now!</div>
             </>}
             {phase === "early" && <>
                 <div style={{ fontSize: "48px", animation: "shakeWarn 0.4s ease" }}>⚠️</div>
-                <div style={{ fontSize: "18px", fontWeight: "bold" }}>너무 빨랐어요!</div>
-                <div style={{ fontSize: "13px" }}>클릭하여 다시 시도</div>
+                <div style={{ fontSize: "18px", fontWeight: "bold" }}>Too early!</div>
+                <div style={{ fontSize: "13px" }}>Click to retry</div>
             </>}
             {phase === "result" && currentRank && <>
                 <div style={{ animation: "rankReveal 0.4s ease" }}>
@@ -134,7 +134,7 @@ const ReactionTest = ({ onComplete }) => {
                     {currentTime === bestTime && results.length > 1 && <span style={{ fontSize: "14px" }}> 🏆 NEW BEST!</span>}
                 </div>
                 <div style={{ fontSize: "14px", color: currentRank.color, fontWeight: "bold" }}>{currentRank.label}</div>
-                <div style={{ fontSize: "12px", color: "#8892b0" }}>라운드 {round}/{ROUNDS} | 평균: {avg}ms</div>
+                <div style={{ fontSize: "12px", color: "#8892b0" }}>Round {round}/{ROUNDS} | Avg: {avg}ms</div>
                 {/* Bar chart */}
                 <div style={{ display: "flex", gap: "4px", alignItems: "flex-end", height: 50 }}>
                     {results.map((r, i) => {
@@ -153,11 +153,11 @@ const ReactionTest = ({ onComplete }) => {
                         );
                     })}
                 </div>
-                <div style={{ fontSize: "11px", color: "#8892b0" }}>클릭하여 다음 라운드</div>
+                <div style={{ fontSize: "11px", color: "#8892b0" }}>Click for next round</div>
             </>}
             {phase === "done" && avgRank && <>
                 <div style={{ fontSize: "56px" }}>{avgRank.emoji}</div>
-                <div style={{ fontSize: "22px", fontWeight: "bold" }}>최종 평균: <span style={{ color: avgRank.color }}>{avg}ms</span></div>
+                <div style={{ fontSize: "22px", fontWeight: "bold" }}>Final avg: <span style={{ color: avgRank.color }}>{avg}ms</span></div>
                 <div style={{ fontSize: "16px", color: avgRank.color, fontWeight: "bold" }}>{avgRank.label}</div>
                 <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", justifyContent: "center" }}>
                     {results.map((r, i) => {
@@ -174,7 +174,7 @@ const ReactionTest = ({ onComplete }) => {
                     })}
                 </div>
                 <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                    최고: {bestTime}ms | 최저: {worstTime}ms | 편차: {worstTime - bestTime}ms
+                    Best: {bestTime}ms | Worst: {worstTime}ms | Spread: {worstTime - bestTime}ms
                 </div>
             </>}
         </div>

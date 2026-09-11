@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 8: 미니 소코반
- * 상자(📦)를 목표(🎯) 위치로 밀어 넣으세요!
+ * 🎮 Game 8: Sokoban
+ * Push boxes 📦 onto targets 🎯!
  */
 import { useCallback, useEffect, useState } from "react";
 
@@ -118,7 +118,7 @@ const Sokoban = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                이동: <span style={{ color: "#FFD700" }}>{moves}</span>
+                Moves: <span style={{ color: "#FFD700" }}>{moves}</span>
                 <span style={{ marginLeft: 10 }}>📦 <span style={{ color: "#64ffda" }}>{boxes.filter(b => goals.some(g => g.r === b.r && g.c === b.c)).length}/{goals.length}</span></span>
             </div>
             <div
@@ -173,7 +173,7 @@ const Sokoban = ({ onComplete }) => {
                 <button onClick={() => moveDir(0, 1)} style={btnStyle}>→</button>
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                📦를 🎯로 밀어 넣으세요 (방향키/버튼)
+                Push 📦 to 🎯 (arrows/buttons)
             </div>
         </div>
     );

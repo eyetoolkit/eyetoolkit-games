@@ -1,13 +1,13 @@
 /**
- * 🎮 Game 82: 자원 관리 — 자원 바 + 건물 아이콘 시각화
+ * 🎮 Game 82: Resource Manager — resource bars + building icons
  */
 import { useCallback, useState } from "react";
 
 const BUILDINGS = [
-    { name: "🏠 집", cost: { "🪵": 3, "🪨": 2 }, produces: "🍞", prodRate: 2 },
-    { name: "⛏️ 광산", cost: { "🪵": 2 }, produces: "🪨", prodRate: 3 },
-    { name: "🪓 벌목장", cost: { "🪨": 2 }, produces: "🪵", prodRate: 3 },
-    { name: "🌾 농장", cost: { "🪵": 2, "🪨": 1 }, produces: "🍞", prodRate: 3 },
+    { name: "🏠 House", cost: { "🪵": 3, "🪨": 2 }, produces: "🍞", prodRate: 2 },
+    { name: "⛏️ Mine", cost: { "🪵": 2 }, produces: "🪨", prodRate: 3 },
+    { name: "🪓 Lumberyard", cost: { "🪨": 2 }, produces: "🪵", prodRate: 3 },
+    { name: "🌾 Farm", cost: { "🪵": 2, "🪨": 1 }, produces: "🍞", prodRate: 3 },
 ];
 const MAX_DAYS = 12;
 
@@ -24,7 +24,7 @@ const ResourceManager = ({ onComplete }) => {
         if (!canBuild(b)) return;
         setRes((r) => { const n = { ...r }; Object.entries(b.cost).forEach(([k, v]) => { n[k] -= v; }); return n; });
         setBuilt((arr) => [...arr, b]);
-        setLog(`${b.name} 건설 완료!`);
+        setLog(`Built ${b.name}!`);
     }, [res]);
 
     const nextDay = useCallback(() => {
@@ -39,7 +39,7 @@ const ResourceManager = ({ onComplete }) => {
         setLog("");
         if (res["🍞"] - pop < 0) {
             setPop((p) => Math.max(1, p - 1));
-            setLog("⚠️ 식량 부족! 인구 감소");
+            setLog("⚠️ Food shortage! Population dropping");
         }
         if (nd > MAX_DAYS) {
             const score = Math.min(100, built.length * 12 + pop * 8 + Object.values(res).reduce((a, b) => a + b, 0));
@@ -52,7 +52,7 @@ const ResourceManager = ({ onComplete }) => {
 
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
-            <div style={{ fontSize: "13px" }}>📅 Day {day}/{MAX_DAYS} | 👥 인구 {pop}</div>
+            <div style={{ fontSize: "13px" }}>📅 Day {day}/{MAX_DAYS} | 👥 pop {pop}</div>
 
             {/* Resource bars */}
             <div style={{ width: 260, display: "flex", flexDirection: "column", gap: "4px" }}>
@@ -79,7 +79,7 @@ const ResourceManager = ({ onComplete }) => {
                         background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)",
                     }}>{b.name.slice(0, 2)} → {b.produces}+{b.prodRate}</div>
                 ))}
-                {built.length === 0 && <div style={{ fontSize: "11px", color: "#8892b0" }}>건물을 지어보세요!</div>}
+                {built.length === 0 && <div style={{ fontSize: "11px", color: "#8892b0" }}>Build some structures!</div>}
             </div>
 
             {/* Build buttons */}
@@ -95,7 +95,7 @@ const ResourceManager = ({ onComplete }) => {
                         }}>
                         <div style={{ fontWeight: "bold" }}>{b.name}</div>
                         <div style={{ fontSize: "10px", color: "#8892b0" }}>
-                            비용: {Object.entries(b.cost).map(([k, v]) => `${k}${v}`).join(" ")} → {b.produces}+{b.prodRate}/일
+                            Cost: {Object.entries(b.cost).map(([k, v]) => `${k}${v}`).join(" ")} → {b.produces}+{b.prodRate}/day
                         </div>
                     </button>
                 ))}
@@ -107,7 +107,7 @@ const ResourceManager = ({ onComplete }) => {
                 padding: "8px 24px", fontSize: "13px", fontWeight: "bold",
                 background: "rgba(255,215,0,0.15)", color: "white",
                 border: "2px solid #FFD700", borderRadius: "12px", cursor: "pointer",
-            }}>⏭️ 다음 날</button>
+            }}>⏭️ Next day</button>
         </div>
     );
 };

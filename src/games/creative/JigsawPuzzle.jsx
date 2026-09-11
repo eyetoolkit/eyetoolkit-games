@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 55: 직소 퍼즐 — 3×3 타일 셔플 + 스냅 배치
+ * 🎮 Game 55: Jigsaw Puzzle — 3×3 tile shuffle + snap
  */
 import { useCallback, useState } from "react";
 
@@ -47,8 +47,8 @@ const JigsawPuzzle = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "13px" }}>
-                정확 배치: <span style={{ color: "#64ffda" }}>{correctCount}/{SIZE * SIZE}</span>
-                {selected && <span style={{ color: "#FFD700", marginLeft: 8 }}>선택: {selected.emoji}</span>}
+                Placed: <span style={{ color: "#64ffda" }}>{correctCount}/{SIZE * SIZE}</span>
+                {selected && <span style={{ color: "#FFD700", marginLeft: 8 }}>Select: {selected.emoji}</span>}
             </div>
 
             {/* Target board */}
@@ -103,7 +103,7 @@ const JigsawPuzzle = ({ onComplete }) => {
 
             {done && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>
-                    🧩 퍼즐 완성! ({correctCount}/{SIZE * SIZE} 정확)
+                    🧩 Puzzle Complete! ({correctCount}/{SIZE * SIZE} correct)
                 </div>
             )}
         </div>

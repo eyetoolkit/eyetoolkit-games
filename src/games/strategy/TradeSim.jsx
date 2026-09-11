@@ -1,12 +1,12 @@
 /**
- * 🎮 Game 90: 교역 시뮬 — 도시 맵 + 교역 경로 시각화
+ * 🎮 Game 90: Trade Sim — city map + trade routes
  */
 import { useCallback, useState } from "react";
 
 const CITIES = [
-    { name: "서울", emoji: "🏯", x: 50, y: 20, buy: { 쌀: 10, 비단: 30 }, sell: { 철: 25, 도자기: 20 } },
-    { name: "부산", emoji: "⛵", x: 80, y: 75, buy: { 철: 8, 도자기: 12 }, sell: { 쌀: 18, 비단: 40 } },
-    { name: "제주", emoji: "🌴", x: 30, y: 85, buy: { 도자기: 10, 쌀: 12 }, sell: { 비단: 35, 철: 22 } },
+    { name: "Seoul", emoji: "🏯", x: 50, y: 20, buy: { Rice: 10, Silk: 30 }, sell: { Iron: 25, Porcelain: 20 } },
+    { name: "Busan", emoji: "⛵", x: 80, y: 75, buy: { Iron: 8, Porcelain: 12 }, sell: { Rice: 18, Silk: 40 } },
+    { name: "Jeju", emoji: "🌴", x: 30, y: 85, buy: { Porcelain: 10, Rice: 12 }, sell: { Silk: 35, Iron: 22 } },
 ];
 const MAX_DAYS = 8;
 
@@ -97,13 +97,13 @@ const TradeSim = ({ onComplete }) => {
 
             {/* Inventory */}
             <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                🎒 {invItems.length > 0 ? invItems.map(([k, v]) => `${k}×${v}`).join("  ") : "비어있음"}
+                🎒 {invItems.length > 0 ? invItems.map(([k, v]) => `${k}×${v}`).join("  ") : "Empty"}
             </div>
 
             {/* Trade panel */}
             <div style={{ display: "flex", gap: "12px" }}>
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "11px", color: "#64ffda", marginBottom: 4 }}>📥 구매</div>
+                    <div style={{ fontSize: "11px", color: "#64ffda", marginBottom: 4 }}>📥 Buy</div>
                     {Object.entries(CITIES[city].buy).map(([item, price]) => (
                         <button key={item} onClick={() => buy(item)} disabled={gold < price}
                             style={{ ...tBtn, opacity: gold < price ? 0.4 : 1, borderColor: "rgba(100,255,218,0.3)" }}>
@@ -112,7 +112,7 @@ const TradeSim = ({ onComplete }) => {
                     ))}
                 </div>
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "11px", color: "#FFD700", marginBottom: 4 }}>📤 판매</div>
+                    <div style={{ fontSize: "11px", color: "#FFD700", marginBottom: 4 }}>📤 Sell</div>
                     {Object.entries(CITIES[city].sell).map(([item, price]) => (
                         <button key={item} onClick={() => sell(item)} disabled={!inv[item]}
                             style={{ ...tBtn, opacity: inv[item] ? 1 : 0.4, borderColor: "rgba(255,215,0,0.3)" }}>

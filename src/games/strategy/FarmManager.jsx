@@ -1,12 +1,12 @@
 /**
- * 🎮 Game 84: 농장 경영 — 격자 농장 + 작물 성장 이모지
+ * 🎮 Game 84: Farm Manager — grid farm + growing crops
  */
 import { useCallback, useState } from "react";
 
 const CROPS = [
-    { name: "🌱 밀", emoji: "🌾", cost: 3, sellPrice: 8, growTime: 2, stages: ["🌱", "🌿", "🌾"] },
-    { name: "🥕 당근", emoji: "🥕", cost: 5, sellPrice: 12, growTime: 3, stages: ["🌱", "🌿", "🥕"] },
-    { name: "🍅 토마토", emoji: "🍅", cost: 8, sellPrice: 18, growTime: 4, stages: ["🌱", "🌿", "🌸", "🍅"] },
+    { name: "🌱 Wheat", emoji: "🌾", cost: 3, sellPrice: 8, growTime: 2, stages: ["🌱", "🌿", "🌾"] },
+    { name: "🥕 Carrot", emoji: "🥕", cost: 5, sellPrice: 12, growTime: 3, stages: ["🌱", "🌿", "🥕"] },
+    { name: "🍅 Tomato", emoji: "🍅", cost: 8, sellPrice: 18, growTime: 4, stages: ["🌱", "🌿", "🌸", "🍅"] },
 ];
 const GRID = 9;
 const MAX_DAYS = 10;
@@ -16,15 +16,15 @@ const FarmManager = ({ onComplete }) => {
     const [gold, setGold] = useState(30);
     const [day, setDay] = useState(1);
     const [selectedCrop, setSelectedCrop] = useState(0);
-    const [log, setLog] = useState("작물을 심어보세요!");
+    const [log, setLog] = useState("Plant some crops!");
 
     const plant = useCallback((idx) => {
         if (farm[idx]) return;
         const crop = CROPS[selectedCrop];
-        if (gold < crop.cost) { setLog("💰 골드 부족!"); return; }
+        if (gold < crop.cost) { setLog("💰 Not enough gold!"); return; }
         setGold((g) => g - crop.cost);
         setFarm((f) => { const n = [...f]; n[idx] = { ...crop, age: 0 }; return n; });
-        setLog(`${crop.name} 심기 완료!`);
+        setLog(`Planted ${crop.name}!`);
     }, [farm, gold, selectedCrop]);
 
     const harvest = useCallback((idx) => {
@@ -32,7 +32,7 @@ const FarmManager = ({ onComplete }) => {
         if (!crop || crop.age < crop.growTime) return;
         setGold((g) => g + crop.sellPrice);
         setFarm((f) => { const n = [...f]; n[idx] = null; return n; });
-        setLog(`${crop.emoji} 수확! +${crop.sellPrice}G`);
+        setLog(`${crop.emoji} Harvested! +${crop.sellPrice}G`);
     }, [farm]);
 
     const nextDay = useCallback(() => {
@@ -86,7 +86,7 @@ const FarmManager = ({ onComplete }) => {
                             border: selectedCrop === i ? "2px solid #22C55E" : "1px solid rgba(255,255,255,0.1)",
                             color: "white", cursor: "pointer",
                         }}>
-                        {c.emoji} {c.cost}G →{c.sellPrice}G ({c.growTime}일)
+                        {c.emoji} {c.cost}G →{c.sellPrice}G ({c.growTime}d)
                     </button>
                 ))}
             </div>
@@ -97,7 +97,7 @@ const FarmManager = ({ onComplete }) => {
                 padding: "8px 24px", fontSize: "13px", fontWeight: "bold",
                 background: "rgba(255,215,0,0.15)", color: "white",
                 border: "2px solid #FFD700", borderRadius: "12px", cursor: "pointer",
-            }}>⏭️ 다음 날</button>
+            }}>⏭️ Next day</button>
 
             <style>{`@keyframes rpsBounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }`}</style>
         </div>

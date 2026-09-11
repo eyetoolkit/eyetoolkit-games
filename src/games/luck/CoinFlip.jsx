@@ -1,5 +1,5 @@
 /**
- * 🎮 동전 뒤집기 — 칩 베팅 + 더블오어낫싱 + 콤보 멀티플라이어
+ * 🎮 Coin Flip — chips bet + double-or-nothing + combo multiplier
  */
 import { useCallback, useState } from "react";
 
@@ -20,12 +20,12 @@ const CoinFlip = ({ onComplete }) => {
         if (flipping) return;
         setFlipping(true);
 
-        const coin = Math.random() > 0.5 ? "앞" : "뒤";
+        const coin = Math.random() > 0.5 ? "Front" : "Back";
         const isCorrect = guess === coin;
 
         let deg = 0;
         const totalFlips = 8 + Math.floor(Math.random() * 6);
-        const finalIsHeads = coin === "앞";
+        const finalIsHeads = coin === "Front";
         const targetDeg = totalFlips * 180 + (finalIsHeads ? 0 : 180);
 
         const anim = setInterval(() => {
@@ -79,12 +79,12 @@ const CoinFlip = ({ onComplete }) => {
             {/* Stats bar */}
             <div style={{ display: "flex", gap: "16px", fontSize: "12px", alignItems: "center" }}>
                 <div style={{ padding: "4px 12px", background: "rgba(255,215,0,0.15)", borderRadius: "8px", border: "1px solid rgba(255,215,0,0.3)" }}>
-                    💰 <span style={{ color: "#FFD700", fontWeight: "bold", fontSize: "16px" }}>{chips}</span> 칩
+                    💰 <span style={{ color: "#FFD700", fontWeight: "bold", fontSize: "16px" }}>{chips}</span> chips
                 </div>
-                <div>라운드 <span style={{ color: "#64ffda" }}>{totalRounds + 1}/10</span></div>
+                <div>Round <span style={{ color: "#64ffda" }}>{totalRounds + 1}/10</span></div>
                 {combo >= 2 && (
                     <div style={{ color: comboColor, fontWeight: "bold", animation: combo >= 5 ? "fireGlow 0.8s infinite" : "none" }}>
-                        🔥 {combo}콤보 (x{multiplier})
+                        🔥 {combo} combo (x{multiplier})
                     </div>
                 )}
             </div>
@@ -143,7 +143,7 @@ const CoinFlip = ({ onComplete }) => {
                     textAlign: "center", animation: "chipBounce 0.3s ease",
                 }}>
                     <div style={{ fontSize: "18px", fontWeight: "bold", color: result.correct ? "#64ffda" : "#FF6B6B" }}>
-                        {result.coin}면! {result.correct ? `✅ +${Math.round(bet * multiplier)} 칩!` : `❌ -${bet} 칩`}
+                        {result.coin} side! {result.correct ? `✅ +${Math.round(bet * multiplier)} chips!` : `❌ -${bet} chips`}
                     </div>
                 </div>
             )}
@@ -152,7 +152,7 @@ const CoinFlip = ({ onComplete }) => {
             {!flipping && !result && (
                 <div style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center" }}>
                     <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-                        <span style={{ fontSize: "12px", color: "#8892b0" }}>베팅:</span>
+                        <span style={{ fontSize: "12px", color: "#8892b0" }}>Bet:</span>
                         {[10, 25, 50].map(b => (
                             <button key={b} onClick={() => setBet(Math.min(b, chips))}
                                 style={{
@@ -173,26 +173,26 @@ const CoinFlip = ({ onComplete }) => {
                             }}>ALL IN 🔥</button>
                     </div>
                     <div style={{ display: "flex", gap: "14px" }}>
-                        <button onClick={() => handleGuess("앞")} style={{
+                        <button onClick={() => handleGuess("Front")} style={{
                             padding: "14px 28px", fontSize: "16px", fontWeight: "bold",
                             background: "linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,165,0,0.1))",
                             color: "white", border: "2px solid #FFD700", borderRadius: "14px", cursor: "pointer",
                             boxShadow: "0 4px 12px rgba(255,215,0,0.15)",
                             transition: "all 0.2s",
-                        }}>👑 앞면</button>
-                        <button onClick={() => handleGuess("뒤")} style={{
+                        }}>👑 Front</button>
+                        <button onClick={() => handleGuess("Back")} style={{
                             padding: "14px 28px", fontSize: "16px", fontWeight: "bold",
                             background: "linear-gradient(135deg, rgba(192,192,192,0.2), rgba(128,128,128,0.1))",
                             color: "white", border: "2px solid #AAA", borderRadius: "14px", cursor: "pointer",
                             boxShadow: "0 4px 12px rgba(192,192,192,0.15)",
                             transition: "all 0.2s",
-                        }}>🌟 뒷면</button>
+                        }}>🌟 Back</button>
                     </div>
                 </div>
             )}
 
             {flipping && !result && (
-                <div style={{ fontSize: "14px", color: "#FFD700" }}>🪙 회전 중...</div>
+                <div style={{ fontSize: "14px", color: "#FFD700" }}>🪙 Spinning...</div>
             )}
 
             {/* History */}

@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 124: 수학 벽돌깨기
- * 정답을 맞혀야 벽돌이 깨짐
+ * 🎮 Game 124: Math Breakout
+ * Answer correctly to break bricks
  */
 import { useState, useCallback } from "react";
 
@@ -60,8 +60,8 @@ const MathBreakout = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#FFD700" }}>{score}</span></span>
-                <span>남은 벽돌: <span style={{ color: "#FF6B6B" }}>{aliveCount}</span></span>
+                <span>Score: <span style={{ color: "#FFD700" }}>{score}</span></span>
+                <span>Bricks left: <span style={{ color: "#FF6B6B" }}>{aliveCount}</span></span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: `repeat(${COLS}, 50px)`, gap: "3px", padding: "6px", background: "#1a1a2e", borderRadius: "10px" }}>
                 {bricks.map((brick, i) => (
@@ -82,12 +82,12 @@ const MathBreakout = ({ onComplete }) => {
                     onKeyDown={e => e.key === "Enter" && submit()}
                     style={{ padding: "10px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.06)", color: "white", fontSize: "18px", width: "100px", textAlign: "center" }}
                     placeholder="?" autoFocus />
-                <button onClick={submit} style={{ padding: "10px 20px", fontSize: "14px", fontWeight: "bold", background: "rgba(100,255,218,0.15)", color: "#64ffda", border: "1px solid #64ffda", borderRadius: "8px", cursor: "pointer" }}>확인</button>
+                <button onClick={submit} style={{ padding: "10px 20px", fontSize: "14px", fontWeight: "bold", background: "rgba(100,255,218,0.15)", color: "#64ffda", border: "1px solid #64ffda", borderRadius: "8px", cursor: "pointer" }}>OK</button>
             </div>
             {feedback && <div style={{ fontSize: "16px", color: feedback === "correct" ? "#64ffda" : "#FF6B6B" }}>
-                {feedback === "correct" ? "💥 벽돌 파괴!" : `❌ 정답: ${problem.answer}`}
+                {feedback === "correct" ? "💥 Brick destroyed!" : `❌ Answer: ${problem.answer}`}
             </div>}
-            {done && <div style={{ fontSize: "18px", color: "#64ffda", fontWeight: "bold" }}>🎉 모든 벽돌 파괴!</div>}
+            {done && <div style={{ fontSize: "18px", color: "#64ffda", fontWeight: "bold" }}>🎉 All bricks destroyed!</div>}
         </div>
     );
 };

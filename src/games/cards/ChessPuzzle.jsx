@@ -1,20 +1,20 @@
 /**
- * 🎮 Game 26: 체스 퍼즐 — 가능 이동 하이라이트 + 진행 도트
+ * 🎮 Game 26: Chess Puzzle — legal move highlights + progress dots
  */
 import { useCallback, useState } from "react";
 
 const PUZZLES = [
     {
         pieces: [{ type: "♚", pos: [0, 4], color: "black" }, { type: "♔", pos: [2, 4], color: "white" }, { type: "♖", pos: [7, 7], color: "white" }],
-        answer: [[7, 7], [0, 7]], hint: "룩을 8번째 줄로!"
+        answer: [[7, 7], [0, 7]], hint: "Move the rook to the 8th rank!"
     },
     {
         pieces: [{ type: "♜", pos: [0, 0], color: "black" }, { type: "♚", pos: [0, 4], color: "black" }, { type: "♔", pos: [2, 4], color: "white" }, { type: "♖", pos: [7, 0], color: "white" }],
-        answer: [[7, 0], [0, 0]], hint: "룩으로 체크!"
+        answer: [[7, 0], [0, 0]], hint: "Check with the rook!"
     },
     {
         pieces: [{ type: "♚", pos: [0, 3], color: "black" }, { type: "♔", pos: [2, 3], color: "white" }, { type: "♕", pos: [7, 0], color: "white" }],
-        answer: [[7, 0], [1, 0]], hint: "퀸을 2번째 줄로!"
+        answer: [[7, 0], [1, 0]], hint: "Move the queen to the 2nd rank!"
     },
 ];
 
@@ -47,7 +47,7 @@ const ChessPuzzle = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <style>{`@keyframes wrongShake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }`}</style>
-            <div style={{ fontSize: "13px" }}>퍼즐: <span style={{ color: "#FFD700" }}>{puzzleIdx + 1}/{PUZZLES.length}</span> | 정답: <span style={{ color: "#64ffda" }}>{solved}</span></div>
+            <div style={{ fontSize: "13px" }}>Puzzle: <span style={{ color: "#FFD700" }}>{puzzleIdx + 1}/{PUZZLES.length}</span> | Answer: <span style={{ color: "#64ffda" }}>{solved}</span></div>
             <div style={{ display: "flex", gap: "4px" }}>
                 {PUZZLES.map((_, i) => (<div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: i < puzzleIdx ? "#64ffda" : i === puzzleIdx ? "#FFD700" : "rgba(255,255,255,0.1)" }} />))}
             </div>
@@ -77,9 +77,9 @@ const ChessPuzzle = ({ onComplete }) => {
                     );
                 })}
             </div>
-            {feedback && <div style={{ fontSize: "18px" }}>{feedback === "correct" ? "✅ 정답!" : "❌ 다시"}</div>}
+            {feedback && <div style={{ fontSize: "18px" }}>{feedback === "correct" ? "✅ Correct!" : "❌ Retry"}</div>}
             <button onClick={() => setShowHint(true)} style={{ padding: "5px 14px", fontSize: "11px", background: "rgba(255,255,255,0.06)", color: "#8892b0", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "6px", cursor: "pointer" }}>
-                {showHint ? `💡 ${puzzle.hint}` : "💡 힌트"}
+                {showHint ? `💡 ${puzzle.hint}` : "💡 Hint"}
             </button>
         </div>
     );

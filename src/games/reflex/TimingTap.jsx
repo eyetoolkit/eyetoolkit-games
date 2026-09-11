@@ -1,5 +1,5 @@
 /**
- * 🎮 타이밍 탭 — 콤보 시스템 + 난이도 스케일링 + 비주얼 강화
+ * 🎮 Timing Tap — combo system + difficulty scaling + visual polish
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -103,12 +103,12 @@ const TimingTap = ({ onComplete }) => {
 
             {/* Stats */}
             <div style={{ display: "flex", gap: "14px", fontSize: "12px", alignItems: "center" }}>
-                <div>라운드: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{round + 1}/{ROUNDS}</span></div>
-                <div>점수: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{Math.round(score * 10) / 10}</span></div>
+                <div>Round: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{round + 1}/{ROUNDS}</span></div>
+                <div>Score: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{Math.round(score * 10) / 10}</span></div>
                 {combo >= 2 && <div style={{
                     color: comboColor, fontWeight: "bold",
                     animation: "comboPop 0.3s ease",
-                }}>🔥 {combo}콤보{combo >= 3 ? ` (+${combo >= 5 ? "30" : "15"}%)` : ""}</div>}
+                }}>🔥 {combo} combo{combo >= 3 ? ` (+${combo >= 5 ? "30" : "15"}%)` : ""}</div>}
                 <div style={{ fontSize: "10px", color: "#FFD700" }}>⭐ {perfects}</div>
             </div>
 
@@ -125,7 +125,7 @@ const TimingTap = ({ onComplete }) => {
 
             {/* Speed indicator */}
             <div style={{ fontSize: "10px", color: "#8892b0" }}>
-                속도: {"▮".repeat(Math.floor(speed))}{"▯".repeat(5 - Math.floor(speed))} Lv.{Math.floor(round / 4) + 1}
+                Speed: {"▮".repeat(Math.floor(speed))}{"▯".repeat(5 - Math.floor(speed))} Lv.{Math.floor(round / 4) + 1}
             </div>
 
             <div style={{ position: "relative", width: 220, height: 220, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -175,15 +175,15 @@ const TimingTap = ({ onComplete }) => {
             </div>
 
             <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                {active ? "원이 노란 고리에 맞을 때 클릭!" : ""}
+                {active ? "Click when the circle meets the yellow ring!" : ""}
             </div>
             {!active && (
                 <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "18px", fontWeight: "bold", color: "#64ffda" }}>
-                        최종: {Math.round(score * 10) / 10}점
+                        Final: {Math.round(score * 10) / 10} pts
                     </div>
                     <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                        ⭐ Perfect {perfects}회 | 최대 콤보 {maxCombo}
+                        ⭐ Perfect {perfects}x | Max combo {maxCombo}
                     </div>
                 </div>
             )}

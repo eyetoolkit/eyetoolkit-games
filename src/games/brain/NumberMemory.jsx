@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 48: 숫자 기억력 — 단계별 숫자 표시 + 키패드
+ * 🎮 Game 48: Number Memory — step-by-step number display + keypad
  */
 import { useCallback, useEffect, useState } from "react";
 
@@ -46,7 +46,7 @@ const NumberMemory = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "13px" }}>
-                레벨: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{level}</span> | 숫자 길이: <span style={{ color: "#64ffda" }}>{level + 2}</span>
+                Level: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{level}</span> | Digit length: <span style={{ color: "#64ffda" }}>{level + 2}</span>
             </div>
 
             {/* Number display */}
@@ -72,7 +72,7 @@ const NumberMemory = ({ onComplete }) => {
                 <>
                     <input value={input} onChange={(e) => setInput(e.target.value.replace(/\D/g, ""))}
                         onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                        placeholder="숫자를 입력하세요"
+                        placeholder="Enter the number"
                         autoFocus maxLength={level + 2}
                         style={{
                             width: 160, padding: "10px", fontSize: "18px",
@@ -86,17 +86,17 @@ const NumberMemory = ({ onComplete }) => {
                         background: input.length === level + 2 ? "rgba(34,197,94,0.2)" : "rgba(100,100,100,0.15)",
                         color: "white", border: `2px solid ${input.length === level + 2 ? "#22C55E" : "#555"}`,
                         borderRadius: "10px", cursor: "pointer",
-                    }}>확인</button>
+                    }}>OK</button>
                 </>
             )}
 
             {feedback && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: feedback === "correct" ? "#64ffda" : "#FF6B6B" }}>
-                    {feedback === "correct" ? "✅ 정답! 다음 레벨..." : `❌ 오답!`}
+                    {feedback === "correct" ? "✅ Correct! Next level..." : `❌ Wrong!`}
                 </div>
             )}
 
-            {showing && <div style={{ fontSize: "12px", color: "#8892b0" }}>👀 숫자를 외우세요!</div>}
+            {showing && <div style={{ fontSize: "12px", color: "#8892b0" }}>👀 Memorize the number!</div>}
         </div>
     );
 };

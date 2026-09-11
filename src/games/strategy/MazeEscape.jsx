@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 85: 미로 탈출 — 미로 시각화 (격자 기반)
+ * 🎮 Game 85: Maze Escape — grid maze visualization
  */
 import { useCallback, useEffect, useState } from "react";
 
@@ -64,7 +64,7 @@ const MazeEscape = ({ onComplete }) => {
 
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
-            <div style={{ fontSize: "13px" }}>🏃 이동: <span style={{ color: "#FFD700" }}>{moves}</span></div>
+            <div style={{ fontSize: "13px" }}>🏃 Moves: <span style={{ color: "#FFD700" }}>{moves}</span></div>
 
             {/* Maze grid */}
             <div style={{ display: "grid", gridTemplateColumns: `repeat(${SIZE}, 1fr)`, gap: "1px", background: "rgba(0,0,0,0.5)", padding: "2px", borderRadius: "8px" }}>
@@ -105,7 +105,7 @@ const MazeEscape = ({ onComplete }) => {
                 <button onClick={() => move(0, 1)} style={dpad}>▶</button>
             </div>
 
-            {won && <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>🎉 탈출 성공!</div>}
+            {won && <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>🎉 Escaped!</div>}
         </div>
     );
 };

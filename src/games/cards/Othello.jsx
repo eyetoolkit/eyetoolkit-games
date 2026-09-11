@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 27: 오셀로 (6×6)
- * AI와 대결! 돌을 뒤집어 더 많은 칸을 차지하세요.
+ * 🎮 Game 27: Othello (6x6)
+ * Battle the AI! Flip discs to own more cells.
  */
 import { useCallback, useState } from "react";
 
@@ -91,7 +91,7 @@ const Othello = ({ onComplete }) => {
                     if (checkEnd(ab)) { finishGame(ab); return; }
                     if (getValidMoves(ab, BLACK).length === 0) {
                         // Player has no moves, AI goes again
-                        setMessage("패스! AI 턴");
+                        setMessage("Pass! AI's turn");
                     } else {
                         setTurn(BLACK);
                     }
@@ -110,7 +110,7 @@ const Othello = ({ onComplete }) => {
         setGameOver(true);
         setBoard(b);
         const won = black > white;
-        setMessage(won ? `🏆 승리! (${black}:${white})` : black === white ? `🤝 무승부` : `😢 패배 (${black}:${white})`);
+        setMessage(won ? `🏆 Victory! (${black}:${white})` : black === white ? `🤝 Draw` : `😢 Defeat (${black}:${white})`);
         const score = won ? Math.min(100, 50 + (black - white) * 5) : Math.max(20, 50 - (white - black) * 3);
         setTimeout(() => onComplete(score), 1000);
     };
@@ -158,7 +158,7 @@ const Othello = ({ onComplete }) => {
             </div>
             {message && <div style={{ fontSize: "16px", fontWeight: "bold" }}>{message}</div>}
             <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                {gameOver ? "" : "당신은 ⚫ (검은돌)입니다"}
+                {gameOver ? "" : "You are ⚫ (black)"}
             </div>
         </div>
     );

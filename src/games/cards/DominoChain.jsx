@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 114: 도미노 체인
- * 도미노 타일을 연결해 점수를 얻으세요
+ * 🎮 Game 114: Domino Chain
+ * Chain domino tiles to score
  */
 import { useState, useCallback } from "react";
 
@@ -78,8 +78,8 @@ const DominoChain = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#FFD700" }}>{score}</span></span>
-                <span>남은 타일: <span style={{ color: "#64ffda" }}>{hand.length}</span></span>
+                <span>Score: <span style={{ color: "#FFD700" }}>{score}</span></span>
+                <span>Tiles left: <span style={{ color: "#64ffda" }}>{hand.length}</span></span>
             </div>
             {/* Chain display */}
             <div style={{
@@ -100,7 +100,7 @@ const DominoChain = ({ onComplete }) => {
                 ))}
             </div>
             <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                양쪽 끝: <span style={{ color: "#64ffda" }}>{leftEnd}</span> | <span style={{ color: "#FF6B6B" }}>{rightEnd}</span>
+                Ends: <span style={{ color: "#64ffda" }}>{leftEnd}</span> | <span style={{ color: "#FF6B6B" }}>{rightEnd}</span>
             </div>
             {/* Hand */}
             <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", justifyContent: "center", maxWidth: "320px" }}>
@@ -124,11 +124,11 @@ const DominoChain = ({ onComplete }) => {
                     padding: "8px 20px", fontSize: "13px", background: "rgba(255,107,107,0.2)",
                     color: "#FF6B6B", border: "1px solid #FF6B6B", borderRadius: "8px", cursor: "pointer",
                 }}>
-                    패스 ({3 - cantPlay}회 남음)
+                    Pass ({3 - cantPlay} left)
                 </button>
             )}
             {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>
-                게임 종료! 점수: {score}
+                Game over! Score: {score}
             </div>}
         </div>
     );

@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 51: 픽셀 아트 — 드래그 그리기 + 실시간 정확도
+ * 🎮 Game 51: Pixel Art — drag drawing + live accuracy
  */
 import { useCallback, useState } from "react";
 
@@ -33,13 +33,13 @@ const PixelArt = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                정확도: <span style={{ color: accuracy > 80 ? "#64ffda" : accuracy > 50 ? "#FFD700" : "#FF6B6B" }}>{accuracy}%</span>
+                Accuracy: <span style={{ color: accuracy > 80 ? "#64ffda" : accuracy > 50 ? "#FFD700" : "#FF6B6B" }}>{accuracy}%</span>
             </div>
 
             <div style={{ display: "flex", gap: "20px", alignItems: "flex-start" }}>
                 {/* Target */}
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "10px", color: "#8892b0", marginBottom: 4 }}>🖼️ 원본</div>
+                    <div style={{ fontSize: "10px", color: "#8892b0", marginBottom: 4 }}>🖼️ Original</div>
                     <div style={{
                         display: "grid", gridTemplateColumns: `repeat(${SIZE}, 24px)`, gap: "1px",
                         padding: "3px", borderRadius: "8px", background: "rgba(0,0,0,0.3)",
@@ -53,7 +53,7 @@ const PixelArt = ({ onComplete }) => {
 
                 {/* Canvas */}
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "10px", color: "#FFD700", marginBottom: 4 }}>🎨 내 작품</div>
+                    <div style={{ fontSize: "10px", color: "#FFD700", marginBottom: 4 }}>🎨 Your art</div>
                     <div style={{
                         display: "grid", gridTemplateColumns: `repeat(${SIZE}, 30px)`, gap: "1px",
                         padding: "3px", borderRadius: "8px", background: "rgba(0,0,0,0.3)",
@@ -109,7 +109,7 @@ const PixelArt = ({ onComplete }) => {
                 background: "linear-gradient(135deg, rgba(100,255,218,0.15), rgba(100,255,218,0.05))",
                 color: "white", border: "2px solid #64ffda",
                 borderRadius: "10px", cursor: "pointer",
-            }}>✅ 완성! ({accuracy}%)</button>
+            }}>✅ Complete! ({accuracy}%)</button>
         </div>
     );
 };

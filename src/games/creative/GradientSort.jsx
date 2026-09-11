@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 130: 컬러 그라데이션 정렬
- * 그라데이션 순서대로 정렬하세요
+ * 🎮 Game 130: Gradient Sort
+ * Sort by gradient order
  */
 import { useState, useCallback } from "react";
 
@@ -49,8 +49,8 @@ const GradientSort = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "14px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                이동: <span style={{ color: "#FFD700" }}>{moves}</span>
-                <span style={{ marginLeft: 12, color: "#8892b0" }}>어둡→밝 또는 밝→어둡 순서로</span>
+                Moves: <span style={{ color: "#FFD700" }}>{moves}</span>
+                <span style={{ marginLeft: 12, color: "#8892b0" }}>dark→bright or bright→dark</span>
             </div>
             <div style={{ display: "flex", gap: "4px" }}>
                 {order.map((colorIdx, i) => {
@@ -68,9 +68,9 @@ const GradientSort = ({ onComplete }) => {
                 })}
             </div>
             <div style={{ display: "flex", gap: "4px" }}>
-                <div style={{ fontSize: "11px", color: "#8892b0" }}>두 칸을 클릭하여 교환</div>
+                <div style={{ fontSize: "11px", color: "#8892b0" }}>Click two cells to swap</div>
             </div>
-            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🌈 그라데이션 완성! {moves}회</div>}
+            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🌈 Gradient complete! {moves} moves</div>}
         </div>
     );
 };

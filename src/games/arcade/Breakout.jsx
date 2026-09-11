@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 32: 벽돌깨기 — 파괴 이펙트 + 네온 스타일
+ * 🎮 Game 32: Breakout — destroy effects + neon style
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -124,7 +124,7 @@ const Breakout = ({ onComplete }) => {
             </div>
 
             <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                {gameActive ? "마우스/터치로 패들 이동!" : "게임 오버!"}
+                {gameActive ? "Move the paddle with mouse/touch!" : "Game over!"}
             </div>
         </div>
     );

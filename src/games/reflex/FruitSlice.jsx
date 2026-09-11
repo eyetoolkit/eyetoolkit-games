@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 12: 과일 자르기 — 슬래시 이펙트 + 콤보 + 폭탄 셰이크
+ * 🎮 Game 12: Fruit Slice — slash effects + combo + bomb shake
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -79,7 +79,7 @@ const FruitSlice = ({ onComplete }) => {
         }}>
             <style>{`@keyframes wrongShake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }`}</style>
             <div style={{ display: "flex", justifyContent: "space-between", padding: "10px 14px", fontSize: "13px", zIndex: 10 }}>
-                <span>⏱ <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}초</span></span>
+                <span>⏱ <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}s</span></span>
                 <span>🍎 <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}</span></span>
                 <span>💣 <span style={{ color: "#FF6B6B" }}>{misses}/3</span></span>
                 {combo >= 3 && <span style={{ color: "#A855F7" }}>🔥 x{combo}</span>}
@@ -104,7 +104,7 @@ const FruitSlice = ({ onComplete }) => {
                 ))}
             </div>
             <div style={{ textAlign: "center", padding: "6px", fontSize: "11px", color: "#8892b0" }}>
-                {gameActive ? "과일을 클릭! 💣은 피하세요!" : `게임 종료! ${score}개`}
+                {gameActive ? "Click the fruit! Avoid the 💣!" : `Game over! ${score}`}
             </div>
         </div>
     );

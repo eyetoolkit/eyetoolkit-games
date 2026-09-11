@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 47: 균형 저울 — CSS 저울 기울기 애니메이션
+ * 🎮 Game 47: Balance Scale — CSS tilt animation
  */
 import { useCallback, useState } from "react";
 
@@ -40,10 +40,10 @@ const BalanceScale = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | 정답 <span style={{ color: "#64ffda" }}>{correct}</span>
+                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | Answer <span style={{ color: "#64ffda" }}>{correct}</span>
             </div>
 
-            <div style={{ fontSize: "12px", color: "#8892b0" }}>저울을 맞추려면 ?에 어떤 수를 넣어야 할까요?</div>
+            <div style={{ fontSize: "12px", color: "#8892b0" }}>What number in place of ? balances the scale?</div>
 
             {/* Scale SVG */}
             <svg width="240" height="140" viewBox="0 0 240 140">
@@ -103,7 +103,7 @@ const BalanceScale = ({ onComplete }) => {
 
             {feedback && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: feedback === "correct" ? "#64ffda" : "#FF6B6B" }}>
-                    {feedback === "correct" ? "✅ 균형!" : `❌ 정답: ${problem.answer}`}
+                    {feedback === "correct" ? "✅ Balanced!" : `❌ Answer: ${problem.answer}`}
                 </div>
             )}
         </div>

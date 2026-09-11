@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 60: 틀린그림 찾기 — 2패널 비교 + 찾기 표시
+ * 🎮 Game 60: Spot Difference — two-panel compare + find markers
  */
 import { useCallback, useState } from "react";
 
@@ -45,13 +45,13 @@ const SpotDifference = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "13px" }}>
-                찾기: <span style={{ color: "#64ffda" }}>{found.size}/{total}</span>
+                Found: <span style={{ color: "#64ffda" }}>{found.size}/{total}</span>
             </div>
 
             <div style={{ display: "flex", gap: "12px" }}>
                 {/* Left panel (base) */}
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "10px", color: "#8892b0", marginBottom: 4 }}>원본</div>
+                    <div style={{ fontSize: "10px", color: "#8892b0", marginBottom: 4 }}>Original</div>
                     <div style={{
                         display: "grid", gridTemplateColumns: `repeat(${SIZE}, 38px)`, gap: "3px",
                         padding: "6px", borderRadius: "10px", background: "rgba(0,0,0,0.2)",
@@ -72,7 +72,7 @@ const SpotDifference = ({ onComplete }) => {
 
                 {/* Right panel (modified) */}
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "10px", color: "#FFD700", marginBottom: 4 }}>🔍 여기서 찾기</div>
+                    <div style={{ fontSize: "10px", color: "#FFD700", marginBottom: 4 }}>🔍 Find them here</div>
                     <div style={{
                         display: "grid", gridTemplateColumns: `repeat(${SIZE}, 38px)`, gap: "3px",
                         padding: "6px", borderRadius: "10px", background: "rgba(0,0,0,0.2)",
@@ -103,7 +103,7 @@ const SpotDifference = ({ onComplete }) => {
             </div>
 
             {found.size >= total && (
-                <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>🎉 모두 찾았어요!</div>
+                <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>🎉 Found them all!</div>
             )}
         </div>
     );

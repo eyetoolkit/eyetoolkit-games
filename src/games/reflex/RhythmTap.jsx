@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 20: 리듬 탭
- * 떨어지는 음표에 맞춰 정확히 탭! (리듬게임 스타일)
+ * 🎮 Game 20: Rhythm Tap
+ * Tap exactly on falling notes! (rhythm-game style)
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -116,7 +116,7 @@ const RhythmTap = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", color: "white", gap: "8px", justifyContent: "center" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>⏱ <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}초</span></span>
+                <span>⏱ <span style={{ color: timeLeft <= 5 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}s</span></span>
                 <span>🎵 <span style={{ color: "#64ffda" }}>{score}</span></span>
                 <span>🔥 <span style={{ color: combo >= 10 ? "#FF6B6B" : combo >= 5 ? "#FFD700" : "#8892b0" }}>{combo}x</span></span>
             </div>
@@ -183,7 +183,7 @@ const RhythmTap = ({ onComplete }) => {
             </div>
 
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                {gameActive ? `D F J K 키 또는 레인 클릭!` : `최종: ${score}개 | 최대 콤보: ${maxCombo}x`}
+                {gameActive ? `Press D F J K or click the lanes!` : `Final: ${score} | Max combo: ${maxCombo}x`}
             </div>
         </div>
     );

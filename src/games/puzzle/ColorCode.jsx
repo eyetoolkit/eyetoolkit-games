@@ -1,28 +1,28 @@
 /**
- * 🎮 Game 149: 컬러 코드 (마스터마인드)
- * 4자리 색상 코드를 맞추세요
- * - 튜토리얼 오버레이 (3단계)
- * - 슬롯 선택 + 팔레트 UX
- * - 초기화 버튼, 도움말 버튼
+ * 🎮 Game 149: Color Code (Mastermind)
+ * Crack the 4-color code
+ * - tutorial overlay (3 steps)
+ * - slot select + palette UX
+ * - reset & help buttons
  */
 import { useState, useCallback } from "react";
 
 const COLORS = ["#FF6B6B", "#4D96FF", "#6BCB77", "#FFD93D", "#9B59B6", "#FF8C42"];
-const COLOR_NAMES = ["빨강", "파랑", "초록", "노랑", "보라", "주황"];
+const COLOR_NAMES = ["Red", "Blue", "Green", "Yellow", "Purple", "Orange"];
 const CODE_LEN = 4;
 const MAX_GUESSES = 8;
 
 // ═══════════════════════════════════════════════════
-// 📖 튜토리얼 컴포넌트
+// tutorial component
 // ═══════════════════════════════════════════════════
 const TUTORIAL_STEPS = [
     {
         icon: "🎨",
-        title: "색상 선택하기",
-        content: "아래 팔레트에서 색을 골라 빈 슬롯에 채우세요.\n슬롯을 탭하면 선택됨(빛남) → 팔레트 클릭으로 배치!",
+        title: "Pick a color",
+        content: "Pick a color from the palette below to fill the empty slots.\nTap a slot to select it (it glows), then click a palette color to place!",
         visual: (
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", margin: "12px 0" }}>
-                {/* 슬롯 예시 */}
+                {/* slot example */}
                 <div style={{ display: "flex", gap: "6px" }}>
                     <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#FF6B6B", border: "2px solid rgba(255,255,255,0.3)" }} />
                     <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#4D96FF", border: "2px solid rgba(255,255,255,0.3)" }} />
@@ -30,28 +30,28 @@ const TUTORIAL_STEPS = [
                     <div style={{ width: 32, height: 32, borderRadius: "50%", border: "2px dashed rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.05)" }} />
                 </div>
                 <span style={{ fontSize: "18px" }}>←</span>
-                <span style={{ fontSize: "12px", color: "#8892b0" }}>선택 후 배치</span>
+                <span style={{ fontSize: "12px", color: "#8892b0" }}>select, then place</span>
             </div>
         ),
     },
     {
         icon: "🔍",
-        title: "피드백 읽기",
-        content: "추측을 제출하면 힌트가 나와요!\n색과 위치를 분석해서 정답을 추리하세요.",
+        title: "Reading feedback",
+        content: "Submit a guess to get hints!\nAnalyze the colors and positions to find the code.",
         visual: (
             <div style={{ margin: "12px 0" }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "8px 14px", background: "rgba(255,255,255,0.05)", borderRadius: "10px" }}>
                         <span style={{ fontSize: "20px" }}>⚫</span>
-                        <span style={{ fontSize: "13px", color: "#64ffda", lineHeight: 1.5 }}>색도 맞고 위치도 정확!</span>
+                        <span style={{ fontSize: "13px", color: "#64ffda", lineHeight: 1.5 }}>Right color & position!</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "8px 14px", background: "rgba(255,255,255,0.05)", borderRadius: "10px" }}>
                         <span style={{ fontSize: "20px" }}>⚪</span>
-                        <span style={{ fontSize: "13px", color: "#FFD93D", lineHeight: 1.5 }}>색은 맞지만 위치가 틀림</span>
+                        <span style={{ fontSize: "13px", color: "#FFD93D", lineHeight: 1.5 }}>Right color, wrong position</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "8px 14px", background: "rgba(255,255,255,0.05)", borderRadius: "10px" }}>
                         <span style={{ fontSize: "20px" }}>·</span>
-                        <span style={{ fontSize: "13px", color: "#8892b0", lineHeight: 1.5 }}>해당 색 없음</span>
+                        <span style={{ fontSize: "13px", color: "#8892b0", lineHeight: 1.5 }}>Color not in code</span>
                     </div>
                 </div>
             </div>
@@ -59,14 +59,14 @@ const TUTORIAL_STEPS = [
     },
     {
         icon: "🧠",
-        title: "전략 & 규칙",
-        content: "8번 안에 4자리 비밀 코드를 맞추면 승리!\n같은 색이 중복으로 들어갈 수 있어요.",
+        title: "Strategy & rules",
+        content: "Guess the 4-color secret code within 8 tries!\nColors can repeat.",
         visual: (
             <div style={{ margin: "12px 0" }}>
                 <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap", fontSize: "12px", color: "#8892b0" }}>
-                    <span style={{ padding: "4px 10px", background: "rgba(255,255,255,0.05)", borderRadius: "8px" }}>💡 첫 추측으로 색 파악</span>
-                    <span style={{ padding: "4px 10px", background: "rgba(255,255,255,0.05)", borderRadius: "8px" }}>💡 ⚫ 위치 고정 후 나머지 탐색</span>
-                    <span style={{ padding: "4px 10px", background: "rgba(255,255,255,0.05)", borderRadius: "8px" }}>⚠️ 색 중복 가능!</span>
+                    <span style={{ padding: "4px 10px", background: "rgba(255,255,255,0.05)", borderRadius: "8px" }}>💡 Learn colors from first guess</span>
+                    <span style={{ padding: "4px 10px", background: "rgba(255,255,255,0.05)", borderRadius: "8px" }}>💡 Fix ⚫ positions, then search the rest</span>
+                    <span style={{ padding: "4px 10px", background: "rgba(255,255,255,0.05)", borderRadius: "8px" }}>⚠️ Colors can repeat!</span>
                 </div>
             </div>
         ),
@@ -106,7 +106,7 @@ const TutorialOverlay = ({ onClose }) => {
                     animation: "tutFadeIn 0.3s ease",
                 }}
             >
-                {/* 단계 인디케이터 */}
+                {/* step indicators */}
                 <div style={{ display: "flex", justifyContent: "center", gap: "6px", marginBottom: "16px" }}>
                     {TUTORIAL_STEPS.map((_, i) => (
                         <div
@@ -146,7 +146,7 @@ const TutorialOverlay = ({ onClose }) => {
                             }}
                             onMouseOver={(e) => (e.target.style.background = "rgba(255,255,255,0.15)")}
                             onMouseOut={(e) => (e.target.style.background = "rgba(255,255,255,0.08)")}
-                        >건너뛰기</button>
+                        >Skip</button>
                     )}
                     <button
                         onClick={() => isLast ? onClose() : setStep(step + 1)}
@@ -161,7 +161,7 @@ const TutorialOverlay = ({ onClose }) => {
                         onMouseOver={(e) => { e.target.style.transform = "scale(1.05)"; e.target.style.boxShadow = "0 6px 16px rgba(12,191,255,0.5)"; }}
                         onMouseOut={(e) => { e.target.style.transform = "scale(1)"; e.target.style.boxShadow = "0 4px 12px rgba(12,191,255,0.3)"; }}
                     >
-                        {isLast ? "🎮 시작하기!" : `다음 (${step + 1}/${TUTORIAL_STEPS.length})`}
+                        {isLast ? "🎮 Start!" : `Next (${step + 1}/${TUTORIAL_STEPS.length})`}
                     </button>
                 </div>
             </div>
@@ -170,38 +170,38 @@ const TutorialOverlay = ({ onClose }) => {
 };
 
 // ═══════════════════════════════════════════════════
-// 🎮 메인 게임 컴포넌트
+// 🎮 main game component
 // ═══════════════════════════════════════════════════
 const ColorCode = ({ onComplete }) => {
     const [secret] = useState(() => Array.from({ length: CODE_LEN }, () => Math.floor(Math.random() * COLORS.length)));
     const [guesses, setGuesses] = useState([]);
     const [current, setCurrent] = useState(Array(CODE_LEN).fill(null));
-    const [selectedSlot, setSelectedSlot] = useState(0); // 현재 선택된 슬롯
+    const [selectedSlot, setSelectedSlot] = useState(0); // currently selected slot
     const [done, setDone] = useState(false);
     const [showTutorial, setShowTutorial] = useState(true);
 
-    // 슬롯에 색 배치 (팔레트 클릭 시)
+    // place color in slot (palette click)
     const placeColor = useCallback((colorIdx) => {
         if (done || showTutorial) return;
         const newCurrent = [...current];
         newCurrent[selectedSlot] = colorIdx;
         setCurrent(newCurrent);
-        // 다음 빈 슬롯으로 자동 이동
+        // auto-advance to next empty slot
         const nextEmpty = newCurrent.findIndex((c, i) => i > selectedSlot && c === null);
         if (nextEmpty >= 0) {
             setSelectedSlot(nextEmpty);
         } else {
-            // 앞쪽에 빈 슬롯이 있으면 거기로
+            // jump to an empty slot in front if any
             const firstEmpty = newCurrent.findIndex(c => c === null);
             if (firstEmpty >= 0) setSelectedSlot(firstEmpty);
         }
     }, [current, selectedSlot, done, showTutorial]);
 
-    // 슬롯 클릭 — 선택 or 비우기
+    // slot click — select or clear
     const handleSlotClick = useCallback((idx) => {
         if (done || showTutorial) return;
         if (selectedSlot === idx && current[idx] !== null) {
-            // 같은 슬롯 재클릭 → 비우기
+            // re-click slot → clear
             const newCurrent = [...current];
             newCurrent[idx] = null;
             setCurrent(newCurrent);
@@ -210,7 +210,7 @@ const ColorCode = ({ onComplete }) => {
         }
     }, [selectedSlot, current, done, showTutorial]);
 
-    // 초기화
+    // Reset
     const clearGuess = useCallback(() => {
         if (done || showTutorial) return;
         setCurrent(Array(CODE_LEN).fill(null));
@@ -271,13 +271,13 @@ const ColorCode = ({ onComplete }) => {
                 .clear-btn:hover { background: rgba(255,107,107,0.2) !important; border-color: #FF6B6B !important; }
             `}</style>
 
-            {/* 헤더: 시도 횟수 + 도움말 버튼 */}
+            {/* header: tries + help button */}
             <div style={{ display: "flex", gap: "12px", fontSize: "13px", alignItems: "center" }}>
-                <span>시도: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{guesses.length}/{MAX_GUESSES}</span></span>
-                <span style={{ fontSize: "11px", color: "#8892b0" }}>⚫위치+색 ⚪색만 ·없음</span>
+                <span>Tries: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{guesses.length}/{MAX_GUESSES}</span></span>
+                <span style={{ fontSize: "11px", color: "#8892b0" }}>⚫ pos+color ⚪ color only · none</span>
                 <button
                     onClick={() => setShowTutorial(true)}
-                    title="게임 방법 보기"
+                    title="How to play"
                     style={{
                         width: "22px", height: "22px", borderRadius: "50%",
                         border: "1px solid rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.08)",
@@ -290,12 +290,12 @@ const ColorCode = ({ onComplete }) => {
                 >?</button>
             </div>
 
-            {/* 진행 바 */}
+            {/* progress bar */}
             <div style={{ width: "260px", height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "2px" }}>
                 <div style={{ height: "100%", borderRadius: "2px", width: `${progress}%`, background: progress > 70 ? "linear-gradient(90deg, #FF6B6B, #FFD93D)" : "linear-gradient(90deg, #4D96FF, #6BCB77)", transition: "width 0.4s" }} />
             </div>
 
-            {/* 이전 추측 기록 */}
+            {/* guess history */}
             <div style={{
                 display: "flex", flexDirection: "column", gap: "5px",
                 maxHeight: "200px", overflowY: "auto",
@@ -304,7 +304,7 @@ const ColorCode = ({ onComplete }) => {
                 border: "1px solid rgba(255,255,255,0.06)",
                 minWidth: "260px",
             }}>
-                {guesses.length === 0 && <div style={{ fontSize: "12px", color: "#8892b0", padding: "4px 8px" }}>아래에서 색을 골라 첫 추측을 해보세요!</div>}
+                {guesses.length === 0 && <div style={{ fontSize: "12px", color: "#8892b0", padding: "4px 8px" }}>Pick colors below for your first guess!</div>}
                 {guesses.map((g, i) => {
                     const isLast = i === guesses.length - 1;
                     return (
@@ -341,10 +341,10 @@ const ColorCode = ({ onComplete }) => {
                 })}
             </div>
 
-            {/* 현재 추측 입력 영역 */}
+            {/* current guess input */}
             {!done && (
                 <>
-                    {/* 슬롯 영역 */}
+                    {/* slots */}
                     <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                         {current.map((c, i) => (
                             <div
@@ -372,11 +372,11 @@ const ColorCode = ({ onComplete }) => {
                                 {c === null && selectedSlot === i && "▼"}
                             </div>
                         ))}
-                        {/* 초기화 버튼 */}
+                        {/* reset button */}
                         <button
                             className="clear-btn"
                             onClick={clearGuess}
-                            title="현재 추측 초기화"
+                            title="Reset current guess"
                             style={{
                                 width: 32, height: 32, borderRadius: "8px",
                                 border: "1px solid rgba(255,255,255,0.15)",
@@ -388,7 +388,7 @@ const ColorCode = ({ onComplete }) => {
                         >🔄</button>
                     </div>
 
-                    {/* 색상 팔레트 */}
+                    {/* color palette */}
                     <div style={{ display: "flex", gap: "8px", flexDirection: "column", alignItems: "center" }}>
                         <div style={{ display: "flex", gap: "8px" }}>
                             {COLORS.map((color, i) => (
@@ -414,7 +414,7 @@ const ColorCode = ({ onComplete }) => {
                         </div>
                     </div>
 
-                    {/* 제출 버튼 */}
+                    {/* submit button */}
                     <button onClick={submit} disabled={current.some(c => c === null)} style={{
                         padding: "10px 28px", fontSize: "14px", fontWeight: "bold",
                         background: current.some(c => c === null) ? "rgba(255,255,255,0.03)" : "linear-gradient(135deg, rgba(100,255,218,0.15), rgba(77,150,255,0.15))",
@@ -424,15 +424,15 @@ const ColorCode = ({ onComplete }) => {
                         boxShadow: "0 2px 10px rgba(100,255,218,0.1)",
                         transition: "all 0.2s",
                     }}>
-                        {current.some(c => c === null) ? `${current.filter(c => c !== null).length}/${CODE_LEN} 선택됨` : "🔍 확인하기"}
+                        {current.some(c => c === null) ? `${current.filter(c => c !== null).length}/${CODE_LEN} selected` : "🔍 Check"}
                     </button>
                 </>
             )}
 
-            {/* 완료 화면 */}
+            {/* done screen */}
             {done && (
                 <div style={{ textAlign: "center", animation: "colorPop 0.4s ease" }}>
-                    {/* 축하 이펙트 */}
+                    {/* confetti */}
                     {won && (
                         <div style={{ position: "relative", height: "20px", marginBottom: "4px" }}>
                             {["🎉", "✨", "🌟", "💎", "🎊"].map((emoji, i) => (
@@ -445,7 +445,7 @@ const ColorCode = ({ onComplete }) => {
                             ))}
                         </div>
                     )}
-                    {/* 정답 공개 */}
+                    {/* reveal answer */}
                     <div style={{ display: "flex", gap: "8px", justifyContent: "center", marginBottom: "8px" }}>
                         {secret.map((c, i) => <div key={i} style={{
                             width: 38, height: 38, borderRadius: "50%",
@@ -460,17 +460,17 @@ const ColorCode = ({ onComplete }) => {
                         color: won ? "#64ffda" : "#FF6B6B",
                         textShadow: "0 0 15px currentColor",
                     }}>
-                        {won ? `🎯 ${guesses.length}번만에 성공!` : "시간 초과!"}
+                        {won ? `🎯 Solved in ${guesses.length} tries!` : "Time's up!"}
                     </div>
                     {won && guesses.length <= 3 && (
                         <div style={{ fontSize: "13px", color: "#FFD700", marginTop: "4px" }}>
-                            🏆 마스터마인드의 달인!
+                            🏆 Mastermind champion!
                         </div>
                     )}
                 </div>
             )}
 
-            {/* 튜토리얼 오버레이 */}
+            {/* tutorial overlay */}
             {showTutorial && (
                 <div style={{ position: "absolute", inset: 0, zIndex: 50 }}>
                     <TutorialOverlay onClose={() => setShowTutorial(false)} />

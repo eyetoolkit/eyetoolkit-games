@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 92: 골프 퍼팅 — 탑다운 퍼팅 라인 + 공 이동 애니메이션
+ * 🎮 Game 92: Golf Putting — top-down putting line + ball roll animation
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -133,7 +133,7 @@ const GolfPutt = ({ onComplete }) => {
                 const pts = dist < 3 ? 20 : dist < 8 ? 14 : dist < 15 ? 8 : 3;
                 const newScore = score + pts;
                 setScore(newScore);
-                setResult(dist < 3 ? "🕳️ 홀인!" : dist < 8 ? "👏 근접!" : dist < 15 ? "🤔 아쉽" : "😬 빗나감");
+                setResult(dist < 3 ? "🕳️ Hole in one!" : dist < 8 ? "👏 Close!" : dist < 15 ? "🤔 So close" : "😬 Missed");
 
                 const ns = shots + 1;
                 setShots(ns);
@@ -157,7 +157,7 @@ const GolfPutt = ({ onComplete }) => {
             `}</style>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px", alignItems: "center" }}>
                 <span>⛳ <span style={{ color: "#FFD700", fontWeight: "bold" }}>{shots}/{MAX}</span></span>
-                <span>점수: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}</span></span>
+                <span>Score: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}</span></span>
                 {/* Shot dots */}
                 <div style={{ display: "flex", gap: "3px" }}>
                     {Array.from({ length: MAX }, (_, i) => (
@@ -184,7 +184,7 @@ const GolfPutt = ({ onComplete }) => {
 
             <div style={{ width: 220 }}>
                 <label style={{ fontSize: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
-                    🏌️ 힘: <span style={{ color: "#FFD700", fontWeight: "bold", width: 35 }}>{power}%</span>
+                    🏌️ Strength: <span style={{ color: "#FFD700", fontWeight: "bold", width: 35 }}>{power}%</span>
                     <input type="range" min="10" max="100" value={power} onChange={(e) => setPower(+e.target.value)}
                         disabled={putting}
                         style={{ flex: 1, accentColor: "#22C55E" }} />
@@ -198,7 +198,7 @@ const GolfPutt = ({ onComplete }) => {
                 borderRadius: "14px", cursor: putting ? "wait" : "pointer",
                 boxShadow: putting ? "none" : "0 4px 12px rgba(34,197,94,0.2)",
                 transition: "all 0.2s",
-            }}>🏌️ 퍼팅!</button>
+            }}>🏌️ Putt!</button>
         </div>
     );
 };

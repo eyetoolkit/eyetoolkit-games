@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 46: 24 게임 — 카드 비주얼 + 수식 디스플레이 + 진행 도트
+ * 🎮 Game 46: 24 Game — card visuals + formula display + progress dots
  */
 import { useCallback, useState } from "react";
 
@@ -67,7 +67,7 @@ const Game24 = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "13px" }}>
-                라운드: <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | 정답: <span style={{ color: "#64ffda" }}>{correct}</span>
+                Round: <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | Answer: <span style={{ color: "#64ffda" }}>{correct}</span>
             </div>
 
             {/* Progress dots */}
@@ -77,7 +77,7 @@ const Game24 = ({ onComplete }) => {
                 ))}
             </div>
 
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>4개 숫자로 24를 만드세요!</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>Make 24 using all 4 numbers!</div>
 
             {/* Number cards */}
             <div style={{ display: "flex", gap: "8px" }}>
@@ -128,7 +128,7 @@ const Game24 = ({ onComplete }) => {
             <div style={{ display: "flex", gap: "6px" }}>
                 <button onClick={reset} style={aBtn}>🔄</button>
                 <button onClick={handleCheck} disabled={selected.length !== 4 || ops.length !== 3}
-                    style={{ ...aBtn, opacity: selected.length === 4 && ops.length === 3 ? 1 : 0.3 }}>✅ 확인</button>
+                    style={{ ...aBtn, opacity: selected.length === 4 && ops.length === 3 ? 1 : 0.3 }}>✅ OK</button>
                 <button onClick={() => setShowHint(true)} style={aBtn}>💡</button>
                 <button onClick={skip} style={aBtn}>⏭️</button>
             </div>

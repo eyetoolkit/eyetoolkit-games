@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 24: 스피드 카드 — 더 빠른 카드 맞추기 + 타이머 + 콤보
+ * 🎮 Game 24: Speed Card — faster card matching + timer + combo
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -61,7 +61,7 @@ const SpeedCard = ({ onComplete }) => {
             <style>{`@keyframes cardBounce { 0% { transform: scale(0.9); } 100% { transform: scale(1); } }`}</style>
 
             <div style={{ display: "flex", gap: "16px", fontSize: "12px" }}>
-                <span>점수: <span style={{ color: "#FFD700" }}>{score}</span></span>
+                <span>Score: <span style={{ color: "#FFD700" }}>{score}</span></span>
                 <span>⏱️ <span style={{ color: time <= 3 ? "#FF6B6B" : "#64ffda" }}>{time}s</span></span>
                 {combo >= 3 && <span style={{ color: "#A855F7" }}>🔥 x{combo}</span>}
             </div>
@@ -70,7 +70,7 @@ const SpeedCard = ({ onComplete }) => {
                 <div style={{ width: `${progress}%`, height: "100%", background: time <= 3 ? "#FF6B6B" : "#64ffda", borderRadius: 3, transition: "width 1s linear" }} />
             </div>
 
-            <div style={{ fontSize: "12px", color: "#8892b0" }}>더 큰 카드를 선택!</div>
+            <div style={{ fontSize: "12px", color: "#8892b0" }}>Pick the higher card!</div>
 
             <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
                 {/* Left card */}
@@ -114,7 +114,7 @@ const SpeedCard = ({ onComplete }) => {
                 </button>
             </div>
 
-            {done && <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>🏆 {score}점!</div>}
+            {done && <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>🏆 {score} pts!</div>}
         </div>
     );
 };

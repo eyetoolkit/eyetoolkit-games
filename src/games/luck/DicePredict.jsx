@@ -1,5 +1,5 @@
 /**
- * 🎮 주사위 예측 — 칩 베팅 + 정확 맞추기 + 더블업 + 멀티 다이스
+ * 🎮 Dice Predict — chips bet + exact guesses + double-up + multi-dice
  */
 import { useCallback, useState } from "react";
 
@@ -108,7 +108,7 @@ const DicePredict = ({ onComplete }) => {
                     💰 <span style={{ color: "#FFD700", fontWeight: "bold", fontSize: "16px", animation: result ? "chipPop 0.3s" : "none" }}>{chips}</span>
                 </div>
                 <span style={{ color: "#FFD700" }}>{round + 1}/{maxRounds}</span>
-                {streak >= 2 && <span style={{ color: streak >= 4 ? "#FF6B6B" : "#A855F7", fontWeight: "bold" }}>🔥 {streak}연속 x{multiplier}</span>}
+                {streak >= 2 && <span style={{ color: streak >= 4 ? "#FF6B6B" : "#A855F7", fontWeight: "bold" }}>🔥 {streak}streak x{multiplier}</span>}
             </div>
 
             {/* Mode toggle */}
@@ -121,7 +121,7 @@ const DicePredict = ({ onComplete }) => {
                             color: mode === m ? "#A855F7" : "#8892b0",
                             border: mode === m ? "1px solid #A855F7" : "1px solid rgba(255,255,255,0.1)",
                             borderRadius: "6px", cursor: "pointer",
-                        }}>{m === "single" ? "🎲 싱글" : "🎲🎲 더블"}</button>
+                        }}>{m === "single" ? "🎲 Single" : "🎲🎲 Double"}</button>
                 ))}
             </div>
 
@@ -168,7 +168,7 @@ const DicePredict = ({ onComplete }) => {
                 <div style={{ fontSize: "13px", color: "#8892b0" }}>
                     {mode === "double" && dice2Value
                         ? `${diceValue} + ${dice2Value} = ${diceValue + dice2Value}`
-                        : `${diceValue} → ${diceValue >= 4 ? "HIGH" : "LOW"} / ${diceValue % 2 === 0 ? "짝수" : "홀수"}`}
+                        : `${diceValue} → ${diceValue >= 4 ? "HIGH" : "LOW"} / ${diceValue % 2 === 0 ? "Even" : "Odd"}`}
                 </div>
             )}
 
@@ -179,8 +179,8 @@ const DicePredict = ({ onComplete }) => {
                     animation: result === "correct" && betType?.startsWith("exact") ? "exactWin 0.4s ease" : "none",
                 }}>
                     {result === "correct"
-                        ? `✅ ${betType?.startsWith("exact") ? "🎯 정확 적중!" : betType === "doubles" ? "🎯 DOUBLES!" : "정답!"}`
-                        : "❌ 아쉽게 빗나감"}
+                        ? `✅ ${betType?.startsWith("exact") ? "🎯 Bullseye!" : betType === "doubles" ? "🎯 DOUBLES!" : "Correct!"}`
+                        : "❌ So close!"}
                 </div>
             )}
 
@@ -193,8 +193,8 @@ const DicePredict = ({ onComplete }) => {
                                 <button onClick={() => placeBet("low")} style={btnStyle("#3B82F6")}>🔻 LOW (1-3) <small>x1.5</small></button>
                             </div>
                             <div style={{ display: "flex", gap: "6px" }}>
-                                <button onClick={() => placeBet("odd")} style={btnStyle("#A855F7")}>홀수 <small>x1.5</small></button>
-                                <button onClick={() => placeBet("even")} style={btnStyle("#22C55E")}>짝수 <small>x1.5</small></button>
+                                <button onClick={() => placeBet("odd")} style={btnStyle("#A855F7")}>Odd <small>x1.5</small></button>
+                                <button onClick={() => placeBet("even")} style={btnStyle("#22C55E")}>Even <small>x1.5</small></button>
                             </div>
                             <div style={{ display: "flex", gap: "4px" }}>
                                 {[1, 2, 3, 4, 5, 6].map(n => (
@@ -210,12 +210,12 @@ const DicePredict = ({ onComplete }) => {
                     ) : (
                         <>
                             <div style={{ display: "flex", gap: "6px" }}>
-                                <button onClick={() => placeBet("high")} style={btnStyle("#EF4444")}>합 ≥8 <small>x1.5</small></button>
-                                <button onClick={() => placeBet("low")} style={btnStyle("#3B82F6")}>합 ≤6 <small>x1.5</small></button>
+                                <button onClick={() => placeBet("high")} style={btnStyle("#EF4444")}>Sum ≥8 <small>x1.5</small></button>
+                                <button onClick={() => placeBet("low")} style={btnStyle("#3B82F6")}>Sum ≤6 <small>x1.5</small></button>
                             </div>
                             <div style={{ display: "flex", gap: "6px" }}>
-                                <button onClick={() => placeBet("seven")} style={btnStyle("#FFD700")}>🎯 합 = 7 <small>x3</small></button>
-                                <button onClick={() => placeBet("doubles")} style={btnStyle("#A855F7")}>🎲 더블 <small>x6!</small></button>
+                                <button onClick={() => placeBet("seven")} style={btnStyle("#FFD700")}>🎯 Sum = 7 <small>x3</small></button>
+                                <button onClick={() => placeBet("doubles")} style={btnStyle("#A855F7")}>🎲 Doubles <small>x6!</small></button>
                             </div>
                         </>
                     )}

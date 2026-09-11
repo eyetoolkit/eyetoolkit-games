@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 102: 킬러 스도쿠
- * 합 조건(cage)이 있는 4×4 스도쿠 변형
+ * 🎮 Game 102: Killer Sudoku
+ * 4×4 sudoku variant with cage sums
  */
 import { useState, useCallback } from "react";
 
@@ -90,7 +90,7 @@ const KillerSudoku = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                킬러 스도쿠 4×4 <span style={{ marginLeft: 10, color: "#FF6B6B" }}>실수: {mistakeCount}</span>
+                Killer Sudoku 4×4 <span style={{ marginLeft: 10, color: "#FF6B6B" }}>Mistakes: {mistakeCount}</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 52px)", gap: "2px", padding: "4px", background: "#1a1a2e", borderRadius: "8px", border: "2px solid rgba(255,255,255,0.1)" }}>
                 {Array.from({ length: 16 }, (_, idx) => {
@@ -133,9 +133,9 @@ const KillerSudoku = ({ onComplete }) => {
                 <button onClick={() => handleInput(0)} style={{ ...numBtnStyle, background: "rgba(255,107,107,0.2)" }}>✕</button>
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                cage 합계를 맞추며 1~4를 채우세요
+                Fill 1-4 matching cage sums
             </div>
-            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎉 완료!</div>}
+            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎉 Done!</div>}
         </div>
     );
 };

@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 31: 플래피 젤리 — 네온 파이프 + 별 배경 + 스코어 라벨
+ * 🎮 Game 31: Flappy Jelly — neon pipes + star background + score label
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -74,7 +74,7 @@ const FlappyJelly = ({ onComplete }) => {
         <div onClick={jump} style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "6px", color: "white", cursor: "pointer", userSelect: "none" }}>
             <div style={{ fontSize: "14px" }}>
                 🟣 <span style={{ color: "#FFD700", fontWeight: "bold" }}>{score}</span>
-                {score >= 5 && <span style={{ color: "#A855F7", marginLeft: 8 }}>🔥 나이스!</span>}
+                {score >= 5 && <span style={{ color: "#A855F7", marginLeft: 8 }}>🔥 Nice!</span>}
             </div>
             <div style={{
                 width: W, height: H, borderRadius: "12px", position: "relative", overflow: "hidden",
@@ -122,7 +122,7 @@ const FlappyJelly = ({ onComplete }) => {
                         background: "rgba(0,0,0,0.4)",
                     }}>
                         <div style={{ fontSize: "36px", marginBottom: 8 }}>🟣</div>
-                        <div style={{ fontSize: "14px" }}>클릭/스페이스로 시작!</div>
+                        <div style={{ fontSize: "14px" }}>Click/Space to start!</div>
                     </div>
                 )}
                 {/* Game over */}
@@ -132,8 +132,8 @@ const FlappyJelly = ({ onComplete }) => {
                         alignItems: "center", justifyContent: "center",
                         background: "rgba(0,0,0,0.5)",
                     }}>
-                        <div style={{ fontSize: "18px", fontWeight: "bold", color: "#FF6B6B" }}>💀 게임 오버!</div>
-                        <div style={{ fontSize: "16px", color: "#FFD700" }}>{score}점</div>
+                        <div style={{ fontSize: "18px", fontWeight: "bold", color: "#FF6B6B" }}>💀 Game over!</div>
+                        <div style={{ fontSize: "16px", color: "#FFD700" }}>{score} pts</div>
                     </div>
                 )}
             </div>

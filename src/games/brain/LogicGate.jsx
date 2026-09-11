@@ -1,14 +1,14 @@
 /**
- * 🎮 Game 49: 로직 게이트 — 논리 게이트 다이어그램
+ * 🎮 Game 49: Logic Gate — logic gate diagram
  */
 import { useCallback, useState } from "react";
 
 const GATES = [
-    { type: "AND", symbol: "&", fn: (a, b) => a && b, desc: "둘 다 1이면 1" },
-    { type: "OR", symbol: "≥1", fn: (a, b) => a || b, desc: "하나라도 1이면 1" },
-    { type: "XOR", symbol: "=1", fn: (a, b) => a !== b, desc: "서로 다르면 1" },
-    { type: "NAND", symbol: "&̄", fn: (a, b) => !(a && b), desc: "AND의 반대" },
-    { type: "NOR", symbol: "≥1̄", fn: (a, b) => !(a || b), desc: "OR의 반대" },
+    { type: "AND", symbol: "&", fn: (a, b) => a && b, desc: "1 if both are 1" },
+    { type: "OR", symbol: "≥1", fn: (a, b) => a || b, desc: "1 if any is 1" },
+    { type: "XOR", symbol: "=1", fn: (a, b) => a !== b, desc: "1 if they differ" },
+    { type: "NAND", symbol: "&̄", fn: (a, b) => !(a && b), desc: "Opposite of AND" },
+    { type: "NOR", symbol: "≥1̄", fn: (a, b) => !(a || b), desc: "Opposite of OR" },
 ];
 
 const genProblem = () => {
@@ -45,7 +45,7 @@ const LogicGate = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "14px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | 정답 <span style={{ color: "#64ffda" }}>{correct}</span>
+                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | Answer <span style={{ color: "#64ffda" }}>{correct}</span>
             </div>
 
             {/* Gate diagram */}
@@ -107,7 +107,7 @@ const LogicGate = ({ onComplete }) => {
 
             {feedback && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: feedback === "correct" ? "#64ffda" : "#FF6B6B" }}>
-                    {feedback === "correct" ? "✅ 정답!" : `❌ 정답: ${problem.output ? "1" : "0"}`}
+                    {feedback === "correct" ? "✅ Correct!" : `❌ Answer: ${problem.output ? "1" : "0"}`}
                 </div>
             )}
         </div>

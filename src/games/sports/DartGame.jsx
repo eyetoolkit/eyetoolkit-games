@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 93: 다트 — 진행 도트 + 총점 바 + 임팩트 애니
+ * 🎮 Game 93: Darts — progress dots + total bar + impact anim
  */
 import { useCallback, useRef, useState } from "react";
 
@@ -42,7 +42,7 @@ const DartGame = ({ onComplete }) => {
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <style>{`@keyframes dartHit { 0% { transform: scale(1.15); } 100% { transform: scale(1); } }`}</style>
             <div style={{ fontSize: "13px" }}>
-                🎯 {throws.length}/{MAX_THROWS} | 점수: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{score}</span>
+                🎯 {throws.length}/{MAX_THROWS} | Score: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{score}</span>
             </div>
             {/* Progress dots */}
             <div style={{ display: "flex", gap: "6px" }}>
@@ -85,8 +85,8 @@ const DartGame = ({ onComplete }) => {
                     {lastResult.label} +{lastResult.pts}
                 </div>
             )}
-            {throws.length >= MAX_THROWS && <div style={{ fontSize: "14px", color: "#FFD700" }}>🎯 최종: {score}점 ({Math.round((score / (MAX_THROWS * 50)) * 100)}%)</div>}
-            {throws.length < MAX_THROWS && <div style={{ fontSize: "10px", color: "#8892b0" }}>과녁을 클릭!</div>}
+            {throws.length >= MAX_THROWS && <div style={{ fontSize: "14px", color: "#FFD700" }}>🎯 Final: {score} pts ({Math.round((score / (MAX_THROWS * 50)) * 100)}%)</div>}
+            {throws.length < MAX_THROWS && <div style={{ fontSize: "10px", color: "#8892b0" }}>Click the target!</div>}
         </div>
     );
 };

@@ -1,20 +1,20 @@
 /**
- * 🎮 Game 146: 넌센스 퀴즈
- * 재미있는 넌센스 문제 맞추기
+ * 🎮 Game 146: Nonsense Quiz
+ * Fun nonsense riddles
  */
 import { useState, useCallback, useMemo } from "react";
 
 const QUIZZES = [
-    { q: "세상에서 가장 지루한 중학교는?", answer: "로딩중학교", options: ["로딩중학교", "졸린중학교", "하품중학교", "잠자는중학교"] },
-    { q: "소가 웃으면?", answer: "우유", options: ["우유", "소웃음", "모유", "두유"] },
-    { q: "세상에서 가장 뜨거운 과일은?", answer: "핫바나나", options: ["핫바나나", "핫사과", "딸기", "수박"] },
-    { q: "아몬드가 죽으면?", answer: "다이아몬드", options: ["다이아몬드", "죽은몬드", "아몬드우유", "견과류"] },
-    { q: "왕이 넘어지면?", answer: "킹콩", options: ["킹콩", "왕크러쉬", "왕쿵", "왕위계승"] },
-    { q: "시가 죽으면?", answer: "묘지", options: ["묘지", "사망시", "죽은시", "시체"] },
-    { q: "세상에서 가장 억울한 도형은?", answer: "원", options: ["원", "삼각형", "사각형", "마름모"] },
-    { q: "바나나가 웃으면?", answer: "바나나킥", options: ["바나나킥", "바나나우유", "바하하나", "바나나분리"] },
-    { q: "전기가 통하는 과일은?", answer: "파인애플", options: ["파인애플", "사과", "딸기", "수박"] },
-    { q: "세상에서 가장 맛있는 집은?", answer: "과자집", options: ["과자집", "맛집", "한식집", "피자집"] },
+    { q: "Which school is the most boring?", answer: "Loading Middle School", options: ["Loading Middle School", "Snooze Middle School", "Yawning Middle School", "Sleeping Middle School"] },
+    { q: "What do you call a laughing cow?", answer: "Milk", options: ["Milk", "A moo-haha", "Moo juice", "Soy happy"] },
+    { q: "What's the hottest fruit?", answer: "Hot Banana", options: ["Hot Banana", "A hot apple", "Strawberry", "Watermelon"] },
+    { q: "What happens when an almond dies?", answer: "Diamond", options: ["Diamond", "A dead-mond", "Almond milk", "A nut case"] },
+    { q: "What happens when the king falls?", answer: "King Kong", options: ["King Kong", "King Crush", "King Thud", "Succession to the throne"] },
+    { q: "What happens when a clock dies?", answer: "Cemetery", options: ["Cemetery", "Time of death", "Dead o'clock", "A dead body"] },
+    { q: "Which shape gets the worst luck?", answer: "Circle", options: ["Circle", "Triangle", "Square", "Rhombus"] },
+    { q: "What happens when a banana laughs?", answer: "Banana Kick", options: ["Banana Kick", "Banana milk", "Ba-na-na-haha", "Banana split"] },
+    { q: "Which fruit conducts electricity?", answer: "Pineapple", options: ["Pineapple", "Apple", "Strawberry", "Watermelon"] },
+    { q: "Which house is the most delicious?", answer: "Cookie House", options: ["Cookie House", "A tasty house", "A Korean restaurant", "A pizza house"] },
 ];
 
 const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
@@ -55,8 +55,8 @@ const NonsenseQuiz = ({ onComplete }) => {
                 .nons-opt:hover { background: rgba(255,255,255,0.12) !important; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
             `}</style>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}</span></span>
-                <span>문제: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{current + 1}/{questions.length}</span></span>
+                <span>Score: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}</span></span>
+                <span>Q: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{current + 1}/{questions.length}</span></span>
             </div>
             <div style={{ width: "280px", height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "2px" }}>
                 <div style={{ height: "100%", borderRadius: "2px", width: `${progress}%`, background: "linear-gradient(90deg, #FFD93D, #FF6B6B)", transition: "width 0.4s ease" }} />
@@ -90,12 +90,12 @@ const NonsenseQuiz = ({ onComplete }) => {
                 color: feedback === "correct" ? "#64ffda" : "#FF6B6B",
                 animation: "quizPulse 0.4s ease",
             }}>
-                {feedback === "correct" ? "😂 정답!" : `정답: ${q.answer}`}
+                {feedback === "correct" ? "😂 Correct!" : `Answer: ${q.answer}`}
             </div>}
             {done && <div style={{
                 fontSize: "18px", color: "#64ffda", fontWeight: "bold",
                 textShadow: "0 0 20px rgba(100,255,218,0.3)",
-            }}>🎉 완료! {score}/{questions.length}</div>}
+            }}>🎉 Done! {score}/{questions.length}</div>}
         </div>
     );
 };

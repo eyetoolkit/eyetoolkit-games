@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 23: 솔리테어 — 카드 호버 + 매치 이펙트 + 진행률 바
+ * 🎮 Game 23: Solitaire — card hover + match effects + progress bar
  */
 import { useCallback, useEffect, useState } from "react";
 
@@ -53,9 +53,9 @@ const MiniSolitaire = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ display: "flex", gap: "14px", fontSize: "13px" }}>
-                <span>이동: <span style={{ color: "#FFD700" }}>{moves}</span></span>
-                <span>제거: <span style={{ color: "#64ffda" }}>{removed}</span>/{totalCards}</span>
-                <span>덱: <span style={{ color: "#0cbfff" }}>{deck.length}</span></span>
+                <span>Moves: <span style={{ color: "#FFD700" }}>{moves}</span></span>
+                <span>Cleared: <span style={{ color: "#64ffda" }}>{removed}</span>/{totalCards}</span>
+                <span>Deck: <span style={{ color: "#0cbfff" }}>{deck.length}</span></span>
             </div>
             <div style={{ width: 240, height: 6, borderRadius: 3, background: "rgba(255,255,255,0.1)", overflow: "hidden" }}>
                 <div style={{ width: `${progress}%`, height: "100%", background: "linear-gradient(90deg, #64ffda, #22C55E)", borderRadius: 3, transition: "width 0.3s" }} />
@@ -94,10 +94,10 @@ const MiniSolitaire = ({ onComplete }) => {
             </div>
             <div style={{ display: "flex", gap: "8px" }}>
                 <button onClick={drawCards} disabled={deck.length === 0}
-                    style={{ ...btnS, opacity: deck.length === 0 ? 0.3 : 1 }}>📥 받기 ({deck.length})</button>
-                <button onClick={giveUp} style={btnS}>🏳️ 포기</button>
+                    style={{ ...btnS, opacity: deck.length === 0 ? 0.3 : 1 }}>📥 Draw ({deck.length})</button>
+                <button onClick={giveUp} style={btnS}>🏳️ Give up</button>
             </div>
-            <div style={{ fontSize: "10px", color: "#8892b0" }}>같은 숫자 카드 2장을 선택하면 제거</div>
+            <div style={{ fontSize: "10px", color: "#8892b0" }}>Select two matching cards to remove</div>
         </div>
     );
 };

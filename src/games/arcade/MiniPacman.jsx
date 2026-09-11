@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 35: 미니 팩맨 — 벽 그라데이션 + 도트 글로우 + 진행률 바
+ * 🎮 Game 35: Mini Pacman — wall gradient + dot glow + progress bar
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 

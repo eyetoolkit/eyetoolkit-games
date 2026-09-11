@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 101: 하노이 탑
- * 원반을 규칙에 맞게 옮기기 — 최소 이동수 달성 시 퍼펙트
+ * 🎮 Game 101: Hanoi Tower
+ * Move discs by the rules — perfect on min moves
  */
 import { useState, useCallback } from "react";
 
@@ -60,9 +60,9 @@ const HanoiTower = ({ onComplete }) => {
                 @keyframes perfectPulse { 0%,100%{text-shadow:0 0 10px #64ffda} 50%{text-shadow:0 0 30px #64ffda,0 0 40px #64ffda} }
             `}</style>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px", alignItems: "center" }}>
-                <span>이동: <span style={{ color: moves <= minMoves ? "#64ffda" : "#FFD700", fontWeight: "bold" }}>{moves}</span></span>
-                <span>최소: <span style={{ color: "#8892b0" }}>{minMoves}</span></span>
-                <span>원반: <span style={{ color: "#FF6B6B", fontWeight: "bold" }}>{discCount}개</span></span>
+                <span>Moves: <span style={{ color: moves <= minMoves ? "#64ffda" : "#FFD700", fontWeight: "bold" }}>{moves}</span></span>
+                <span>Min: <span style={{ color: "#8892b0" }}>{minMoves}</span></span>
+                <span>Discs: <span style={{ color: "#FF6B6B", fontWeight: "bold" }}>{discCount}</span></span>
             </div>
             {/* Progress bar */}
             <div style={{ width: "260px", height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "2px" }}>
@@ -126,7 +126,7 @@ const HanoiTower = ({ onComplete }) => {
                 ))}
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                기둥 클릭으로 원반 이동 ─ 모두 C로 옮기세요
+                Click towers to move discs — get all to C
             </div>
             {done && (
                 <div style={{
@@ -135,7 +135,7 @@ const HanoiTower = ({ onComplete }) => {
                     animation: moves <= minMoves ? "perfectPulse 1.5s infinite" : "none",
                     textShadow: "0 0 15px rgba(100,255,218,0.3)",
                 }}>
-                    🎉 {moves <= minMoves ? "퍼펙트! ✨" : `완료! ${moves}회 이동`}
+                    🎉 {moves <= minMoves ? "Perfect! ✨" : `Done! ${moves} moves`}
                 </div>
             )}
         </div>

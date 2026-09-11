@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 120: 봄버맨
- * 폭탄으로 벽과 적을 제거하세요
+ * 🎮 Game 120: Bomberman
+ * Destroy walls and enemies with bombs
  */
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -159,8 +159,8 @@ const Bomberman = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#FFD700" }}>{score}</span></span>
-                <span>적: <span style={{ color: "#FF6B6B" }}>{enemies.filter(e => e.alive).length}</span></span>
+                <span>Score: <span style={{ color: "#FFD700" }}>{score}</span></span>
+                <span>Enemy: <span style={{ color: "#FF6B6B" }}>{enemies.filter(e => e.alive).length}</span></span>
             </div>
             <div style={{
                 display: "grid", gridTemplateColumns: `repeat(${SIZE}, ${CELL}px)`, gap: "1px",
@@ -191,7 +191,7 @@ const Bomberman = ({ onComplete }) => {
                     </button>
                 ))}
             </div>
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>방향키 이동 | Space 폭탄 설치</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>Arrows to move | Space for bomb</div>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 5: 넌오그램 (5×5)
- * 숫자 힌트를 보고 칸을 채워 그림을 완성하세요!
+ * 🎮 Game 5: Nonogram (5×5)
+ * Use the number hints to reveal the picture!
  */
 import { useCallback, useMemo, useState } from "react";
 
@@ -91,7 +91,7 @@ const Nonogram = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                실수: <span style={{ color: mistakes >= 2 ? "#FF6B6B" : "#FFD700" }}>{mistakes}/3</span>
+                Mistakes: <span style={{ color: mistakes >= 2 ? "#FF6B6B" : "#FFD700" }}>{mistakes}/3</span>
                 <span style={{ marginLeft: 10, color: "#64ffda" }}>{grid.flat().filter(v => v === 1).length}/{pattern.flat().filter(v => v === 1).length}</span>
             </div>
             {/* Progress bar */}
@@ -176,7 +176,7 @@ const Nonogram = ({ onComplete }) => {
                 </div>
             ))}
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                힌트를 보고 칸을 클릭하여 채우세요 (3번 틀리면 종료!)
+                Use hints, click cells to fill (3 mistakes = over!)
             </div>
         </div>
     );

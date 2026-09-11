@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 57: 그림자 매칭 — 실루엣 비교 + 비네팅 효과
+ * 🎮 Game 57: Shadow Match — silhouette compare + vignette effects
  */
 import { useCallback, useState } from "react";
 
@@ -46,10 +46,10 @@ const ShadowMatch = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "13px" }}>
-                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | 정답 <span style={{ color: "#64ffda" }}>{correct}</span>
+                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | Answer <span style={{ color: "#64ffda" }}>{correct}</span>
             </div>
 
-            <div style={{ fontSize: "12px", color: "#8892b0" }}>이 그림자의 원래 모습은?</div>
+            <div style={{ fontSize: "12px", color: "#8892b0" }}>What does this shadow really look like?</div>
 
             {/* Shadow card */}
             <div style={{
@@ -96,7 +96,7 @@ const ShadowMatch = ({ onComplete }) => {
 
             {feedback && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: feedback.isCorrect ? "#64ffda" : "#FF6B6B" }}>
-                    {feedback.isCorrect ? "✅ 정답!" : "❌ 오답"}
+                    {feedback.isCorrect ? "✅ Correct!" : "❌ Wrong"}
                 </div>
             )}
         </div>

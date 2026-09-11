@@ -1,5 +1,5 @@
 /**
- * 🎮 핑퐁 — AI 난이도 단계 + 파워업 공 + 스피드업 + 파티클
+ * 🎮 Ping Pong — AI difficulty levels + power-up ball + speedup + particles
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -119,7 +119,7 @@ const PingPong = ({ onComplete }) => {
 
             {/* Scoreboard */}
             <div style={{ display: "flex", gap: "14px", fontSize: "13px", alignItems: "center" }}>
-                <span>나 <span style={{ color: "#64ffda", fontWeight: "bold", fontSize: "18px" }}>{pScore}</span></span>
+                <span>Me <span style={{ color: "#64ffda", fontWeight: "bold", fontSize: "18px" }}>{pScore}</span></span>
                 <span style={{ color: "#8892b0" }}>vs</span>
                 <span><span style={{ color: "#FF6B6B", fontWeight: "bold", fontSize: "18px" }}>{aScore}</span> AI</span>
                 <span style={{
@@ -132,7 +132,7 @@ const PingPong = ({ onComplete }) => {
             {/* Rally counter */}
             {rallies > 0 && (
                 <div style={{ fontSize: "11px", color: rallyColor, fontWeight: rallies >= 3 ? "bold" : "normal" }}>
-                    🏓 {rallies} Rally {powerBall ? "🔥 POWER BALL!" : rallies >= 3 ? "연속!" : ""}
+                    🏓 {rallies} Rally {powerBall ? "🔥 POWER BALL!" : rallies >= 3 ? "Streak!" : ""}
                 </div>
             )}
 
@@ -193,7 +193,7 @@ const PingPong = ({ onComplete }) => {
             </div>
 
             <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                {gameActive ? (powerBall ? "🔥 파워볼! AI가 당황합니다!" : "마우스로 패들 이동! 5연속 랠리 → 파워볼!") : (pRef.current >= 5 ? "🏆 승리!" : `😢 패배 (최대 ${maxRally} 랠리)`)}
+                {gameActive ? (powerBall ? "🔥 Power ball! The AI is panicking!" : "Move the paddle! 5-rally streak → Power ball!") : (pRef.current >= 5 ? "🏆 Victory!" : `😢 Defeat (best rally ${maxRally})`)}
             </div>
         </div>
     );

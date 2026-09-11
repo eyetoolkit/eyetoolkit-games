@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 9: 컬러 소팅
- * 같은 색 물약을 하나의 병으로 모아주세요!
+ * 🎮 Game 9: Color Sort
+ * Collect same-color potions into one bottle!
  */
 import { useCallback, useState } from "react";
 
@@ -10,7 +10,7 @@ const COLORS_MAP = {
     B: "#0cbfff",
     Y: "#FFD700",
 };
-const COLOR_NAMES = { R: "빨강", G: "초록", B: "파랑", Y: "노랑" };
+const COLOR_NAMES = { R: "Red", G: "Green", B: "Blue", Y: "Yellow" };
 
 const MAX_HEIGHT = 4;
 
@@ -96,7 +96,7 @@ const ColorSort = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                이동: <span style={{ color: "#FFD700" }}>{moves}</span>
+                Moves: <span style={{ color: "#FFD700" }}>{moves}</span>
             </div>
             <div style={{ display: "flex", gap: "12px", alignItems: "flex-end" }}>
                 {tubes.map((tube, idx) => (
@@ -143,7 +143,7 @@ const ColorSort = ({ onComplete }) => {
                 ))}
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                같은 색끼리 하나의 병에 모아주세요
+                Gather same colors into one bottle
             </div>
         </div>
     );

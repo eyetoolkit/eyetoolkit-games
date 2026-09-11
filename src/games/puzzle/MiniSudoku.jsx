@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 4: 미니 스도쿠 (4×4)
- * 각 행, 열, 2×2 블록에 1~4가 한 번씩!
+ * 🎮 Game 4: Mini Sudoku (4×4)
+ * Each row, column and 2×2 block has 1-4 once!
  */
 import { useCallback, useState } from "react";
 
@@ -73,7 +73,7 @@ const MiniSudoku = ({ onComplete }) => {
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             {/* Progress */}
             <div style={{ fontSize: "13px" }}>
-                진행: <span style={{ color: "#64ffda" }}>{grid.flat().filter(v => v !== 0).length}</span>/{SIZE * SIZE}
+                Progress: <span style={{ color: "#64ffda" }}>{grid.flat().filter(v => v !== 0).length}</span>/{SIZE * SIZE}
                 {errors.size > 0 && <span style={{ color: "#FF6B6B", marginLeft: 8 }}>❌ {errors.size}</span>}
             </div>
             <div
@@ -165,11 +165,11 @@ const MiniSudoku = ({ onComplete }) => {
                         cursor: "pointer",
                     }}
                 >
-                    지우기
+                    Clear
                 </button>
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                칸을 선택 후 숫자를 입력하세요
+                Select a cell, then Enter the number
             </div>
         </div>
     );

@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 97: 스키 슬라롬 — Canvas 스키 활강
+ * 🎮 Game 97: Ski Slalom — canvas downhill
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -133,7 +133,7 @@ const SkiSlalom = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                ⛷️ 통과: <span style={{ color: "#64ffda" }}>{passed}/{TOTAL_FLAGS}</span> | 점수: <span style={{ color: "#FFD700" }}>{score}</span>
+                ⛷️ Gates: <span style={{ color: "#64ffda" }}>{passed}/{TOTAL_FLAGS}</span> | Score: <span style={{ color: "#FFD700" }}>{score}</span>
             </div>
 
             <canvas ref={canvasRef} width={240} height={280}
@@ -142,7 +142,7 @@ const SkiSlalom = ({ onComplete }) => {
                 onTouchMove={handleMove}
             />
 
-            <div style={{ fontSize: "10px", color: "#8892b0" }}>마우스를 움직여 조종하세요!</div>
+            <div style={{ fontSize: "10px", color: "#8892b0" }}>Move the mouse to steer!</div>
         </div>
     );
 };

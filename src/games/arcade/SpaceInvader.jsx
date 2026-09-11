@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 37: 스페이스 인베이더 — 총알 글로우 + 적 파괴 파티클 + 점수 바
+ * 🎮 Game 37: Space Invader — bullet glow + enemy explode particles + score bar
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -112,7 +112,7 @@ const SpaceInvader = ({ onComplete }) => {
                 <div style={{ position: "absolute", left: px - PW / 2, top: H - 35, fontSize: "24px", filter: "drop-shadow(0 2px 4px rgba(100,255,218,0.3))" }}>🚀</div>
                 {!gameActive && (
                     <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.5)" }}>
-                        <div style={{ fontSize: "18px", fontWeight: "bold", color: score >= totalEnemies ? "#64ffda" : "#FF6B6B" }}>{score >= totalEnemies ? "🏆 클리어!" : "💀 게임 오버"}</div>
+                        <div style={{ fontSize: "18px", fontWeight: "bold", color: score >= totalEnemies ? "#64ffda" : "#FF6B6B" }}>{score >= totalEnemies ? "🏆 Clear!" : "💀 Game over"}</div>
                         <div style={{ color: "#FFD700" }}>{score}/{totalEnemies}</div>
                     </div>
                 )}

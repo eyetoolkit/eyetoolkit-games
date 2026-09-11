@@ -1,54 +1,54 @@
 /**
- * 🎮 Game 143: 방 탈출
- * 단서를 찾아 방에서 탈출하세요
+ * 🎮 Game 143: Room Escape
+ * Find clues and escape the room
  */
 import { useState, useCallback } from "react";
 
 const ROOMS = {
     start: {
-        text: "어두운 방에 갇혀있습니다. 책상, 그림, 금고가 보입니다.",
+        text: "You are trapped in a dark room. You see a desk, a painting, and a safe.",
         emoji: "🏚️",
         actions: [
-            { text: "📋 책상 조사", target: "desk" },
-            { text: "🖼️ 그림 조사", target: "painting" },
-            { text: "🔒 금고 조사", target: "safe" },
+            { text: "📋 Inspect desk", target: "desk" },
+            { text: "🖼️ Inspect painting", target: "painting" },
+            { text: "🔒 Inspect safe", target: "safe" },
         ]
     },
     desk: {
-        text: "책상 위에 메모가 있습니다: '비밀번호는 그림 뒤에'",
+        text: "A note on the desk: 'The password is behind the painting'",
         emoji: "📋",
         actions: [
-            { text: "🗄️ 서랍 열기", target: "drawer" },
-            { text: "↩ 돌아가기", target: "start" },
+            { text: "🗄️ Open drawer", target: "drawer" },
+            { text: "↩ Back", target: "start" },
         ]
     },
     drawer: {
-        text: "서랍에서 열쇠를 발견했습니다! 파란색 열쇠입니다.", item: "blueKey",
+        text: "You found a key in the drawer! It's blue.", item: "blueKey",
         emoji: "🔑",
         actions: [
-            { text: "↩ 돌아가기", target: "start" },
+            { text: "↩ Back", target: "start" },
         ]
     },
     painting: {
-        text: "그림 뒤에 숫자 '4721'이 적혀있습니다.", item: "code",
+        text: "The number '4721' is written behind the painting.", item: "code",
         emoji: "🔢",
         actions: [
-            { text: "↩ 돌아가기", target: "start" },
+            { text: "↩ Back", target: "start" },
         ]
     },
     safe: {
-        text: "금고에 4자리 비밀번호가 필요합니다.",
+        text: "The safe requires a 4-digit password.",
         emoji: "🔐",
         actions: [
-            { text: "🔢 4721 입력", target: "safeOpen", requires: "code" },
-            { text: "↩ 돌아가기", target: "start" },
+            { text: "🔢 Enter 4721", target: "safeOpen", requires: "code" },
+            { text: "↩ Back", target: "start" },
         ]
     },
     safeOpen: {
-        text: "금고가 열렸습니다! 빨간색 열쇠를 발견!", item: "redKey",
+        text: "The safe is open! You found a red key!", item: "redKey",
         emoji: "🗝️",
         actions: [
-            { text: "↩ 돌아가기", target: "start" },
+            { text: "↩ Back", target: "start" },
         ]
     },
 };
@@ -63,7 +63,7 @@ const RoomEscape = ({ onComplete }) => {
     const act = useCallback((action) => {
         if (done) return;
         if (action.requires && !items.has(action.requires)) {
-            setMessage("필요한 단서가 없습니다!");
+            setMessage("You don't have the clue you need!");
             setTimeout(() => setMessage(null), 1500);
             return;
         }
@@ -94,12 +94,12 @@ const RoomEscape = ({ onComplete }) => {
             `}</style>
             {/* Header */}
             <div style={{ display: "flex", gap: "16px", fontSize: "13px", alignItems: "center" }}>
-                <span>이동: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{steps}</span></span>
+                <span>Moves: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{steps}</span></span>
                 <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
                     {items.has("blueKey") && <span style={{ animation: "keyGlow 2s infinite", color: "#4D96FF" }}>🔵</span>}
                     {items.has("redKey") && <span style={{ animation: "keyGlow 2s infinite", color: "#FF6B6B" }}>🔴</span>}
                     {items.has("code") && <span>🔢</span>}
-                    {items.size === 0 && <span style={{ color: "#8892b0", fontSize: "11px" }}>아이템 없음</span>}
+                    {items.size === 0 && <span style={{ color: "#8892b0", fontSize: "11px" }}>No items</span>}
                 </div>
             </div>
             {/* Room scene */}
@@ -153,7 +153,7 @@ const RoomEscape = ({ onComplete }) => {
                             animation: "doorGlow 1.5s infinite",
                             transition: "all 0.2s",
                         }}>
-                        🚪 탈출!
+                        🚪 Escape!
                     </button>
                 )}
             </div>
@@ -161,7 +161,7 @@ const RoomEscape = ({ onComplete }) => {
                 fontSize: "20px", fontWeight: "bold",
                 color: "#64ffda",
                 textShadow: "0 0 20px rgba(100,255,218,0.4)",
-            }}>🎉 탈출 성공! {steps}회 이동</div>}
+            }}>🎉 Escaped! {steps} moves</div>}
         </div>
     );
 };

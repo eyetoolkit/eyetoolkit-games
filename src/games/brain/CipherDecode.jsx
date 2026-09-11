@@ -1,10 +1,10 @@
 /**
- * 🎮 Game 121: 암호 해독
- * 시저 암호를 풀어보세요
+ * 🎮 Game 121: Cipher Decode
+ * Solve the Caesar cipher!
  */
 import { useState, useCallback } from "react";
 
-const WORDS = ["안녕하세요", "프로그래밍", "자바스크립트", "컴퓨터과학", "인공지능", "데이터베이스", "알고리즘", "소프트웨어"];
+const WORDS = ["Hello", "Programming", "JavaScript", "Computer Science", "Artificial Intelligence", "Database", "Algorithm", "Software"];
 
 const shiftChar = (ch, shift) => {
     const code = ch.charCodeAt(0);
@@ -51,15 +51,15 @@ const CipherDecode = ({ onComplete }) => {
 
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "14px", color: "white" }}>
-            <div style={{ fontSize: "13px" }}>시저 암호 해독 <span style={{ color: "#8892b0" }}>시도: {attempts}</span></div>
+            <div style={{ fontSize: "13px" }}>Caesar cipher decoding <span style={{ color: "#8892b0" }}>Tries: {attempts}</span></div>
             <div style={{ padding: "12px 20px", background: "rgba(255,255,255,0.06)", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.1)" }}>
-                <div style={{ fontSize: "11px", color: "#8892b0", marginBottom: "4px" }}>암호문:</div>
+                <div style={{ fontSize: "11px", color: "#8892b0", marginBottom: "4px" }}>Ciphertext:</div>
                 <div style={{ fontSize: "22px", fontFamily: "monospace", color: "#FF6B6B", letterSpacing: "2px" }}>{encrypted}</div>
             </div>
-            {hint && <div style={{ fontSize: "12px", color: "#FFD700" }}>힌트: 시프트 값은 1~5 사이</div>}
+            {hint && <div style={{ fontSize: "12px", color: "#FFD700" }}>Hint: shift is between 1-5</div>}
             <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
                 <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                    <span style={{ fontSize: "12px" }}>시프트 값:</span>
+                    <span style={{ fontSize: "12px" }}>Shift:</span>
                     {[1, 2, 3, 4, 5].map(n => (
                         <button key={n} onClick={() => setShiftGuess(n)} style={{
                             width: 36, height: 36, fontSize: "16px", fontWeight: "bold",
@@ -72,22 +72,22 @@ const CipherDecode = ({ onComplete }) => {
                 </div>
                 {shiftGuess > 0 && (
                     <div style={{ fontSize: "14px", color: "#64ffda" }}>
-                        복호화 미리보기: <span style={{ fontFamily: "monospace" }}>{decoded}</span>
+                        Decoded preview: <span style={{ fontFamily: "monospace" }}>{decoded}</span>
                     </div>
                 )}
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <button onClick={submitShift} style={actionBtn}>확인</button>
-                    <button onClick={() => setHint(true)} style={{ ...actionBtn, background: "rgba(255,217,61,0.2)", color: "#FFD93D" }}>힌트</button>
+                    <button onClick={submitShift} style={actionBtn}>OK</button>
+                    <button onClick={() => setHint(true)} style={{ ...actionBtn, background: "rgba(255,217,61,0.2)", color: "#FFD93D" }}>Hint</button>
                 </div>
-                <div style={{ fontSize: "11px", color: "#8892b0" }}>또는 직접 입력:</div>
+                <div style={{ fontSize: "11px", color: "#8892b0" }}>Or enter manually:</div>
                 <div style={{ display: "flex", gap: "6px" }}>
                     <input value={guess} onChange={e => setGuess(e.target.value)}
                         style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.06)", color: "white", fontSize: "14px", width: "160px" }}
-                        placeholder="정답 입력" />
-                    <button onClick={checkAnswer} style={actionBtn}>제출</button>
+                        placeholder="Enter answer" />
+                    <button onClick={checkAnswer} style={actionBtn}>Submit</button>
                 </div>
             </div>
-            {done && <div style={{ fontSize: "18px", color: "#64ffda", fontWeight: "bold" }}>🔓 해독 성공! (시프트: {shift})</div>}
+            {done && <div style={{ fontSize: "18px", color: "#64ffda", fontWeight: "bold" }}>🔓 Decrypted! (shift: {shift})</div>}
         </div>
     );
 };

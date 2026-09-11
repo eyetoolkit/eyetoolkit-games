@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 118: 디그더그
- * 땅을 파서 적을 제거하세요
+ * 🎮 Game 118: DigDug
+ * Dig tunnels and defeat enemies
  */
 import { useState, useEffect, useRef } from "react";
 
@@ -119,8 +119,8 @@ const DigDug = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#FFD700" }}>{score}</span></span>
-                <span>적: <span style={{ color: "#FF6B6B" }}>{enemies.filter(e => e.alive).length}</span></span>
+                <span>Score: <span style={{ color: "#FFD700" }}>{score}</span></span>
+                <span>Enemy: <span style={{ color: "#FF6B6B" }}>{enemies.filter(e => e.alive).length}</span></span>
             </div>
             <div style={{
                 display: "grid", gridTemplateColumns: `repeat(${GRID}, ${CELL}px)`, gap: "1px",
@@ -146,9 +146,9 @@ const DigDug = ({ onComplete }) => {
                 <button onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }))} style={dBtn}>↓</button>
                 <button onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }))} style={dBtn}>→</button>
             </div>
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>방향키로 땅을 파고 적에게 접근해 제거!</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>Dig with arrows, approach enemies to defeat!</div>
             {done && <div style={{ fontSize: "16px", color: enemies.every(e => !e.alive) ? "#64ffda" : "#FF6B6B", fontWeight: "bold" }}>
-                {enemies.every(e => !e.alive) ? "🎉 모든 적 제거!" : "💀 적에게 잡혔어요!"}
+                {enemies.every(e => !e.alive) ? "🎉 All enemies cleared!" : "💀 Caught by the enemy!"}
             </div>}
         </div>
     );

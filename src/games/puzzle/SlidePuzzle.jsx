@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 2: 슬라이드 퍼즐 — 슬라이드 애니 + 위치 체크 + 타이머
+ * 🎮 Game 2: Slide Puzzle — slide anim + position check + timer
  */
 import { useCallback, useEffect, useState } from "react";
 
@@ -81,9 +81,9 @@ const SlidePuzzle = ({ onComplete }) => {
             <style>{`@keyframes slideIn { 0% { transform: scale(0.95); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }`}</style>
 
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>이동: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{moves}</span></span>
+                <span>Moves: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{moves}</span></span>
                 <span>⏱ <span style={{ color: "#64ffda" }}>{elapsed}s</span></span>
-                <span>위치: <span style={{ color: "#A855F7" }}>{correctCount}/8</span></span>
+                <span>position: <span style={{ color: "#A855F7" }}>{correctCount}/8</span></span>
             </div>
 
             <div style={{
@@ -122,7 +122,7 @@ const SlidePuzzle = ({ onComplete }) => {
             </div>
 
             <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                {done ? "🎉 완성!" : "빈 칸 옆 숫자를 클릭 (방향키 가능)"}
+                {done ? "🎉 Complete!" : "Click a number next to an empty cell (arrow keys work)"}
             </div>
         </div>
     );

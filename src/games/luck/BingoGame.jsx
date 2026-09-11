@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 79: 빙고 — 빙고 보드 + 마킹 애니메이션 + 라인 시각화
+ * 🎮 Game 79: Bingo — Bingo board + marking animation + line view
  */
 import { useCallback, useEffect, useState } from "react";
 
@@ -64,7 +64,7 @@ const BingoGame = ({ onComplete }) => {
             `}</style>
 
             <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-                <div style={{ fontSize: "13px" }}>빙고 줄: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{lines.length}/3</span></div>
+                <div style={{ fontSize: "13px" }}>Bingo lines: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{lines.length}/3</span></div>
                 {lastCalled && (
                     <div style={{
                         width: 40, height: 40, borderRadius: "50%",
@@ -143,7 +143,7 @@ const BingoGame = ({ onComplete }) => {
                 color: "white", border: "2px solid #FFD700", borderRadius: "14px",
                 cursor: animating ? "wait" : "pointer",
                 boxShadow: "0 4px 15px rgba(255,215,0,0.15)",
-            }}>🎱 번호 뽑기!</button>
+            }}>🎱 Draw a number!</button>
         </div>
     );
 };

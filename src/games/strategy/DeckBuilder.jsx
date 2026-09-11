@@ -1,15 +1,15 @@
 /**
- * 🎮 Game 88: 카드 덱빌딩 — 카드 비주얼 + HP바 + 대미지 이펙트
+ * 🎮 Game 88: deck builder — card visuals + HP bars + damage effects
  */
 import { useCallback, useState } from "react";
 
 const CARDS = [
-    { name: "검", emoji: "⚔️", atk: 3, def: 0, color: "#EF4444" },
-    { name: "방패", emoji: "🛡️", atk: 0, def: 4, color: "#3B82F6" },
-    { name: "화염", emoji: "🔥", atk: 5, def: 0, color: "#F97316" },
-    { name: "힐", emoji: "💚", atk: 0, def: 3, color: "#22C55E" },
-    { name: "번개", emoji: "⚡", atk: 4, def: 1, color: "#A855F7" },
-    { name: "독", emoji: "☠️", atk: 3, def: 1, color: "#6B21A8" },
+    { name: "Sword", emoji: "⚔️", atk: 3, def: 0, color: "#EF4444" },
+    { name: "Shield", emoji: "🛡️", atk: 0, def: 4, color: "#3B82F6" },
+    { name: "Flame", emoji: "🔥", atk: 5, def: 0, color: "#F97316" },
+    { name: "Heal", emoji: "💚", atk: 0, def: 3, color: "#22C55E" },
+    { name: "Lightning", emoji: "⚡", atk: 4, def: 1, color: "#A855F7" },
+    { name: "Poison", emoji: "☠️", atk: 3, def: 1, color: "#6B21A8" },
 ];
 const randomCard = () => CARDS[Math.floor(Math.random() * CARDS.length)];
 const MAX_ROUNDS = 5;
@@ -78,7 +78,7 @@ const DeckBuilder = ({ onComplete }) => {
                 @keyframes dmgFloat { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-30px); } }
             `}</style>
 
-            <div style={{ fontSize: "13px" }}>라운드 <span style={{ color: "#FFD700" }}>{round}/{MAX_ROUNDS}</span></div>
+            <div style={{ fontSize: "13px" }}>Round <span style={{ color: "#FFD700" }}>{round}/{MAX_ROUNDS}</span></div>
 
             {/* Battle arena */}
             <div style={{ width: 260, display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -91,7 +91,7 @@ const DeckBuilder = ({ onComplete }) => {
                 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                         <span style={{ fontSize: "28px" }}>🤖</span>
-                        <div style={{ flex: 1 }}>{hpBar(eHP, 25, "#EF4444", "적")}</div>
+                        <div style={{ flex: 1 }}>{hpBar(eHP, 25, "#EF4444", "Enemy")}</div>
                     </div>
                     {lastPlay && <div style={{ position: "absolute", right: 12, top: -10, fontSize: "14px", color: "#EF4444", fontWeight: "bold", animation: "dmgFloat 1s ease forwards" }}>-{lastPlay.card.atk}</div>}
                 </div>
@@ -108,7 +108,7 @@ const DeckBuilder = ({ onComplete }) => {
                 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                         <span style={{ fontSize: "28px" }}>🧑</span>
-                        <div style={{ flex: 1 }}>{hpBar(pHP, 25, "#64ffda", "나")}</div>
+                        <div style={{ flex: 1 }}>{hpBar(pHP, 25, "#64ffda", "Me")}</div>
                     </div>
                     {lastPlay && <div style={{ position: "absolute", right: 12, top: -10, fontSize: "14px", color: "#FF6B6B", fontWeight: "bold", animation: "dmgFloat 1s ease 0.4s forwards" }}>-{lastPlay.actualDmg}</div>}
                 </div>
@@ -138,7 +138,7 @@ const DeckBuilder = ({ onComplete }) => {
 
             {lastPlay && (
                 <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                    {lastPlay.card.emoji} {lastPlay.card.name} → 적에게 {lastPlay.card.atk}dmg | 적의 공격 {lastPlay.eDmg} - 방어 {lastPlay.card.def} = {lastPlay.actualDmg}dmg
+                    {lastPlay.card.emoji} {lastPlay.card.name} → {lastPlay.card.atk}dmg to enemy | attack {lastPlay.eDmg} - defense {lastPlay.card.def} = {lastPlay.actualDmg}dmg
                 </div>
             )}
         </div>

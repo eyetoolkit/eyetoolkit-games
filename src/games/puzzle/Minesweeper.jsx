@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 7: 미니 지뢰찾기 (6×6, 6 mines)
- * 지뢰를 피해 모든 안전한 칸을 열어보세요!
+ * 🎮 Game 7: Minesweeper (6×6, 6 mines)
+ * Open all safe cells without hitting mines!
  */
 import { useCallback, useState } from "react";
 
@@ -108,9 +108,9 @@ const Minesweeper = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                💣 {MINES}개 | 🚩 <span style={{ color: "#FFD700" }}>{board.flat().filter(c => c.flagged).length}</span> | ⬛ <span style={{ color: "#64ffda" }}>{board.flat().filter(c => c.revealed && !c.mine).length}</span>/{SIZE * SIZE - MINES}
+                💣 {MINES} | 🚩 <span style={{ color: "#FFD700" }}>{board.flat().filter(c => c.flagged).length}</span> | ⬛ <span style={{ color: "#64ffda" }}>{board.flat().filter(c => c.revealed && !c.mine).length}</span>/{SIZE * SIZE - MINES}
                 {gameOver && <span style={{ color: "#FF6B6B" }}> — 💥 BOOM!</span>}
-                {won && <span style={{ color: "#64ffda" }}> — 🎉 클리어!</span>}
+                {won && <span style={{ color: "#64ffda" }}> — 🎉 Clear!</span>}
             </div>
             <div
                 style={{
@@ -164,7 +164,7 @@ const Minesweeper = ({ onComplete }) => {
                 })}
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                좌클릭: 열기 | 우클릭: 깃발 🚩
+                Left-click: open | Right-click: flag 🚩
             </div>
         </div>
     );

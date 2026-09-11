@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 91: 농구 프리스로 (고도화)
- * Canvas 포물선 궤적 시각화 + 공 날아가는 애니메이션
+ * 🎮 Game 91: Basketball Free Throw
+ * canvas trajectory viz + ball flight animation
  */
 import { useCallback, useState } from "react";
 
@@ -51,7 +51,7 @@ const BasketballShoot = ({ onComplete }) => {
                 const newMade = made + (scored ? 1 : 0);
 
                 if (scored) setMade(newMade);
-                setResult(scored ? "🏀 골인!" : "😢 빗나감...");
+                setResult(scored ? "🏀 Bucket!" : "😢 Missed...");
                 setPhase("result");
 
                 setTimeout(() => {
@@ -82,7 +82,7 @@ const BasketballShoot = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "6px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                {shots}/{MAX_SHOTS} | 🏀 <span style={{ color: "#64ffda" }}>{made}</span>골
+                {shots}/{MAX_SHOTS} | 🏀 <span style={{ color: "#64ffda" }}>{made}</span> goals
             </div>
             {/* Progress dots */}
             <div style={{ display: "flex", gap: "5px" }}>
@@ -159,13 +159,13 @@ const BasketballShoot = ({ onComplete }) => {
                     padding: "10px 28px", fontSize: "15px", fontWeight: "bold",
                     background: "rgba(255,165,0,0.3)", color: "white",
                     border: "2px solid #FFA500", borderRadius: "12px", cursor: "pointer",
-                }}>🏀 슛!</button>
+                }}>🏀 Shoot!</button>
             )}
 
             {result && (
                 <div style={{
                     fontSize: "16px", fontWeight: "bold",
-                    color: result.includes("골인") ? "#FFD700" : "#FF6B6B",
+                    color: result.includes("Scored") ? "#FFD700" : "#FF6B6B",
                 }}>{result}</div>
             )}
         </div>

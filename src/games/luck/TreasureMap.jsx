@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 80: 보물 지도 — 탐험 맵 + 온도 힌트 시각화
+ * 🎮 Game 80: Treasure Map — exploration map + heat hints
  */
 import { useCallback, useState } from "react";
 
@@ -22,7 +22,7 @@ const TreasureMap = ({ onComplete }) => {
         }
     }, [treasure, guesses, found, onComplete]);
 
-    const getHint = (d) => ({ emoji: d === 0 ? "💎" : d <= 1 ? "🔥" : d <= 2 ? "🟡" : d <= 3 ? "🔵" : "❄️", text: d === 0 ? "보물!" : d <= 1 ? "매우 뜨거움!" : d <= 2 ? "따뜻함" : d <= 3 ? "차가움" : "매우 차가움" });
+    const getHint = (d) => ({ emoji: d === 0 ? "💎" : d <= 1 ? "🔥" : d <= 2 ? "🟡" : d <= 3 ? "🔵" : "❄️", text: d === 0 ? "Treasure!" : d <= 1 ? "Very hot!" : d <= 2 ? "Warm" : d <= 3 ? "Cold" : "Freezing" });
     const lastGuess = guesses[guesses.length - 1];
 
     return (
@@ -34,7 +34,7 @@ const TreasureMap = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "13px" }}>
-                🗺️ 시도: <span style={{ color: "#FFD700" }}>{guesses.length}</span>
+                🗺️ Tries: <span style={{ color: "#FFD700" }}>{guesses.length}</span>
                 {lastGuess && !found && (
                     <span style={{ marginLeft: 10, color: lastGuess.d <= 1 ? "#EF4444" : lastGuess.d <= 2 ? "#FFD700" : "#3B82F6" }}>
                         {getHint(lastGuess.d).text}
@@ -89,12 +89,12 @@ const TreasureMap = ({ onComplete }) => {
             </div>
 
             <div style={{ display: "flex", gap: "12px", fontSize: "10px", color: "#8892b0" }}>
-                <span>🔥 가까움</span><span>🟡 따뜻</span><span>🔵 차가움</span><span>❄️ 멀음</span>
+                <span>🔥 Close</span><span>🟡 Warm</span><span>🔵 Cold</span><span>❄️ Far</span>
             </div>
 
             {found && (
                 <div style={{ fontSize: "18px", fontWeight: "bold", color: "#FFD700", animation: "treasure 0.6s ease infinite" }}>
-                    🎉 보물 발견! ({guesses.length}번 만에)
+                    🎉 Treasure found! ({guesses.length} tries))
                 </div>
             )}
         </div>

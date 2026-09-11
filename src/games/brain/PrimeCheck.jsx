@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 44: 소수 판별 — 시각적 숫자 카드 + 팩터 시각화
+ * 🎮 Game 44: Prime Check — visual number card + factor visualization
  */
 import { useCallback, useState } from "react";
 
@@ -40,7 +40,7 @@ const PrimeCheck = ({ onComplete }) => {
             `}</style>
 
             <div style={{ fontSize: "13px" }}>
-                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | 정답 <span style={{ color: "#64ffda" }}>{correct}</span>
+                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | Answer <span style={{ color: "#64ffda" }}>{correct}</span>
             </div>
 
             {/* Number card */}
@@ -61,7 +61,7 @@ const PrimeCheck = ({ onComplete }) => {
                 {number}
             </div>
 
-            <div style={{ fontSize: "14px", color: "#8892b0" }}>이 숫자는 소수일까요?</div>
+            <div style={{ fontSize: "14px", color: "#8892b0" }}>Is this number prime?</div>
 
             {/* Factor visualization */}
             {feedback && !feedback.isPrime && feedback.factors.length > 0 && (
@@ -89,22 +89,22 @@ const PrimeCheck = ({ onComplete }) => {
                         background: "linear-gradient(135deg, rgba(100,255,218,0.15), rgba(100,255,218,0.05))",
                         color: "#64ffda", border: "2px solid rgba(100,255,218,0.3)",
                         boxShadow: "0 4px 15px rgba(100,255,218,0.1)",
-                    }}>✅ 소수</button>
+                    }}>✅ Prime</button>
                     <button onClick={() => handleAnswer(false)} style={{
                         padding: "14px 28px", fontSize: "16px", fontWeight: "bold",
                         borderRadius: "14px", cursor: "pointer",
                         background: "linear-gradient(135deg, rgba(255,107,107,0.12), rgba(255,107,107,0.04))",
                         color: "#FF6B6B", border: "2px solid rgba(255,107,107,0.3)",
                         boxShadow: "0 4px 15px rgba(255,107,107,0.1)",
-                    }}>❌ 합성수</button>
+                    }}>❌ Composite</button>
                 </div>
             )}
 
             {feedback && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: feedback.isCorrect ? "#64ffda" : "#FF6B6B" }}>
-                    {feedback.isCorrect ? "✅ 정답!" : "❌ 오답"}
+                    {feedback.isCorrect ? "✅ Correct!" : "❌ Wrong"}
                     <span style={{ fontSize: "12px", color: "#8892b0", marginLeft: 8 }}>
-                        ({feedback.isPrime ? "소수" : "합성수"})
+                        ({feedback.isPrime ? "Prime" : "Composite"})
                     </span>
                 </div>
             )}

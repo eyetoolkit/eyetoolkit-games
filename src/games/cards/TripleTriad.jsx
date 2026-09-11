@@ -1,7 +1,7 @@
 /**
- * 🎮 Game 30: 트리플 트라이어드
- * 3×3 보드에 카드를 놓아 상대 카드를 뒤집자!
- * 각 카드에는 상하좌우 숫자가 있고, 인접한 면의 수가 높으면 뒤집는다.
+ * 🎮 Game 30: Triple Triad
+ * Place cards on a 3×3 board to capture!
+ * Each card has 4 numbers; the higher adjacent number captures.
  */
 import { useCallback, useEffect, useState } from "react";
 
@@ -114,7 +114,7 @@ const TripleTriad = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>🔵 {pScore + playerHand.length} — 🔴 {aScore + aiHand.length}
-                <span style={{ marginLeft: 8, color: "#8892b0", fontSize: "11px" }}>{gameOver ? "" : turn === "player" ? "내 턴" : "AI 턴"}</span>
+                <span style={{ marginLeft: 8, color: "#8892b0", fontSize: "11px" }}>{gameOver ? "" : turn === "player" ? "My turn" : "AI's turn"}</span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 64px)", gap: "4px", padding: "8px", background: "rgba(255,255,255,0.05)", borderRadius: "8px", border: gameOver ? "3px solid #FFD700" : "2px solid rgba(255,255,255,0.06)" }}>
                 {board.map((cell, i) => (
@@ -129,7 +129,7 @@ const TripleTriad = ({ onComplete }) => {
                     </div>
                 ))}
             </div>
-            <div style={{ fontSize: "12px", color: "#8892b0" }}>내 카드 (클릭으로 선택):</div>
+            <div style={{ fontSize: "12px", color: "#8892b0" }}>My card (click to select):</div>
             <div style={{ display: "flex", gap: "6px" }}>
                 {playerHand.map((card, i) => (
                     <div key={i} onClick={() => setSelected(i)} style={{

@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 41: 암산 챌린지 — 시각적 수식 + 콤보 + 타이머 바
+ * 🎮 Game 41: Math Challenge — visual formulas + combo + timer bar
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -102,7 +102,7 @@ const MathChallenge = ({ onComplete }) => {
                     {problem.text} = ?
                 </div>
             ) : (
-                <div style={{ fontSize: "24px", fontWeight: "bold", color: "#64ffda" }}>🏆 {correct}문제 정답!</div>
+                <div style={{ fontSize: "24px", fontWeight: "bold", color: "#64ffda" }}>🏆 {correct}question Correct!</div>
             )}
 
             {/* Feedback */}
@@ -112,7 +112,7 @@ const MathChallenge = ({ onComplete }) => {
                     color: feedback === "correct" ? "#64ffda" : "#FF6B6B",
                 }}>
                     {feedback === "correct" ? "✅" : "❌"}
-                    {combo >= 3 && feedback === "correct" && <span style={{ fontSize: "14px", color: "#A855F7", marginLeft: 8 }}>+콤보!</span>}
+                    {combo >= 3 && feedback === "correct" && <span style={{ fontSize: "14px", color: "#A855F7", marginLeft: 8 }}>+Combo!</span>}
                 </div>
             )}
 

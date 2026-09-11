@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 148: 숫자 크로스워드
- * 가로세로 합이 맞도록 숫자 배치
+ * 🎮 Game 148: Number Crossword
+ * Place numbers so rows and columns add up
  */
 import { useState, useCallback } from "react";
 
@@ -46,7 +46,7 @@ const NumberCrossword = ({ onComplete }) => {
 
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "14px", color: "white" }}>
-            <div style={{ fontSize: "13px" }}>합이 맞도록 빈칸을 채우세요</div>
+            <div style={{ fontSize: "13px" }}>Fill the blanks so sums match</div>
             <div style={{ display: "grid", gridTemplateColumns: `repeat(${SIZE + 1}, 50px)`, gap: "4px", alignItems: "center" }}>
                 {userGrid.map((row, r) => (
                     <>
@@ -81,9 +81,9 @@ const NumberCrossword = ({ onComplete }) => {
                 ))}
             </div>
             {!done && (
-                <button onClick={check} style={{ padding: "8px 20px", fontSize: "14px", fontWeight: "bold", background: "rgba(100,255,218,0.15)", color: "#64ffda", border: "1px solid #64ffda", borderRadius: "8px", cursor: "pointer" }}>확인</button>
+                <button onClick={check} style={{ padding: "8px 20px", fontSize: "14px", fontWeight: "bold", background: "rgba(100,255,218,0.15)", color: "#64ffda", border: "1px solid #64ffda", borderRadius: "8px", cursor: "pointer" }}>OK</button>
             )}
-            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🔢 완성!</div>}
+            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🔢 Complete!</div>}
         </div>
     );
 };

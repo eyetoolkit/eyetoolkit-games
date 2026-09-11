@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 119: 아스테로이드
- * 우주선으로 소행성을 파괴하세요
+ * 🎮 Game 119: Asteroids
+ * Destroy asteroids with your spaceship
  */
 import { useState, useEffect, useRef } from "react";
 
@@ -182,12 +182,12 @@ const Asteroids = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>점수: <span style={{ color: "#FFD700" }}>{display.score}/100</span></span>
-                <span>생명: <span style={{ color: "#FF6B6B" }}>{"❤️".repeat(display.lives)}</span></span>
+                <span>Score: <span style={{ color: "#FFD700" }}>{display.score}/100</span></span>
+                <span>Lives: <span style={{ color: "#FF6B6B" }}>{"❤️".repeat(display.lives)}</span></span>
             </div>
             <canvas ref={canvasRef} width={W} height={H}
                 style={{ borderRadius: "10px", border: "2px solid rgba(255,255,255,0.1)" }} />
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>←→ 회전 | ↑ 가속 | Space 발사</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>←→ rotate | ↑ thrust | Space fire</div>
         </div>
     );
 };

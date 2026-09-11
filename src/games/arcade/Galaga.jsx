@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 40: 갤러거
- * 적 우주선이 대열을 지어 내려옵니다! 좌우 이동 + 발사!
+ * 🎮 Game 40: Galaga
+ * Enemy ships descend in formation! Move and shoot!
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -149,8 +149,8 @@ const Galaga = ({ onComplete }) => {
                 <div style={{ position: "absolute", left: px - 12, top: H - 40, fontSize: "24px", filter: "drop-shadow(0 2px 4px rgba(100,255,218,0.3))" }}>🚀</div>
                 {!gameActive && (
                     <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.5)" }}>
-                        <div style={{ fontSize: "18px", fontWeight: "bold", color: wave > 3 ? "#64ffda" : "#FF6B6B" }}>{wave > 3 ? "🏆 클리어!" : "💀 게임 오버"}</div>
-                        <div style={{ color: "#FFD700" }}>{score}점</div>
+                        <div style={{ fontSize: "18px", fontWeight: "bold", color: wave > 3 ? "#64ffda" : "#FF6B6B" }}>{wave > 3 ? "🏆 Clear!" : "💀 Game over"}</div>
+                        <div style={{ color: "#FFD700" }}>{score} pts</div>
                     </div>
                 )}
             </div>

@@ -1,5 +1,5 @@
 /**
- * 🎮 화살 피하기 — 파워업 + 쉴드 + 코인 수집 + 보스 애로우
+ * 🎮 Arrow Dodge — power-ups + shield + coin collect + boss arrows
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -187,11 +187,11 @@ const ArrowDodge = ({ onComplete }) => {
 
             {/* HUD */}
             <div style={{ display: "flex", gap: "14px", fontSize: "12px", alignItems: "center" }}>
-                <span>생존: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{secs}초</span></span>
-                <span>레벨: <span style={{ color: "#A855F7", fontWeight: "bold" }}>Lv.{level}</span></span>
+                <span>Survived: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{secs}s</span></span>
+                <span>Level: <span style={{ color: "#A855F7", fontWeight: "bold" }}>Lv.{level}</span></span>
                 <span>🪙 <span style={{ color: "#FFD700" }}>{coinCount}</span></span>
                 {shield > 0 && <span>🛡️ <span style={{ color: "#64ffda" }}>x{shield}</span></span>}
-                {slow && <span style={{ color: "#0cbfff", animation: "slowEffect 0.5s infinite" }}>⏳ 슬로우!</span>}
+                {slow && <span style={{ color: "#0cbfff", animation: "slowEffect 0.5s infinite" }}>⏳ Slow!</span>}
             </div>
 
             {/* Survival + XP bar */}
@@ -265,9 +265,9 @@ const ArrowDodge = ({ onComplete }) => {
 
                 {!gameActive && (
                     <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.5)", gap: "6px" }}>
-                        <div style={{ fontSize: "20px", fontWeight: "bold", color: "#FF6B6B" }}>💀 게임 오버!</div>
-                        <div style={{ color: "#FFD700", fontWeight: "bold" }}>{secs}초 생존 | 🪙 {coinCount}개 수집</div>
-                        <div style={{ fontSize: "12px", color: "#A855F7" }}>레벨 {level} 도달</div>
+                        <div style={{ fontSize: "20px", fontWeight: "bold", color: "#FF6B6B" }}>💀 Game over!</div>
+                        <div style={{ color: "#FFD700", fontWeight: "bold" }}>{secs}s survived | 🪙 {coinCount} collected</div>
+                        <div style={{ fontSize: "12px", color: "#A855F7" }}>Level {level} reached</div>
                     </div>
                 )}
             </div>
@@ -288,7 +288,7 @@ const ArrowDodge = ({ onComplete }) => {
                     style={arrowBtnStyle}>→</button>
             </div>
             <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                {gameActive ? "←→ 화살 피하고 🪙코인/🛡️파워업 수집!" : ""}
+                {gameActive ? "Dodge ←→ arrows, collect 🪙coins/🛡️power-ups!" : ""}
             </div>
         </div>
     );

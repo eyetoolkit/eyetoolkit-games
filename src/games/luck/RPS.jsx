@@ -1,14 +1,14 @@
 /**
- * 🎮 가위바위보 — 토너먼트 모드 + 스페셜 무브 + 패턴 AI + 파워 게이지
+ * 🎮 Rock Paper Scissors — tournament mode + special moves + pattern AI + Power gauge
  */
 import { useCallback, useState } from "react";
 
 const MOVES = ["✊", "✋", "✌️"];
-const NAMES = ["바위", "보", "가위"];
+const NAMES = ["Rock", "Paper", "Scissors"];
 const SPECIAL_MOVES = [
-    { emoji: "🔥", name: "불주먹", beats: [2], desc: "가위에 강력!" },
-    { emoji: "🛡️", name: "방패", beats: [0], desc: "바위를 막음!" },
-    { emoji: "⚡", name: "번개", beats: [1], desc: "보를 찢음!" },
+    { emoji: "🔥", name: "Fire fist", beats: [2], desc: "Strong vs Scissors!" },
+    { emoji: "🛡️", name: "Shield", beats: [0], desc: "Blocks Rock!" },
+    { emoji: "⚡", name: "Lightning", beats: [1], desc: "Cuts Paper!" },
 ];
 const BEST_OF = 7;
 
@@ -88,7 +88,7 @@ const RPS = ({ onComplete }) => {
         }, 800);
     }, [animating, round, wins, losses, getAiChoice, onComplete]);
 
-    const aiLabel = aiPersonality === "aggressive" ? "🗡️ 공격형" : aiPersonality === "defensive" ? "🛡️ 수비형" : "🎭 랜덤형";
+    const aiLabel = aiPersonality === "aggressive" ? "🗡️ Aggressive" : aiPersonality === "defensive" ? "🛡️ Defensive" : "🎭 Random";
 
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
@@ -121,7 +121,7 @@ const RPS = ({ onComplete }) => {
             {/* VS Arena */}
             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                 <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "11px", color: "#64ffda", marginBottom: 4 }}>🧑 나</div>
+                    <div style={{ fontSize: "11px", color: "#64ffda", marginBottom: 4 }}>🧑 Me</div>
                     <div style={{
                         width: 85, height: 85, borderRadius: "50%",
                         background: "linear-gradient(135deg, rgba(100,255,218,0.15), rgba(100,255,218,0.05))",
@@ -163,7 +163,7 @@ const RPS = ({ onComplete }) => {
                     color: result.outcome === "win" ? "#64ffda" : result.outcome === "draw" ? "#FFD700" : "#FF6B6B",
                     animation: result.outcome === "win" ? "rpsWin 0.8s ease infinite" : "rpsReveal 0.3s ease",
                 }}>
-                    {result.outcome === "win" ? (result.isSpecial ? "⚡ 스페셜 승리!" : "🎉 승리!") : result.outcome === "draw" ? "🤝 무승부" : "💀 패배"}
+                    {result.outcome === "win" ? (result.isSpecial ? "⚡ Special win!" : "🎉 Victory!") : result.outcome === "draw" ? "🤝 Draw" : "💀 Defeat"}
                 </div>
             )}
 
@@ -178,7 +178,7 @@ const RPS = ({ onComplete }) => {
                         }} />
                     </div>
                     <div style={{ fontSize: "9px", color: power >= 100 ? "#FFD700" : "#8892b0", marginTop: "2px" }}>
-                        {power >= 100 ? "⚡ 스페셜 무브 사용 가능!" : `파워 게이지: ${power}%`}
+                        {power >= 100 ? "⚡ Special move ready!" : `Power gauge: ${power}%`}
                     </div>
                 </div>
             )}

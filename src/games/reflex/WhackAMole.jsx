@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 11: 두더지 잡기 — 히트 파티클 + 콤보 + 타이머 바
+ * 🎮 Game 11: Whack-a-Mole — hit particles + combo + timer bar
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -70,7 +70,7 @@ const WhackAMole = ({ onComplete }) => {
             `}</style>
 
             <div style={{ display: "flex", gap: "16px", fontSize: "13px" }}>
-                <span>⏱ <span style={{ color: timeLeft <= 3 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}초</span></span>
+                <span>⏱ <span style={{ color: timeLeft <= 3 ? "#FF6B6B" : "#FFD700" }}>{timeLeft}s</span></span>
                 <span>🎯 <span style={{ color: "#64ffda", fontWeight: "bold" }}>{score}</span></span>
                 {combo >= 3 && <span style={{ color: "#A855F7" }}>🔥 x{combo}</span>}
             </div>
@@ -118,7 +118,7 @@ const WhackAMole = ({ onComplete }) => {
             </div>
 
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                {gameActive ? "두더지를 빠르게 클릭!" : `게임 종료! ${score}마리 잡음`}
+                {gameActive ? "Click the moles fast!" : `Game over! ${score} moles caught`}
             </div>
         </div>
     );

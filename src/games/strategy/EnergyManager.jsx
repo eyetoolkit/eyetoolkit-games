@@ -1,14 +1,14 @@
 /**
- * 🎮 Game 144: 에너지 관리
- * 발전소와 건물을 관리하여 도시에 전력 공급
+ * 🎮 Game 144: Energy Manager
+ * Manage plants & buildings to power the city
  */
 import { useState, useCallback } from "react";
 
 const BUILDINGS = [
-    { name: "태양광", emoji: "☀️", output: 3, cost: 5, color: "#FFD700" },
-    { name: "풍력", emoji: "🌬️", output: 4, cost: 6, color: "#4D96FF" },
-    { name: "원자력", emoji: "☢️", output: 10, cost: 15, color: "#22C55E" },
-    { name: "배터리", emoji: "🔋", output: 2, cost: 3, color: "#A855F7" },
+    { name: "Solar", emoji: "☀️", output: 3, cost: 5, color: "#FFD700" },
+    { name: "Wind", emoji: "🌬️", output: 4, cost: 6, color: "#4D96FF" },
+    { name: "Nuclear", emoji: "☢️", output: 10, cost: 15, color: "#22C55E" },
+    { name: "Battery", emoji: "🔋", output: 2, cost: 3, color: "#A855F7" },
 ];
 
 const EnergyManager = ({ onComplete }) => {
@@ -59,8 +59,8 @@ const EnergyManager = ({ onComplete }) => {
             `}</style>
             <div style={{ display: "flex", gap: "14px", fontSize: "13px", alignItems: "center" }}>
                 <span>💰 <span style={{ color: "#FFD700", fontWeight: "bold" }}>{budget}</span></span>
-                <span>⚡ 수요: <span style={{ color: "#FF6B6B", fontWeight: "bold" }}>{demand}kW</span></span>
-                <span>공급: <span style={{
+                <span>⚡ Demand: <span style={{ color: "#FF6B6B", fontWeight: "bold" }}>{demand}kW</span></span>
+                <span>Supply: <span style={{
                     color: totalOutput >= demand ? "#64ffda" : "#FFD93D", fontWeight: "bold",
                     animation: totalOutput >= demand ? "surplusGlow 1.5s infinite" : "none",
                 }}>{totalOutput}kW</span></span>
@@ -84,7 +84,7 @@ const EnergyManager = ({ onComplete }) => {
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "9px", color: "#8892b0", marginTop: "2px" }}>
                     <span>0kW</span>
                     <span style={{ color: surplus >= 0 ? "#64ffda" : "#FF6B6B" }}>
-                        {surplus >= 0 ? `+${surplus}kW 여유` : `${surplus}kW 부족`}
+                        {surplus >= 0 ? `+${surplus}kW surplus` : `${surplus}kW short`}
                     </span>
                     <span>{demand}kW</span>
                 </div>
@@ -115,7 +115,7 @@ const EnergyManager = ({ onComplete }) => {
                 background: "rgba(100,255,218,0.03)", borderRadius: "12px",
                 border: "1px dashed rgba(100,255,218,0.15)",
             }}>
-                <div style={{ fontSize: "11px", color: "#64ffda", marginBottom: "4px" }}>🏗 건설한 발전소</div>
+                <div style={{ fontSize: "11px", color: "#64ffda", marginBottom: "4px" }}>🏗 Built plants</div>
                 <div style={{ display: "flex", gap: "4px", justifyContent: "center", flexWrap: "wrap", minHeight: "28px" }}>
                     {plants.map((p, i) => (
                         <span key={i} style={{
@@ -124,7 +124,7 @@ const EnergyManager = ({ onComplete }) => {
                             filter: `drop-shadow(0 0 4px ${p.color}66)`,
                         }}>{p.emoji}</span>
                     ))}
-                    {plants.length === 0 && <span style={{ fontSize: "12px", color: "#8892b0" }}>발전소를 건설하세요</span>}
+                    {plants.length === 0 && <span style={{ fontSize: "12px", color: "#8892b0" }}>Build a power plant</span>}
                 </div>
             </div>
             <div style={{ display: "flex", gap: "8px" }}>
@@ -134,7 +134,7 @@ const EnergyManager = ({ onComplete }) => {
                         background: "rgba(255,107,107,0.1)", color: "#FF6B6B",
                         border: "1px solid rgba(255,107,107,0.3)", borderRadius: "8px",
                         cursor: "pointer",
-                    }}>↩ 되돌리기</button>
+                    }}>↩ Undo</button>
                 )}
                 {!done && (
                     <button onClick={evaluate} style={{
@@ -147,7 +147,7 @@ const EnergyManager = ({ onComplete }) => {
                         borderRadius: "10px", cursor: "pointer",
                         boxShadow: totalOutput >= demand ? "0 0 12px rgba(100,255,218,0.2)" : "none",
                     }}>
-                        ⚡ 가동 시작
+                        ⚡ Start grid
                     </button>
                 )}
             </div>
@@ -157,8 +157,8 @@ const EnergyManager = ({ onComplete }) => {
                 textShadow: "0 0 15px currentColor",
             }}>
                 {totalOutput >= demand
-                    ? `⚡ 전력 공급 성공! (잔여 예산: ${budget})${surplus === 0 ? " 🎯 완벽!" : ""}`
-                    : "⚠ 전력 부족!"}
+                    ? `⚡ Grid stable! (budget left: ${budget})${surplus === 0 ? " 🎯 Perfect!" : ""}`
+                    : "⚠ Power shortage!"}
             </div>}
         </div>
     );

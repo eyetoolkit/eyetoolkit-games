@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 83: 주식 시뮬 — Canvas 실시간 차트 + 매매 시스템
+ * 🎮 Game 83: Stock Sim — live canvas chart + trading
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -92,13 +92,13 @@ const StockSim = ({ onComplete }) => {
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <div style={{ display: "flex", gap: "16px", fontSize: "12px" }}>
                 <span>📅 Day {day}/{MAX_DAYS}</span>
-                <span>💰 {cash.toLocaleString()}원</span>
-                <span>📊 {shares}주</span>
+                <span>💰 {cash.toLocaleString()}Circle</span>
+                <span>📊 {shares} shares</span>
             </div>
 
             {/* Price display */}
             <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
-                <span style={{ fontSize: "28px", fontWeight: "bold", color: "#FFD700" }}>{currentPrice.toLocaleString()}원</span>
+                <span style={{ fontSize: "28px", fontWeight: "bold", color: "#FFD700" }}>{currentPrice.toLocaleString()}Circle</span>
                 <span style={{ fontSize: "13px", color: pnlColor }}>{pnl >= 0 ? "▲" : "▼"} {Math.abs(pnl).toLocaleString()} ({pnl >= 0 ? "+" : ""}{((pnl / 1000) * 100).toFixed(1)}%)</span>
             </div>
 
@@ -110,15 +110,15 @@ const StockSim = ({ onComplete }) => {
             {/* Actions */}
             {!result && (
                 <div style={{ display: "flex", gap: "8px" }}>
-                    <button onClick={buy} disabled={cash < currentPrice} style={{ ...btnStyle, borderColor: "#22C55E", opacity: cash < currentPrice ? 0.4 : 1 }}>📈 매수</button>
-                    <button onClick={sell} disabled={shares <= 0} style={{ ...btnStyle, borderColor: "#EF4444", opacity: shares <= 0 ? 0.4 : 1 }}>📉 매도</button>
-                    <button onClick={nextDay} style={{ ...btnStyle, borderColor: "#FFD700" }}>⏭️ 다음날</button>
+                    <button onClick={buy} disabled={cash < currentPrice} style={{ ...btnStyle, borderColor: "#22C55E", opacity: cash < currentPrice ? 0.4 : 1 }}>📈 Buy</button>
+                    <button onClick={sell} disabled={shares <= 0} style={{ ...btnStyle, borderColor: "#EF4444", opacity: shares <= 0 ? 0.4 : 1 }}>📉 Sell</button>
+                    <button onClick={nextDay} style={{ ...btnStyle, borderColor: "#FFD700" }}>⏭️ Next day</button>
                 </div>
             )}
 
             {result && (
                 <div style={{ fontSize: "16px", fontWeight: "bold", color: pnlColor }}>
-                    최종 자산: {result.toLocaleString()}원 ({pnl >= 0 ? "+" : ""}{pnl.toLocaleString()})
+                    Final assets: {result.toLocaleString()}Circle ({pnl >= 0 ? "+" : ""}{pnl.toLocaleString()})
                 </div>
             )}
         </div>

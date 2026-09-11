@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 106: 색깔 스위치
- * 공이 떨어지며 같은 색 게이트를 통과해야 합니다
+ * 🎮 Game 106: Color Switch
+ * The ball must pass gates of the same color
  */
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -128,7 +128,7 @@ const ColorSwitch = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                점수: <span style={{ color: "#FFD700" }}>{score}</span>
+                Score: <span style={{ color: "#FFD700" }}>{score}</span>
             </div>
             <canvas
                 ref={canvasRef} width={CANVAS_W} height={CANVAS_H}
@@ -136,9 +136,9 @@ const ColorSwitch = ({ onComplete }) => {
                 style={{ borderRadius: "12px", border: "2px solid rgba(255,255,255,0.1)", cursor: "pointer" }}
             />
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                탭하여 색을 바꾸고 같은 색 게이트를 통과!
+                Tap to switch color, pass the matching gates!
             </div>
-            {gameOver && <div style={{ fontSize: "16px", color: "#FF6B6B", fontWeight: "bold" }}>게임 오버! 점수: {score}</div>}
+            {gameOver && <div style={{ fontSize: "16px", color: "#FF6B6B", fontWeight: "bold" }}>Game over! Score: {score}</div>}
         </div>
     );
 };

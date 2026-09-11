@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 105: 벽돌 쌓기 퍼즐 (Columns 스타일)
- * 3색 블록이 떨어지며, 3개 이상 같은 색이 연결되면 제거
+ * 🎮 Game 105: Columns Puzzle
+ * 3-color blocks fall; match 3+ to clear
  */
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -140,7 +140,7 @@ const ColumnsPuzzle = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                점수: <span style={{ color: "#FFD700" }}>{score}</span>
+                Score: <span style={{ color: "#FFD700" }}>{score}</span>
             </div>
             <div style={{
                 display: "grid", gridTemplateColumns: `repeat(${COLS}, ${CELL}px)`, gap: "1px",
@@ -161,8 +161,8 @@ const ColumnsPuzzle = ({ onComplete }) => {
                     <button key={key} onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key }))} style={colBtnStyle}>{label}</button>
                 ))}
             </div>
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>←→ 이동 | ↑ 색 회전 | ↓ 빨리 떨어뜨리기</div>
-            {gameOver && <div style={{ fontSize: "16px", color: "#FF6B6B", fontWeight: "bold" }}>게임 오버! 점수: {score}</div>}
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>←→ move | ↑ rotate | ↓ drop faster</div>
+            {gameOver && <div style={{ fontSize: "16px", color: "#FF6B6B", fontWeight: "bold" }}>Game over! Score: {score}</div>}
         </div>
     );
 };

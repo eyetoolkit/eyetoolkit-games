@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 113: 포커 핸드
- * 5장으로 최고의 패 만들기
+ * 🎮 Game 113: Poker Hand
+ * Make the best 5-card hand
  */
 import { useState, useCallback } from "react";
 
@@ -82,7 +82,7 @@ const PokerHand = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "14px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                {!drawn ? "유지할 카드 선택 후 드로우" : "결과"}
+                {!drawn ? "Keep cards, then draw" : "Result"}
             </div>
             <div style={{ display: "flex", gap: "8px" }}>
                 {hand.map((card, i) => (
@@ -109,11 +109,11 @@ const PokerHand = ({ onComplete }) => {
                     background: "linear-gradient(135deg, #4D96FF, #6BCB77)", color: "white",
                     border: "none", borderRadius: "12px", cursor: "pointer",
                 }}>
-                    드로우
+                    Draw
                 </button>
             )}
             {done && result && <div style={{ fontSize: "18px", color: "#64ffda", fontWeight: "bold" }}>{result.name}!</div>}
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>카드 선택 = HOLD, 나머지 교환</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>Selected = HOLD, the rest redraw</div>
         </div>
     );
 };

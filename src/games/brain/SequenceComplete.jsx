@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 50: 수열 완성 — 숫자 카드 + 슬라이드 인
+ * 🎮 Game 50: Sequence Complete — number cards + slide-in
  */
 import { useCallback, useState } from "react";
 
@@ -11,14 +11,14 @@ const genSequence = () => {
             const start = Math.floor(Math.random() * 5) + 1;
             const diff = Math.floor(Math.random() * 4) + 2;
             seq = Array.from({ length: 6 }, (_, i) => start + diff * i);
-            rule = `공차 ${diff}`;
+            rule = `Common difference: ${diff}`;
             break;
         }
         case 1: { // Geometric
             const start2 = Math.floor(Math.random() * 3) + 1;
             const ratio = Math.floor(Math.random() * 2) + 2;
             seq = Array.from({ length: 6 }, (_, i) => start2 * Math.pow(ratio, i));
-            rule = `공비 ${ratio}`;
+            rule = `Common ratio: ${ratio}`;
             break;
         }
         case 2: { // Fibonacci-like
@@ -26,13 +26,13 @@ const genSequence = () => {
             const b = Math.floor(Math.random() * 3) + 2;
             seq = [a, b];
             for (let i = 2; i < 6; i++) seq.push(seq[i - 1] + seq[i - 2]);
-            rule = "앞 두 수의 합";
+            rule = "Sum of previous two";
             break;
         }
         default: { // Square numbers
             const offset = Math.floor(Math.random() * 3);
             seq = Array.from({ length: 6 }, (_, i) => (i + 1 + offset) * (i + 1 + offset));
-            rule = "제곱수";
+            rule = "Perfect square";
         }
     }
     const hideIdx = 3 + Math.floor(Math.random() * 2);
@@ -73,10 +73,10 @@ const SequenceComplete = ({ onComplete }) => {
             <style>{`@keyframes slideIn { 0% { transform: translateY(-20px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }`}</style>
 
             <div style={{ fontSize: "13px" }}>
-                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | 정답 <span style={{ color: "#64ffda" }}>{correct}</span>
+                <span style={{ color: "#FFD700" }}>{round + 1}/{ROUNDS}</span> | Answer <span style={{ color: "#64ffda" }}>{correct}</span>
             </div>
 
-            <div style={{ fontSize: "12px", color: "#8892b0" }}>빈칸에 들어갈 숫자를 맞추세요!</div>
+            <div style={{ fontSize: "12px", color: "#8892b0" }}>What number fits the blank?</div>
 
             {/* Sequence cards */}
             <div style={{ display: "flex", gap: "6px" }}>
@@ -129,7 +129,7 @@ const SequenceComplete = ({ onComplete }) => {
             {feedback && (
                 <div style={{ fontSize: "14px" }}>
                     <span style={{ color: feedback === "correct" ? "#64ffda" : "#FF6B6B", fontWeight: "bold" }}>
-                        {feedback === "correct" ? "✅ 정답!" : `❌ 정답: ${problem.answer}`}
+                        {feedback === "correct" ? "✅ Correct!" : `❌ Answer: ${problem.answer}`}
                     </span>
                     <span style={{ color: "#8892b0", marginLeft: 8, fontSize: "11px" }}>({problem.rule})</span>
                 </div>

@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 136: 주사위 포커
- * 5개 주사위로 최고의 조합 만들기
+ * 🎮 Game 136: Dice Poker
+ * Make the best dice combo
  */
 import { useState, useCallback } from "react";
 
@@ -12,14 +12,14 @@ const evalDice = (dice) => {
     const isStraight = sorted.every((v, i) => i === 0 || v === sorted[i - 1] + 1);
     const isAllSame = freq[0] === 5;
 
-    if (isAllSame) return { name: "야찌! (5개 동일)", score: 100, tier: 3 };
-    if (freq[0] === 4) return { name: "포 카인드", score: 85, tier: 3 };
-    if (freq[0] === 3 && freq[1] === 2) return { name: "풀 하우스", score: 75, tier: 2 };
-    if (isStraight && dice.length === 5) return { name: "스트레이트", score: 70, tier: 2 };
-    if (freq[0] === 3) return { name: "트리플", score: 55, tier: 1 };
-    if (freq[0] === 2 && freq[1] === 2) return { name: "투 페어", score: 40, tier: 1 };
-    if (freq[0] === 2) return { name: "원 페어", score: 25, tier: 0 };
-    return { name: "찬스", score: Math.min(30, dice.reduce((s, d) => s + d, 0)), tier: 0 };
+    if (isAllSame) return { name: "Yahtzee! (5 of a kind)", score: 100, tier: 3 };
+    if (freq[0] === 4) return { name: "Four of a kind", score: 85, tier: 3 };
+    if (freq[0] === 3 && freq[1] === 2) return { name: "Full house", score: 75, tier: 2 };
+    if (isStraight && dice.length === 5) return { name: "Straight", score: 70, tier: 2 };
+    if (freq[0] === 3) return { name: "Three of a kind", score: 55, tier: 1 };
+    if (freq[0] === 2 && freq[1] === 2) return { name: "Two pair", score: 40, tier: 1 };
+    if (freq[0] === 2) return { name: "One pair", score: 25, tier: 0 };
+    return { name: "Chance", score: Math.min(30, dice.reduce((s, d) => s + d, 0)), tier: 0 };
 };
 
 const DicePoker = ({ onComplete }) => {
@@ -75,7 +75,7 @@ const DicePoker = ({ onComplete }) => {
                 .dice-cell:hover { transform: scale(1.08); }
             `}</style>
             <div style={{ fontSize: "13px", display: "flex", gap: "8px", alignItems: "center" }}>
-                남은 굴리기: {[0, 1, 2].map(i => (
+                Rolls left: {[0, 1, 2].map(i => (
                     <div key={i} style={{
                         width: 8, height: 8, borderRadius: "50%",
                         background: i < rollsLeft ? "#FFD700" : "rgba(255,255,255,0.1)",
@@ -128,7 +128,7 @@ const DicePoker = ({ onComplete }) => {
                         boxShadow: rolling ? "none" : "0 4px 14px rgba(77,150,255,0.3)",
                         transition: "all 0.2s",
                     }}>
-                        🎲 굴리기 ({rollsLeft})
+                        🎲 Roll ({rollsLeft})
                     </button>
                 )}
                 <button onClick={submit} style={{
@@ -138,14 +138,14 @@ const DicePoker = ({ onComplete }) => {
                     boxShadow: "0 4px 14px rgba(255,217,61,0.1)",
                     transition: "all 0.2s",
                 }}>
-                    ✓ 확정
+                    ✓ Lock
                 </button>
             </div>
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>주사위 클릭 = HOLD, 나머지만 다시 굴리기</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>Click dice = HOLD, reroll the rest</div>
             {done && <div style={{
                 fontSize: "20px", color: "#64ffda", fontWeight: "bold",
                 textShadow: "0 0 20px rgba(100,255,218,0.4)",
-            }}>🎲 {result.name}! 점수: {result.score}</div>}
+            }}>🎲 {result.name}! Score: {result.score}</div>}
         </div>
     );
 };

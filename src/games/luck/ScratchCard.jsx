@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 74: 복권 긁기 — Canvas 스크래치 효과
+ * 🎮 Game 74: Scratch Card — canvas scratch effect
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -40,7 +40,7 @@ const ScratchCard = ({ onComplete }) => {
         ctx.fillStyle = "#666";
         ctx.font = "bold 16px sans-serif";
         ctx.textAlign = "center";
-        ctx.fillText("긁어보세요!", 120, 125);
+        ctx.fillText("Scratch here!", 120, 125);
     }, []);
 
     const scratch = useCallback((e) => {
@@ -84,9 +84,9 @@ const ScratchCard = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                긁은 면적: <span style={{ color: "#FFD700" }}>{scratched}%</span>
+                Scratched: <span style={{ color: "#FFD700" }}>{scratched}%</span>
                 {done && <span style={{ color: maxMatch >= 3 ? "#64ffda" : "#FFD700", marginLeft: 10 }}>
-                    {maxMatch >= 3 ? "🎉 3개 일치!" : maxMatch >= 2 ? "👍 2개 일치!" : "😬 꽝"}
+                    {maxMatch >= 3 ? "🎉 3 matches!" : maxMatch >= 2 ? "👍 2 matches!" : "😬 Nothing"}
                 </span>}
             </div>
 
@@ -119,7 +119,7 @@ const ScratchCard = ({ onComplete }) => {
                 />
             </div>
 
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>마우스로 드래그하여 긁으세요!</div>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>Drag with the mouse to scratch!</div>
         </div>
     );
 };

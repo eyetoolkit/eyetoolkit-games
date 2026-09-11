@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 126: 스프라이트 애니메이터
- * 4프레임 도트 애니메이션 만들기
+ * 🎮 Game 126: Sprite Animator
+ * Create a 4-frame pixel animation
  */
 import { useState, useCallback, useEffect, useRef } from "react";
 
@@ -52,7 +52,7 @@ const SpriteAnimator = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                {playing ? `재생 중... 프레임 ${playFrame + 1}` : `프레임 ${currentFrame + 1}/${FRAMES}`}
+                {playing ? `Playing... frame ${playFrame + 1}` : `Frame ${currentFrame + 1}/${FRAMES}`}
             </div>
             <div style={{ display: "grid", gridTemplateColumns: `repeat(${GRID}, ${CELL}px)`, gap: "1px", padding: "4px", background: "#1a1a2e", borderRadius: "8px", border: "2px solid rgba(255,255,255,0.1)" }}>
                 {displayFrame.flat().map((cell, idx) => {
@@ -92,14 +92,14 @@ const SpriteAnimator = ({ onComplete }) => {
                     color: playing ? "#FF6B6B" : "#64ffda",
                     border: `1px solid ${playing ? "#FF6B6B" : "#64ffda"}`,
                     borderRadius: "8px", cursor: "pointer",
-                }}>{playing ? "⏹ 정지" : "▶ 재생"}</button>
+                }}>{playing ? "⏹ Stop" : "▶ Play"}</button>
                 <button onClick={submit} style={{
                     padding: "8px 16px", fontSize: "13px", fontWeight: "bold",
                     background: "rgba(255,217,61,0.15)", color: "#FFD93D",
                     border: "1px solid #FFD93D", borderRadius: "8px", cursor: "pointer",
-                }}>✅ 제출</button>
+                }}>✅ Submit</button>
             </div>
-            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎨 작품 완성!</div>}
+            {done && <div style={{ fontSize: "16px", color: "#64ffda", fontWeight: "bold" }}>🎨 artwork complete!</div>}
         </div>
     );
 };

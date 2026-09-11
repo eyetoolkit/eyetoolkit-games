@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 39: 점프 러너 — 구름+별 배경 + 스코어 이펙트
+ * 🎮 Game 39: Jump Runner — cloud & star background + score effects
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -67,7 +67,7 @@ const JumpRunner = ({ onComplete }) => {
         <div onClick={jump} style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white", cursor: "pointer", userSelect: "none" }}>
             <div style={{ fontSize: "14px" }}>
                 🏃 <span style={{ color: "#FFD700", fontWeight: "bold" }}>{score}</span>m
-                {score > 50 && <span style={{ color: "#EF4444", marginLeft: 8 }}>🔥 속도 UP!</span>}
+                {score > 50 && <span style={{ color: "#EF4444", marginLeft: 8 }}>🔥 Speed UP!</span>}
             </div>
             <div style={{
                 width: W, height: H, borderRadius: "12px", position: "relative", overflow: "hidden",
@@ -114,7 +114,7 @@ const JumpRunner = ({ onComplete }) => {
                         background: "rgba(0,0,0,0.4)", fontSize: "14px",
                     }}>
                         <div style={{ fontSize: "32px", marginBottom: 8 }}>🏃</div>
-                        클릭/스페이스로 시작!
+                        Click/Space to start!
                     </div>
                 )}
                 {/* Game over overlay */}
@@ -124,7 +124,7 @@ const JumpRunner = ({ onComplete }) => {
                         alignItems: "center", justifyContent: "center",
                         background: "rgba(0,0,0,0.5)",
                     }}>
-                        <div style={{ fontSize: "20px", fontWeight: "bold", color: "#FF6B6B" }}>💀 게임 오버!</div>
+                        <div style={{ fontSize: "20px", fontWeight: "bold", color: "#FF6B6B" }}>💀 Game over!</div>
                         <div style={{ fontSize: "16px", color: "#FFD700" }}>{score}m</div>
                     </div>
                 )}

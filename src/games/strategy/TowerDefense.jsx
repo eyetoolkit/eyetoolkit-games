@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 81: 타워 디펜스 — 레인 비주얼 + 타워 범위 + HP바
+ * 🎮 Game 81: Tower Defense — lanes + tower range + HP bars
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -142,7 +142,7 @@ const TowerDefense = ({ onComplete }) => {
                 ))}
             </div>
 
-            <div style={{ fontSize: "10px", color: "#8892b0" }}>🗼 타워(💰1) 배치로 적을 막으세요!</div>
+            <div style={{ fontSize: "10px", color: "#8892b0" }}>🗼 Place towers (💰1) to block enemies!</div>
         </div>
     );
 };

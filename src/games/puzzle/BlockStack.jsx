@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 150: 블록 쌓기
- * 타이밍 맞춰 블록을 쌓아 탑을 만들어요
+ * 🎮 Game 150: Block Stack
+ * Time your clicks to stack the tower
  */
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -135,8 +135,8 @@ const BlockStack = ({ onComplete }) => {
                 @keyframes towerGlow { 0%,100%{box-shadow:0 0 15px rgba(100,255,218,0.2)} 50%{box-shadow:0 0 30px rgba(100,255,218,0.4)} }
             `}</style>
             <div style={{ display: "flex", gap: "16px", fontSize: "13px", alignItems: "center" }}>
-                <span>블록: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{blocks.length}</span>/{MAX_BLOCKS}</span>
-                <span>퍼펙트: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{perfectCount}</span></span>
+                <span>Blocks: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{blocks.length}</span>/{MAX_BLOCKS}</span>
+                <span>Perfect: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{perfectCount}</span></span>
             </div>
             {/* Progress bar */}
             <div style={{ width: "260px", height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "2px" }}>
@@ -152,13 +152,13 @@ const BlockStack = ({ onComplete }) => {
                     animation: done && blocks.length >= MAX_BLOCKS ? "towerGlow 1.5s infinite" : "none",
                     boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
                 }} />
-            <div style={{ fontSize: "12px", color: "#8892b0" }}>클릭하여 블록 드롭!</div>
+            <div style={{ fontSize: "12px", color: "#8892b0" }}>Click to drop the block!</div>
             {done && <div style={{
                 fontSize: "18px", fontWeight: "bold",
                 color: "#64ffda",
                 textShadow: "0 0 20px rgba(100,255,218,0.3)",
             }}>
-                {blocks.length >= MAX_BLOCKS ? `🏗️ 완벽한 탑! 퍼펙트 ${perfectCount}개` : `블록 ${blocks.length}개 쌓음`}
+                {blocks.length >= MAX_BLOCKS ? `🏗️ Perfect tower! ${perfectCount} perfect` : `Stacked ${blocks.length} blocks`}
             </div>}
         </div>
     );

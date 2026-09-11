@@ -1,6 +1,6 @@
 /**
- * 🎮 Game 94: 볼링 (고도화)
- * SVG 레인 + 물리 시뮬레이션: 볼-핀 충돌, 핀-핀 체인반응, 속도/회전 애니메이션
+ * 🎮 Game 94: Bowling
+ * SVG lanes + physics: ball-pin hits, pin chains, spin animation
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -13,7 +13,7 @@ const FRICTION = 0.97;
 const PIN_FRICTION = 0.94;
 const RESTITUTION = 0.6;
 const PIN_RESTITUTION = 0.5;
-const KNOCK_THRESHOLD = 2.5; // speed 이상이면 "쓰러짐" 판정
+const KNOCK_THRESHOLD = 2.5; // speed >= threshold means "Knocked down"
 
 const createPinBodies = () => [
     { x: 125, y: 30 },
@@ -120,7 +120,7 @@ const BowlingGame = ({ onComplete }) => {
                 for (let j = i + 1; j < simPins.length; j++) {
                     const a = simPins[i];
                     const b = simPins[j];
-                    // 쓰러진 핀도 잠시 동안 다른 핀을 칠 수 있음
+                    // fallen pins can knock others briefly
                     if (a.opacity < 0.1 && b.opacity < 0.1) continue;
                     const speed_a = Math.sqrt(a.vx * a.vx + a.vy * a.vy);
                     const speed_b = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
@@ -167,7 +167,7 @@ const BowlingGame = ({ onComplete }) => {
                 }
                 const speed = Math.sqrt(pin.vx * pin.vx + pin.vy * pin.vy);
                 if (speed > KNOCK_THRESHOLD) {
-                    pin.standing = false; // 쓰러짐!
+                    pin.standing = false; // Knocked down!
                 }
                 pin.x += pin.vx;
                 pin.y += pin.vy;
@@ -203,7 +203,7 @@ const BowlingGame = ({ onComplete }) => {
                 setResult(
                     isStrike ? "🎳 STRIKE!" :
                         isSpare ? "🎳 SPARE!" :
-                            knockedCount > 0 ? `${knockedCount}개 쓰러짐!` : "😢 거터..."
+                            knockedCount > 0 ? `${knockedCount} knocked down!` : "😢 Gutter..."
                 );
 
                 // Preserve knocked-down pins as not standing for 2nd roll
@@ -263,7 +263,7 @@ const BowlingGame = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                프레임: <span style={{ color: "#FFD700" }}>{frame}/{MAX_FRAMES}</span> | 투구: {roll} | 점수: <span style={{ color: "#64ffda" }}>{score}</span>
+                Frame: <span style={{ color: "#FFD700" }}>{frame}/{MAX_FRAMES}</span> | Roll: {roll} | Score: <span style={{ color: "#64ffda" }}>{score}</span>
             </div>
             {/* Progress dots */}
             <div style={{ display: "flex", gap: "4px" }}>
@@ -341,10 +341,10 @@ const BowlingGame = ({ onComplete }) => {
                     padding: "10px 28px", fontSize: "15px", fontWeight: "bold",
                     background: "rgba(168,85,247,0.3)", color: "white",
                     border: "2px solid #A855F7", borderRadius: "12px", cursor: "pointer",
-                }}>🎳 굴리기!</button>
+                }}>🎳 Roll!</button>
             )}
 
-            {rolling && <div style={{ fontSize: "12px", color: "#8892b0" }}>🎳 굴러가는 중...</div>}
+            {rolling && <div style={{ fontSize: "12px", color: "#8892b0" }}>🎳 Rolling...</div>}
         </div>
     );
 };

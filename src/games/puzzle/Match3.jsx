@@ -1,7 +1,7 @@
 /**
- * 🎮 Game 10: 매치3
- * 같은 색 보석을 3개 이상 연결하세요!
- * 인접한 두 보석을 스와프하여 가로/세로 3연속을 만들면 터짐
+ * 🎮 Game 10: Match 3
+ * Connect 3+ same-color gems!
+ * Swap adjacent gems to line up 3!
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -159,8 +159,8 @@ const Match3 = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "white" }}>
             <div style={{ display: "flex", gap: "20px", fontSize: "13px" }}>
-                <span>이동: <span style={{ color: movesLeft <= 5 ? "#FF6B6B" : "#FFD700", fontWeight: "bold" }}>{movesLeft}</span></span>
-                <span>클리어: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{totalCleared}</span></span>
+                <span>Moves: <span style={{ color: movesLeft <= 5 ? "#FF6B6B" : "#FFD700", fontWeight: "bold" }}>{movesLeft}</span></span>
+                <span>Cleared: <span style={{ color: "#64ffda", fontWeight: "bold" }}>{totalCleared}</span></span>
             </div>
             {/* Moves bar */}
             <div style={{ width: COLS * (cellSize + 3) + 12, height: 5, borderRadius: 3, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
@@ -205,7 +205,7 @@ const Match3 = ({ onComplete }) => {
                 })}
             </div>
             <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                인접한 보석을 선택하여 스와프! 3개 이상 연결시 클리어
+                Swap adjacent gems! Match 3+ to clear
             </div>
         </div>
     );

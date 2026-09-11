@@ -1,5 +1,5 @@
 /**
- * 🎮 하이로우 — 연속 맞추기 보너스 + 멀티플라이어 + 머니 시스템
+ * 🎮 High Low — streak bonus + multiplier + money system
  */
 import { useCallback, useState } from "react";
 
@@ -82,7 +82,7 @@ const HighLow = ({ onComplete }) => {
                     color: streak >= 5 ? "#FF6B6B" : streak >= 3 ? "#A855F7" : "#FFD700",
                     fontWeight: "bold",
                     animation: streak >= 5 ? "streakFire 0.8s infinite" : "none",
-                }}>🔥 {streak}연속! x{multiplier}</span>}
+                }}>🔥 {streak}Streak! x{multiplier}</span>}
             </div>
 
             {/* History dots */}
@@ -151,8 +151,8 @@ const HighLow = ({ onComplete }) => {
             {/* Bet info */}
             {!feedback && (
                 <div style={{ fontSize: "11px", color: "#8892b0" }}>
-                    현재 베팅: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{betAmount}</span>
-                    {multiplier > 1 && <span style={{ color: "#A855F7" }}> (x{multiplier} 보너스!)</span>}
+                    Current bet: <span style={{ color: "#FFD700", fontWeight: "bold" }}>{betAmount}</span>
+                    {multiplier > 1 && <span style={{ color: "#A855F7" }}> (x{multiplier} bonus!)</span>}
                 </div>
             )}
 
@@ -165,7 +165,7 @@ const HighLow = ({ onComplete }) => {
                         color: "#64ffda", border: "2px solid rgba(100,255,218,0.3)",
                         boxShadow: "0 4px 12px rgba(100,255,218,0.1)",
                         transition: "all 0.2s",
-                    }}>⬆️ 높다</button>
+                    }}>⬆️ Higher</button>
                     <button onClick={() => handleGuess("low")} style={{
                         padding: "12px 28px", fontSize: "15px", fontWeight: "bold",
                         borderRadius: "12px", cursor: "pointer",
@@ -173,17 +173,17 @@ const HighLow = ({ onComplete }) => {
                         color: "#FF6B6B", border: "2px solid rgba(255,107,107,0.3)",
                         boxShadow: "0 4px 12px rgba(255,107,107,0.1)",
                         transition: "all 0.2s",
-                    }}>⬇️ 낮다</button>
+                    }}>⬇️ Lower</button>
                 </div>
             )}
 
             {feedback && (
                 <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "18px", fontWeight: "bold", color: feedback === "correct" ? "#64ffda" : "#FF6B6B" }}>
-                        {feedback === "correct" ? `✅ +${betAmount} 코인!` : "❌ -15 코인"}
+                        {feedback === "correct" ? `✅ +${betAmount} coins!` : "❌ -15 coins"}
                     </div>
                     {feedback === "correct" && streak >= 3 && (
-                        <div style={{ fontSize: "12px", color: "#A855F7" }}>🔥 다음 배팅 x{Math.min(3, multiplier + (streak >= 5 ? 0 : 1))} 보너스!</div>
+                        <div style={{ fontSize: "12px", color: "#A855F7" }}>🔥 Next bet x{Math.min(3, multiplier + (streak >= 5 ? 0 : 1))} bonus!</div>
                     )}
                 </div>
             )}

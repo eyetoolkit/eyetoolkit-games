@@ -1,5 +1,5 @@
 /**
- * 🎮 Game 6: 한붓그리기 — 진행률 바 + 경로 하이라이트 + 노드 넘버
+ * 🎮 Game 6: One Stroke — progress bar + path highlight + node numbers
  */
 import { useCallback, useMemo, useState } from "react";
 
@@ -47,7 +47,7 @@ const OneStroke = ({ onComplete }) => {
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px", color: "white" }}>
             <div style={{ fontSize: "13px" }}>
-                간선: <span style={{ color: "#FFD700" }}>{usedEdges.size}/{totalEdges}</span>
+                Edges: <span style={{ color: "#FFD700" }}>{usedEdges.size}/{totalEdges}</span>
                 <span style={{ marginLeft: 10, color: "#8892b0" }}>({progress}%)</span>
             </div>
             {/* Progress bar */}
@@ -84,8 +84,8 @@ const OneStroke = ({ onComplete }) => {
                     );
                 })}
             </svg>
-            <button onClick={reset} style={{ padding: "6px 18px", background: "rgba(255,255,255,0.08)", color: "white", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "8px", cursor: "pointer", fontSize: "12px" }}>🔄 초기화</button>
-            <div style={{ fontSize: "11px", color: "#8892b0" }}>{usedEdges.size === totalEdges ? "🎉 완성!" : "점을 클릭하여 모든 선을 한 번씩 지나가세요"}</div>
+            <button onClick={reset} style={{ padding: "6px 18px", background: "rgba(255,255,255,0.08)", color: "white", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "8px", cursor: "pointer", fontSize: "12px" }}>🔄 Reset</button>
+            <div style={{ fontSize: "11px", color: "#8892b0" }}>{usedEdges.size === totalEdges ? "🎉 Complete!" : "Tap the dots to trace every line exactly once"}</div>
         </div>
     );
 };
