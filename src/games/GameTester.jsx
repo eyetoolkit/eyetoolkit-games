@@ -257,12 +257,93 @@ body {
 }
 `;
 
+/* ── Routing (path-based, CF Pages SPA fallback serves index.html) ── */
+const slugify = (name) => name
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/([A-Za-z])(\d)/g, "$1-$2")
+    .toLowerCase();
+const SLUG_MAP = new Map(Object.keys({
+    Snake: 1, MiniTetris: 1, MiniPacman: 1, Breakout: 1, FlappyJelly: 1, PingPong: 1,
+    SpaceInvader: 1, Frogger: 1, Asteroids: 1, JumpRunner: 1, Galaga: 1, DigDug: 1,
+    Bomberman: 1, DonkeyKong: 1, WhackAMole: 1, ReactionTest: 1, SpeedClick: 1, AimTrainer: 1,
+    FruitSlice: 1, TimingTap: 1, RhythmTap: 1, ColorSwitch: 1, ArrowDodge: 1, BubblePop: 1,
+    ShootingGallery: 1, TypingWarrior: 1, RopeCut: 1, StroopTest: 1, BombDefuse: 1,
+    MathChallenge: 1, NBack: 1, SimonSays: 1, PatternRecognition: 1, NumberMemory: 1,
+    BalanceScale: 1, SequenceComplete: 1, Game24: 1, PrimeCheck: 1, CipherDecode: 1,
+    LogicGate: 1, BaseConvert: 1, UnitConvert: 1, FractionCompare: 1, MathBreakout: 1,
+    PixelArt: 1, DrawAndGuess: 1, ShadowMatch: 1, ColorMixer: 1, DotConnect: 1, FlagQuiz: 1,
+    EmojiCombo: 1, MandalaPaint: 1, GradientSort: 1, JigsawPuzzle: 1, SpotDifference: 1,
+    TileMosaic: 1, SymmetryDraw: 1, SpriteAnimator: 1, CoinFlip: 1, DicePredict: 1,
+    Roulette: 1, ScratchCard: 1, RPS: 1, LuckyBox: 1, FortuneWheel: 1, SlotMachine: 1,
+    BingoGame: 1, TreasureMap: 1, DicePoker: 1, TreasureDig: 1, LuckySeven: 1, CardFortune: 1,
+    Game2048: 1, Minesweeper: 1, MiniSudoku: 1, SlidePuzzle: 1, Match3: 1, LightsOut: 1,
+    PipeConnect: 1, Sokoban: 1, TileMatch: 1, Nonogram: 1, HanoiTower: 1, ColorCode: 1,
+    BlockStack: 1, ColorSort: 1, KillerSudoku: 1, OneStroke: 1, ColumnsPuzzle: 1,
+    NumberCrossword: 1, RubiksCube2x2: 1, GolfPutt: 1, DartGame: 1, BasketballShoot: 1,
+    SoccerPK: 1, ArcheryGame: 1, BowlingGame: 1, FishingGame: 1, SkiSlalom: 1,
+    PingPongRally: 1, RocketLaunch: 1, TowerDefense: 1, ResourceManager: 1, StockSim: 1,
+    FarmManager: 1, MazeEscape: 1, PlacementPuzzle: 1, StrategyRPG: 1, DeckBuilder: 1,
+    TerritoryWar: 1, TradeSim: 1, MiniWar: 1, RoomEscape: 1, DeliveryRoute: 1,
+    MerchantSim: 1, EnergyManager: 1, Blackjack: 1, HighLow: 1, MemoryMatch: 1,
+    SpeedCard: 1, PokerHand: 1, WarCard: 1, ConnectFour: 1, Othello: 1, MiniGomoku: 1,
+    DominoChain: 1, MiniGo: 1, ChessPuzzle: 1, MiniCheckers: 1, MiniSolitaire: 1,
+    TripleTriad: 1, NonsenseQuiz: 1,
+}).map(n => [slugify(n), n]));
+
+const gameFromPath = () => {
+    try {
+        const m = window.location.pathname.match(/^\/game\/([a-z0-9-]+)/i);
+        return m ? (SLUG_MAP.get(m[1].toLowerCase()) || null) : null;
+    } catch (_) { return null; }
+};
+
+/* ── Sister duel sites (funnel targets) ────────── */
+const DUEL_SITES = {
+    mathduel:   { url: "https://mathduel.games",   name: "MathDuel",   tagline: "Real-time math duels" },
+    boardduel:  { url: "https://boardduel.com",    name: "BoardDuel",  tagline: "Board & card duels vs real people" },
+    memoryduel: { url: "https://memoryduel.com",   name: "MemoryDuel", tagline: "Memory & reaction face-offs" },
+};
+const CAT_DUEL = { brain: "mathduel", puzzle: "mathduel", cards: "boardduel", strategy: "boardduel", reflex: "memoryduel" };
+const duelFor = (name) => CAT_DUEL[catOf(name)] || null;
+
 /* ── Component ──────────────────────────────────── */
 const GameTester = () => {
-    const [selectedGame, setSelectedGame] = useState(null);
+    const [selectedGame, setSelectedGameState] = useState(gameFromPath);
     const [lastScore, setLastScore] = useState(null);
     const [filter, setFilter] = useState("all");
     const [search, setSearch] = useState("");
+
+    // pushState-based routing so every game gets its own shareable URL
+    const setSelectedGame = useCallback((name) => {
+        setSelectedGameState(name);
+        try {
+            const path = name ? `/game/${slugify(name)}` : "/";
+            if (window.location.pathname !== path) window.history.pushState({}, "", path);
+        } catch (_) { /* noop */ }
+    }, []);
+
+    // browser back/forward support
+    useEffect(() => {
+        const onPop = () => setSelectedGameState(gameFromPath());
+        window.addEventListener("popstate", onPop);
+        return () => window.removeEventListener("popstate", onPop);
+    }, []);
+
+    // per-game SEO meta
+    useEffect(() => {
+        try {
+            if (selectedGame) {
+                const meta = resolveMeta(selectedGame);
+                document.title = `Play ${selectedGame} Online Free — Bytecade Games`;
+                const el = document.querySelector('meta[name="description"]');
+                if (el) el.setAttribute("content", `${selectedGame} — ${meta.desc}. Free, no ads, no login. Part of Bytecade Games.`);
+            } else {
+                document.title = "Bytecade Games — 140+ Free Mini Games";
+                const el = document.querySelector('meta[name="description"]');
+                if (el) el.setAttribute("content", "Bytecade Games — 140+ free open-source browser mini games. No downloads, no ads, no accounts.");
+            }
+        } catch (_) { /* noop */ }
+    }, [selectedGame]);
 
     const gameNames = useMemo(() => Object.keys(games), []);
     const filtered = useMemo(() =>
@@ -444,6 +525,46 @@ const GameTester = () => {
                                     borderRadius: "12px", cursor: "pointer", fontSize: "15px", fontWeight: 500,
                                 }}>🎮 Back to List</button>
                             </div>
+                            {(() => {
+                                const primary = duelFor(selectedGame);
+                                const others = Object.entries(DUEL_SITES).filter(([k]) => k !== primary);
+                                const site = primary ? DUEL_SITES[primary] : null;
+                                return (
+                                    <div style={{
+                                        maxWidth: "440px", width: "100%", padding: "18px 20px",
+                                        borderRadius: "14px", background: "rgba(99,102,241,0.10)",
+                                        border: "1px solid rgba(99,102,241,0.35)", textAlign: "center",
+                                    }}>
+                                        <div style={{ fontSize: "14px", color: "#e2e8f0", marginBottom: "10px" }}>
+                                            Beating AI is easy — <strong>real opponents aren't</strong>
+                                        </div>
+                                        {site ? (
+                                            <a href={site.url} target="_blank" rel="noopener noreferrer" style={{
+                                                display: "inline-block", padding: "11px 26px", borderRadius: "10px",
+                                                background: "linear-gradient(135deg, #f59e0b, #ef4444)", color: "white",
+                                                textDecoration: "none", fontSize: "14px", fontWeight: 600,
+                                                boxShadow: "0 4px 14px rgba(239,68,68,0.25)",
+                                            }}>{site.name} — {site.tagline} →</a>
+                                        ) : (
+                                            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center" }}>
+                                                {Object.values(DUEL_SITES).map(s => (
+                                                    <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" style={{
+                                                        padding: "9px 16px", borderRadius: "10px", background: "rgba(255,255,255,0.07)",
+                                                        color: "#e2e8f0", textDecoration: "none", fontSize: "13px",
+                                                        border: "1px solid rgba(255,255,255,0.15)",
+                                                    }}>{s.name} →</a>
+                                                ))}
+                                            </div>
+                                        )}
+                                        <div style={{ marginTop: "10px", fontSize: "11.5px", color: "#94a3b8" }}>
+                                            {others.map(([k, s]) => (
+                                                <a key={k} href={s.url} target="_blank" rel="noopener noreferrer"
+                                                    style={{ color: "#818cf8", textDecoration: "none", margin: "0 6px" }}>{s.name}</a>
+                                            ))}
+                                        </div>
+                                    </div>
+                                );
+                            })()}
                         </div>
                     ) : (
                         <Suspense fallback={
@@ -649,6 +770,33 @@ const GameTester = () => {
                         </button>
                     ))}
                 </div>
+
+                {/* Sister-site funnel banner */}
+                {(() => {
+                    const rec = filter === "all" ? null : (CAT_DUEL[filter] || null);
+                    const site = rec ? DUEL_SITES[rec] : null;
+                    return (
+                        <div style={{
+                            maxWidth: "760px", margin: "0 auto 18px", padding: "13px 18px",
+                            borderRadius: "12px", background: "rgba(99,102,241,0.08)",
+                            border: "1px solid rgba(99,102,241,0.3)", display: "flex",
+                            alignItems: "center", gap: "12px", flexWrap: "wrap", justifyContent: "center",
+                        }}>
+                            <span style={{ fontSize: "13px", color: "#cbd5e1" }}>
+                                🏆 Want real opponents? Practice here, duel there:
+                            </span>
+                            {Object.entries(DUEL_SITES).map(([k, s]) => (
+                                <a key={k} href={s.url} target="_blank" rel="noopener noreferrer" style={{
+                                    padding: "7px 14px", borderRadius: "9px", textDecoration: "none",
+                                    fontSize: "12.5px", fontWeight: 600,
+                                    background: rec === k ? "linear-gradient(135deg, #6366f1, #06b6d4)" : "rgba(255,255,255,0.07)",
+                                    color: rec === k ? "white" : "#c7d2fe",
+                                    border: rec === k ? "none" : "1px solid rgba(255,255,255,0.15)",
+                                }}>{s.name} →</a>
+                            ))}
+                        </div>
+                    );
+                })()}
 
                 {/* Results count */}
                 <div style={{ textAlign: "center", color: "#94a3b8", fontSize: "13px", marginBottom: "16px" }}>
