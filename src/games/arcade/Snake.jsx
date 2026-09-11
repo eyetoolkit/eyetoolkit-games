@@ -9,7 +9,9 @@ const Snake = ({ onComplete }) => {
     const [snake, setSnake] = useState([{ x: 7, y: 7 }]);
     const [food, setFood] = useState({ x: 10, y: 10 });
     const [dir, setDir] = useState({ x: 1, y: 0 });
-    const [gameActive, setGameActive] = useState(true);
+    // "ready" → snake waits for the first input so players are never killed
+    // before they can react; "running" → loop ticks; "over" → death screen.
+    const [phase, setPhase] = useState("ready");
     const [score, setScore] = useState(0);
     const [ateFood, setAteFood] = useState(false);
     const dirRef = useRef({ x: 1, y: 0 });
@@ -29,21 +31,26 @@ const Snake = ({ onComplete }) => {
             if (e.key === "ArrowDown" && d.y !== -1) dirRef.current = { x: 0, y: 1 };
             if (e.key === "ArrowLeft" && d.x !== 1) dirRef.current = { x: -1, y: 0 };
             if (e.key === "ArrowRight" && d.x !== -1) dirRef.current = { x: 1, y: 0 };
-            e.preventDefault();
+            const isArrow = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key);
+            if (isArrow) {
+                e.preventDefault();
+                // First keypress kicks the game off instead of leaving it frozen
+                setPhase(p => (p === "ready" ? "running" : p));
+            }
         };
         window.addEventListener("keydown", kd);
         return () => window.removeEventListener("keydown", kd);
     }, []);
 
     useEffect(() => {
-        if (!gameActive) return;
+        if (phase !== "running") return;
         const loop = setInterval(() => {
             setSnake((prev) => {
                 const d = dirRef.current;
                 setDir(d);
                 const head = { x: prev[0].x + d.x, y: prev[0].y + d.y };
                 if (head.x < 0 || head.x >= GRID || head.y < 0 || head.y >= GRID || prev.some((s) => s.x === head.x && s.y === head.y)) {
-                    setGameActive(false);
+                    setPhase("over");
                     setTimeout(() => onComplete(Math.min(100, Math.round(scoreRef.current * 5))), 500);
                     return prev;
                 }
@@ -61,12 +68,23 @@ const Snake = ({ onComplete }) => {
             });
         }, SPEED);
         return () => clearInterval(loop);
-    }, [gameActive, food, onComplete, spawnFood]);
+    }, [phase, food, onComplete, spawnFood]);
 
     const handleDir = useCallback((dx, dy) => {
         const d = dirRef.current;
         if (dx !== -d.x || dy !== -d.y) dirRef.current = { x: dx, y: dy };
+        setPhase(p => (p === "ready" ? "running" : p));
     }, []);
+
+    const restart = useCallback(() => {
+        dirRef.current = { x: 1, y: 0 };
+        scoreRef.current = 0;
+        setDir({ x: 1, y: 0 });
+        setSnake([{ x: 7, y: 7 }]);
+        setFood(spawnFood([{ x: 7, y: 7 }]));
+        setScore(0);
+        setPhase("ready");
+    }, [spawnFood]);
 
     return (
         <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "6px", color: "white" }}>
@@ -122,15 +140,36 @@ const Snake = ({ onComplete }) => {
                     filter: ateFood ? "drop-shadow(0 0 8px rgba(239,68,68,0.6))" : "none",
                 }}>🍎</div>
 
-                {/* Game over */}
-                {!gameActive && (
+                {/* Ready overlay — waits for the first input */}
+                {phase === "ready" && (
                     <div style={{
                         position: "absolute", inset: 0, display: "flex", flexDirection: "column",
-                        alignItems: "center", justifyContent: "center",
-                        background: "rgba(0,0,0,0.5)", borderRadius: "10px",
+                        alignItems: "center", justifyContent: "center", gap: "10px",
+                        background: "rgba(0,0,0,0.55)", borderRadius: "10px",
+                        backdropFilter: "blur(2px)", WebkitBackdropFilter: "blur(2px)",
+                    }}>
+                        <div style={{ fontSize: "26px", lineHeight: 1 }}>🐍</div>
+                        <div style={{ fontSize: "15px", fontWeight: "bold", color: "#64ffda" }}>Ready?</div>
+                        <div style={{ fontSize: "11.5px", color: "#cbd5e1", textAlign: "center", lineHeight: 1.5, padding: "0 14px" }}>
+                            Press an arrow key or use the D-pad<br />to set the snake moving
+                        </div>
+                    </div>
+                )}
+
+                {/* Game over */}
+                {phase === "over" && (
+                    <div style={{
+                        position: "absolute", inset: 0, display: "flex", flexDirection: "column",
+                        alignItems: "center", justifyContent: "center", gap: "8px",
+                        background: "rgba(0,0,0,0.62)", borderRadius: "10px",
                     }}>
                         <div style={{ fontSize: "18px", fontWeight: "bold", color: "#FF6B6B" }}>💀 Game over</div>
                         <div style={{ color: "#FFD700" }}>🍎 x{score}</div>
+                        <button onClick={restart} style={{
+                            marginTop: "4px", padding: "7px 16px", fontSize: "12.5px", fontWeight: 600,
+                            background: "linear-gradient(135deg, #6366f1, #06b6d4)", color: "white",
+                            border: "none", borderRadius: "9px", cursor: "pointer",
+                        }}>🔄 Play again</button>
                     </div>
                 )}
             </div>

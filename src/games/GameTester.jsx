@@ -1742,16 +1742,16 @@ const GAME_META = {
 
 
 const CATEGORY_META = {
-    arcade:   { emoji: "🕹", label: "Arcade" },
-    reflex:   { emoji: "⚡", label: "Reflex" },
-    word:     { emoji: "🔤", label: "Word" },
-    brain:    { emoji: "🧠", label: "Brain" },
-    creative: { emoji: "🎨", label: "Creative" },
-    luck:     { emoji: "🍀", label: "Luck" },
-    puzzle:   { emoji: "🧩", label: "Puzzle" },
-    sports:   { emoji: "🏃", label: "Sports" },
-    strategy: { emoji: "⚔", label: "Strategy" },
-    cards:    { emoji: "🃏", label: "Cards" },
+    arcade:   { emoji: "🕹", label: "Arcade",   tint: "129,140,248" },
+    reflex:   { emoji: "⚡", label: "Reflex",   tint: "250,204,21"  },
+    word:     { emoji: "🔤", label: "Word",     tint: "52,211,153"  },
+    brain:    { emoji: "🧠", label: "Brain",    tint: "244,114,182" },
+    creative: { emoji: "🎨", label: "Creative", tint: "251,146,60"  },
+    luck:     { emoji: "🍀", label: "Luck",     tint: "74,222,128"  },
+    puzzle:   { emoji: "🧩", label: "Puzzle",   tint: "34,211,238"  },
+    sports:   { emoji: "🏃", label: "Sports",   tint: "248,113,113" },
+    strategy: { emoji: "⚔", label: "Strategy",  tint: "167,139,250" },
+    cards:    { emoji: "🃏", label: "Cards",    tint: "96,165,250"  },
 };
 
 const CATEGORIES = [
@@ -1878,6 +1878,14 @@ html, body { overflow-x: hidden; max-width: 100%; }
 .bc-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.11); border-radius: 8px; }
 .bc-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.18); }
 button { font-family: inherit; }
+/* ── Home: search + cards ── */
+.bc-search-input { height: 48px; }
+.bc-search-input::placeholder { color: #64748b; }
+.bc-card { will-change: transform; }
+@media (prefers-reduced-motion: reduce) {
+  .bc-card, .bc-fade-up, .bc-fade-in { animation: none !important; }
+  .bc-card { transition: none !important; }
+}
 /* ── Mobile navigation ── */
 .bc-nav-desktop { display: flex; gap: 4px; }
 .bc-nav-toggle { display: none; }
@@ -2378,8 +2386,8 @@ const GameTester = () => {
                 })()}
             </div>
         ) : (
-            <div style={{
-                width: "100%", maxWidth: "820px", margin: "0 auto",
+            <div className="bc-stage-card" style={{
+                width: "100%", maxWidth: "980px", margin: "0 auto",
                 background: "rgba(255,255,255,.022)",
                 border: "1px solid rgba(255,255,255,.065)",
                 borderRadius: "20px",
@@ -2462,7 +2470,7 @@ const GameTester = () => {
                 }}>
                     <style>{GLOBAL_STYLES}</style>
                     {headerEl}
-                    <div style={{ flex: 1, minHeight: 0, display: "grid", gridTemplateColumns: "minmax(0,1fr) 352px" }}>
+                    <div style={{ flex: 1, minHeight: 0, display: "grid", gridTemplateColumns: "minmax(0,1fr) 380px" }}>
                         <div className="bc-scroll" style={{
                             overflowY: "auto", overflowX: "hidden",
                             padding: showDpad ? "22px 26px 170px" : "22px 26px 30px",
@@ -2480,6 +2488,47 @@ const GameTester = () => {
                                 textTransform: "uppercase", color: "#64748b", marginBottom: "16px",
                             }}>About this game</div>
                             {infoEl}
+
+                            {/* More in this category — fills the sidebar and keeps players in the funnel */}
+                            {(() => {
+                                const cat = catOf(selectedGame);
+                                const siblings = gameNames.filter(n => n !== selectedGame && catOf(n) === cat).slice(0, 6);
+                                if (!siblings.length) return null;
+                                const meta = CATEGORY_META[cat];
+                                return (
+                                    <div style={{ marginTop: "26px", paddingTop: "22px", borderTop: "1px solid rgba(255,255,255,.07)" }}>
+                                        <div style={{
+                                            fontSize: "10.5px", fontWeight: 700, letterSpacing: "1.8px",
+                                            textTransform: "uppercase", color: "#64748b", marginBottom: "12px",
+                                        }}>
+                                            More {meta ? meta.label : ""} games
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
+                                            {siblings.map(n => {
+                                                const m = resolveMeta(n);
+                                                return (
+                                                    <button
+                                                        key={n}
+                                                        onClick={() => { setSelectedGame(n); setLastScore(null); }}
+                                                        className="bc-lift"
+                                                        style={{
+                                                            display: "flex", alignItems: "center", gap: "10px",
+                                                            padding: "9px 11px", borderRadius: "11px", cursor: "pointer",
+                                                            background: "rgba(255,255,255,.04)",
+                                                            border: "1px solid rgba(255,255,255,.075)",
+                                                            color: "white", textAlign: "left",
+                                                            fontFamily: "inherit", transition: "background .18s ease",
+                                                        }}
+                                                    >
+                                                        <span style={{ fontSize: "18px", lineHeight: 1, flexShrink: 0 }}>{m.emoji}</span>
+                                                        <span style={{ fontSize: "13px", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{n}</span>
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                );
+                            })()}
                         </aside>
                     </div>
                     {dpadEl}
@@ -2614,33 +2663,48 @@ const GameTester = () => {
             <main className="bc-shell-pad" style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }} id="home">
                 {/* Hero */}
                 <section style={{
-                    textAlign: "center", marginBottom: "36px", padding: "40px 20px 20px",
+                    textAlign: "center", marginBottom: "30px", padding: "34px 20px 16px",
                 }}>
+                    <div style={{
+                        display: "inline-flex", alignItems: "center", gap: "7px",
+                        padding: "5px 13px", borderRadius: "999px", marginBottom: "18px",
+                        background: "rgba(34,211,238,.10)",
+                        border: "1px solid rgba(34,211,238,.28)",
+                        fontSize: "12px", fontWeight: 600, color: "#67e8f9",
+                        letterSpacing: ".3px",
+                    }}>
+                        <span style={{
+                            width: "6px", height: "6px", borderRadius: "50%",
+                            background: "#22d3ee", boxShadow: "0 0 8px #22d3ee",
+                        }} />
+                        {gameNames.length} games · always free · no sign-up
+                    </div>
                     <h1 className="bc-hero-h1" style={{
-                        fontSize: "clamp(26px, 5vw, 44px)", fontWeight: 800, margin: "0 0 12px",
+                        fontSize: "clamp(28px, 5.2vw, 48px)", fontWeight: 800, margin: "0 0 14px",
                         background: "linear-gradient(135deg, #a5b4fc 0%, #22d3ee 100%)",
                         WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-                        lineHeight: 1.2, overflowWrap: "break-word",
+                        lineHeight: 1.15, overflowWrap: "break-word", letterSpacing: "-0.5px",
                     }}>
                         {gameNames.length}+ free mini games to play right now
                     </h1>
                     <p className="bc-hero-sub" style={{
-                        fontSize: "clamp(14px, 2.5vw, 17px)", color: "#cbd5e1", margin: 0,
-                        fontWeight: 400,
+                        fontSize: "clamp(14px, 2.5vw, 17px)", color: "#94a3b8", margin: "0 auto",
+                        fontWeight: 400, maxWidth: "540px", lineHeight: 1.6,
                     }}>
                         No downloads. No accounts. No ads. Just pure fun.
                     </p>
                 </section>
 
-                {/* Search */}
-                <div style={{ position: "relative", marginBottom: "16px", maxWidth: "520px", marginLeft: "auto", marginRight: "auto" }}>
+                {/* Search — the primary action, so it gets the most visual weight */}
+                <div style={{ position: "relative", marginBottom: "16px", maxWidth: "560px", marginLeft: "auto", marginRight: "auto" }}>
                     <span style={{
-                        position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)",
-                        fontSize: "16px", pointerEvents: "none",
+                        position: "absolute", left: "17px", top: "50%", transform: "translateY(-50%)",
+                        fontSize: "17px", pointerEvents: "none",
                     }}>🔍</span>
                     <input
                         value={search}
                         onChange={e => setSearch(e.target.value)}
+                        className="bc-search-input"
                         placeholder="Search games..."
                         style={{
                             width: "100%", padding: "12px 16px 12px 44px", borderRadius: "14px",
@@ -2732,46 +2796,85 @@ const GameTester = () => {
 
                 {/* Game grid */}
                 {filtered.length === 0 ? (
-                    <div style={{
-                        textAlign: "center", padding: "60px 20px", color: "#94a3b8",
+                    <div className="bc-fade-in" style={{
+                        textAlign: "center", padding: "52px 20px 60px", color: "#94a3b8",
+                        maxWidth: "520px", margin: "0 auto",
                     }}>
-                        <div style={{ fontSize: "48px", marginBottom: "12px" }}>🎮</div>
-                        <div style={{ fontSize: "18px" }}>No games match your search</div>
-                        <div style={{ fontSize: "14px", marginTop: "6px" }}>Try a different keyword or category</div>
+                        <div style={{ fontSize: "46px", marginBottom: "12px", lineHeight: 1 }}>🔍</div>
+                        <div style={{ fontSize: "19px", fontWeight: 600, color: "#e2e8f0" }}>
+                            No games match “{search || CATEGORY_META[filter]?.label}”
+                        </div>
+                        <div style={{ fontSize: "13.5px", marginTop: "8px", lineHeight: 1.6 }}>
+                            Check the spelling, or jump straight into one of our most-played games:
+                        </div>
+                        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center", marginTop: "18px" }}>
+                            {gameNames.slice(0, 6).map(n => {
+                                const m = resolveMeta(n);
+                                return (
+                                    <button key={n} onClick={() => { setSearch(""); setFilter("all"); setSelectedGame(n); setLastScore(null); }}
+                                        className="bc-lift" style={{
+                                            padding: "9px 15px", borderRadius: "11px", cursor: "pointer",
+                                            fontSize: "13px", fontWeight: 500, fontFamily: "inherit",
+                                            background: "rgba(255,255,255,.06)",
+                                            border: "1px solid rgba(255,255,255,.13)",
+                                            color: "#e2e8f0",
+                                        }}>
+                                        {m.emoji} {n}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        <button onClick={() => { setSearch(""); setFilter("all"); }} className="bc-lift" style={{
+                            marginTop: "20px", padding: "11px 26px", borderRadius: "12px", cursor: "pointer",
+                            fontSize: "14px", fontWeight: 600, fontFamily: "inherit",
+                            background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+                            color: "white", border: "none",
+                            boxShadow: "0 10px 26px -10px rgba(99,102,241,.7)",
+                        }}>Browse all {gameNames.length} games</button>
                     </div>
                 ) : (
                     <div style={{
                         display: "grid", gap: "14px",
                         gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 220px), 1fr))",
                     }}>
-                        {filtered.map(name => {
+                        {filtered.map((name, idx) => {
                             const cat = catOf(name);
                             const meta = resolveMeta(name);
                             const badge = CATEGORY_META[cat];
+                            const tint = (badge && badge.tint) || "129,140,248";
                             return (
                                 <button
                                     key={name}
                                     onClick={() => { setSelectedGame(name); setLastScore(null); }}
+                                    className="bc-card bc-fade-up"
                                     style={{
                                         textAlign: "left", padding: "20px", borderRadius: "16px",
-                                        cursor: "pointer", background: "rgba(255,255,255,0.06)",
-                                        border: "1px solid rgba(255,255,255,0.08)", color: "white",
+                                        cursor: "pointer",
+                                        background: `linear-gradient(160deg, rgba(${tint},.10) 0%, rgba(255,255,255,0.045) 46%, rgba(255,255,255,0.03) 100%)`,
+                                        border: `1px solid rgba(${tint},.20)`, color: "white",
                                         transition: "all 0.25s ease", position: "relative", overflow: "hidden",
                                         fontFamily: "inherit",
+                                        animationDelay: `${Math.min(idx, 24) * 18}ms`,
                                     }}
                                     onMouseEnter={e => {
-                                        e.currentTarget.style.background = "rgba(255,255,255,0.12)";
-                                        e.currentTarget.style.borderColor = "rgba(99,102,241,0.4)";
+                                        e.currentTarget.style.background = `linear-gradient(160deg, rgba(${tint},.20) 0%, rgba(255,255,255,0.09) 46%, rgba(255,255,255,0.05) 100%)`;
+                                        e.currentTarget.style.borderColor = `rgba(${tint},.5)`;
                                         e.currentTarget.style.transform = "translateY(-3px)";
-                                        e.currentTarget.style.boxShadow = "0 12px 30px rgba(0,0,0,0.3), 0 0 0 1px rgba(99,102,241,0.15)";
+                                        e.currentTarget.style.boxShadow = `0 14px 34px rgba(0,0,0,0.34), 0 0 0 1px rgba(${tint},.22)`;
                                     }}
                                     onMouseLeave={e => {
-                                        e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-                                        e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                                        e.currentTarget.style.background = `linear-gradient(160deg, rgba(${tint},.10) 0%, rgba(255,255,255,0.045) 46%, rgba(255,255,255,0.03) 100%)`;
+                                        e.currentTarget.style.borderColor = `rgba(${tint},.20)`;
                                         e.currentTarget.style.transform = "translateY(0)";
                                         e.currentTarget.style.boxShadow = "none";
                                     }}
                                 >
+                                    {/* Category colour band along the top edge */}
+                                    <span aria-hidden="true" style={{
+                                        position: "absolute", top: 0, left: 0, right: 0, height: "3px",
+                                        background: `linear-gradient(90deg, rgba(${tint},.9), rgba(${tint},.15))`,
+                                    }} />
+
                                     {/* Emoji header */}
                                     <div style={{
                                         fontSize: "36px", marginBottom: "10px", lineHeight: 1,
@@ -2800,9 +2903,9 @@ const GameTester = () => {
                                         <div style={{
                                             display: "inline-block", fontSize: "11px", fontWeight: 500,
                                             padding: "3px 10px", borderRadius: "12px",
-                                            background: "rgba(99,102,241,0.15)",
-                                            color: "#a5b4fc",
-                                            border: "1px solid rgba(99,102,241,0.25)",
+                                            background: `rgba(${tint},0.15)`,
+                                            color: `rgb(${tint})`,
+                                            border: `1px solid rgba(${tint},0.28)`,
                                         }}>
                                             {badge.emoji} {badge.label}
                                         </div>
