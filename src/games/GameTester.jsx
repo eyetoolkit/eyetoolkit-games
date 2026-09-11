@@ -4,6 +4,8 @@
  * Lazy-loads individual game components
  */
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Legal from "../Legal";
+import CookieConsent from "../CookieConsent";
 
 /* ── Game registry (lazy imports) ───────────────── */
 const games = {
@@ -1851,6 +1853,14 @@ const gameFromPath = () => {
     } catch (_) { return null; }
 };
 
+/* ── Static / legal pages routing ────────────────── */
+const pageFromPath = () => {
+    try {
+        const m = window.location.pathname.match(/^\/(privacy|terms|cookies|about)\/?$/i);
+        return m ? m[1].toLowerCase() : null;
+    } catch (_) { return null; }
+};
+
 /* ── Sister duel sites (funnel targets) ────────── */
 const DUEL_SITES = {
     mathduel:   { url: "https://mathduel.games",   name: "MathDuel",   tagline: "Real-time math duels" },
@@ -1863,6 +1873,7 @@ const duelFor = (name) => CAT_DUEL[catOf(name)] || null;
 /* ── Component ──────────────────────────────────── */
 const GameTester = () => {
     const [selectedGame, setSelectedGameState] = useState(gameFromPath);
+    const [currentPage, setCurrentPage] = useState(pageFromPath);
     const [lastScore, setLastScore] = useState(null);
     const [filter, setFilter] = useState("all");
     const [search, setSearch] = useState("");
@@ -1877,9 +1888,18 @@ const GameTester = () => {
         } catch (_) { /* noop */ }
     }, []);
 
+    // unified navigation: updates URL + both view states (game vs static page)
+    const navigate = useCallback((path) => {
+        try {
+            if (window.location.pathname !== path) window.history.pushState({}, "", path);
+        } catch (_) { /* noop */ }
+        setSelectedGameState(gameFromPath());
+        setCurrentPage(pageFromPath());
+    }, []);
+
     // browser back/forward support
     useEffect(() => {
-        const onPop = () => setSelectedGameState(gameFromPath());
+        const onPop = () => { setSelectedGameState(gameFromPath()); setCurrentPage(pageFromPath()); };
         window.addEventListener("popstate", onPop);
         return () => window.removeEventListener("popstate", onPop);
     }, []);
@@ -2018,6 +2038,17 @@ const GameTester = () => {
     useEffect(() => () => clearInterval(holdRef.current), []);
     const showDpad = isCoarse && selectedGame && DPAD_GAMES.has(selectedGame);
 
+
+    /* ── Static / legal pages route ── */
+    if (currentPage) {
+        return (
+            <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #1a1a3e 100%)", color: "white" }}>
+                <style>{GLOBAL_STYLES}</style>
+                <Legal page={currentPage} onBack={() => navigate("/")} />
+                <CookieConsent />
+            </div>
+        );
+    }
 
     /* ── Playing view ── */
     if (selectedGame) {
@@ -2397,11 +2428,13 @@ const GameTester = () => {
                     {/* Nav */}
                     <nav style={{ display: "flex", gap: "4px" }}>
                         {[
-                            { label: "Home", href: "#home" },
-                            { label: "Privacy", href: "#privacy" },
-                            { label: "Terms", href: "#terms" },
+                            { label: "Home", href: "/" },
+                            { label: "Privacy", href: "/privacy" },
+                            { label: "Terms", href: "/terms" },
+                            { label: "Cookies", href: "/cookies" },
+                            { label: "About", href: "/about" },
                         ].map(link => (
-                            <a key={link.label} href={link.href} style={{
+                            <a key={link.label} href={link.href} onClick={(e) => { e.preventDefault(); navigate(link.href); }} style={{
                                 color: "#cbd5e1", textDecoration: "none",
                                 padding: "6px 14px", borderRadius: "8px",
                                 fontSize: "14px", fontWeight: 500,
@@ -2629,8 +2662,19 @@ const GameTester = () => {
                     <span style={{ fontSize: "16px" }}>🎮</span>
                     <span style={{ color: "#cbd5e1", fontWeight: 500 }}>Bytecade Games</span>
                 </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "14px", marginBottom: "8px", flexWrap: "wrap" }}>
+                    {[
+                        { label: "Privacy", href: "/privacy" },
+                        { label: "Terms", href: "/terms" },
+                        { label: "Cookies", href: "/cookies" },
+                        { label: "About", href: "/about" },
+                    ].map(link => (
+                        <a key={link.label} href={link.href} onClick={(e) => { e.preventDefault(); navigate(link.href); }} style={{ color: "#94a3b8", textDecoration: "none", fontSize: "12.5px" }} onMouseEnter={(e) => { e.currentTarget.style.color = "#cbd5e1"; }} onMouseLeave={(e) => { e.currentTarget.style.color = "#94a3b8"; }}>{link.label}</a>
+                    ))}
+                </div>
                 <div>© 2026 Bytecade Games · Apache-2.0 Licensed</div>
             </footer>
+            <CookieConsent />
 
             {/* Privacy & Terms sections */}
             <section id="privacy" style={{
