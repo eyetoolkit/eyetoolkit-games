@@ -1,4 +1,4 @@
-# 馃幃 EyeToolkit Games
+# 馃幃 Bytecade Games
 
 **139+ open-source browser mini games** 鈥?no downloads, no accounts, no ads.
 

@@ -1,4 +1,4 @@
-# Zeli Web Games — one-file launcher for Windows PowerShell
+# Bytecade Games — one-file launcher for Windows PowerShell
 # Usage: powershell -ExecutionPolicy Bypass -File .\run.ps1
 $ErrorActionPreference = "Stop"
 Set-Location -Path $PSScriptRoot
