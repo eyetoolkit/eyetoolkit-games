@@ -3,7 +3,7 @@
  * Standalone game collection page — /game-test
  * Lazy-loads individual game components
  */
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Legal from "../Legal";
 import CookieConsent from "../CookieConsent";
 
@@ -2580,7 +2580,7 @@ const GameTester = () => {
             }}>
                 <style>{GLOBAL_STYLES}</style>
                 {headerEl}
-                <div className="bc-stage-scroll" style={{ padding: showDpad ? "16px 14px 170px" : "16px 14px 28px" }}>
+                <div className="bc-stage-scroll" style={{ padding: showDpad ? "12px 10px 170px" : "12px 10px 24px" }}>
                     {stageEl}
                     {infoEl && showInfo && (
                         <div className="bc-fade-in" style={{
