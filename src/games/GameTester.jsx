@@ -2387,13 +2387,20 @@ const GameTester = () => {
             </div>
         ) : (
             <div className="bc-stage-card" style={{
-                width: "100%", maxWidth: "980px", margin: "0 auto",
+                width: "100%", maxWidth: "980px", margin: "auto",
                 background: "rgba(255,255,255,.022)",
                 border: "1px solid rgba(255,255,255,.065)",
                 borderRadius: "20px",
                 boxShadow: "0 32px 74px -36px rgba(0,0,0,.82)",
                 padding: "16px",
+                position: "relative",
+                overflow: "hidden",
             }}>
+                {/* Soft ambient glow so the card never reads as an empty box */}
+                <span aria-hidden="true" style={{
+                    position: "absolute", inset: 0, pointerEvents: "none",
+                    background: "radial-gradient(ellipse 60% 55% at 50% 42%, rgba(99,102,241,.10), transparent 70%)",
+                }} />
                 <Suspense fallback={
                     <div style={{ minHeight: "52vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#cbd5e1", gap: "16px" }}>
                         <div className="bc-spin" style={{
@@ -2403,7 +2410,9 @@ const GameTester = () => {
                         <div style={{ fontSize: "13.5px", color: "#94a3b8" }}>Loading {selectedGame}…</div>
                     </div>
                 }>
-                    <GameComp onComplete={handleComplete} />
+                    <div style={{ position: "relative" }}>
+                        <GameComp onComplete={handleComplete} />
+                    </div>
                 </Suspense>
             </div>
         );
@@ -2496,7 +2505,7 @@ const GameTester = () => {
                             {/* More in this category — fills the sidebar and keeps players in the funnel */}
                             {(() => {
                                 const cat = catOf(selectedGame);
-                                const siblings = gameNames.filter(n => n !== selectedGame && catOf(n) === cat).slice(0, 6);
+                                const siblings = gameNames.filter(n => n !== selectedGame && catOf(n) === cat).slice(0, 8);
                                 if (!siblings.length) return null;
                                 const meta = CATEGORY_META[cat];
                                 return (
@@ -2530,6 +2539,20 @@ const GameTester = () => {
                                                 );
                                             })}
                                         </div>
+                                        <button
+                                            onClick={() => { setFilter(cat); setSelectedGame(null); setLastScore(null); }}
+                                            className="bc-lift"
+                                            style={{
+                                                width: "100%", marginTop: "10px", padding: "10px",
+                                                borderRadius: "11px", cursor: "pointer", fontFamily: "inherit",
+                                                fontSize: "13px", fontWeight: 600,
+                                                background: "rgba(99,102,241,.12)",
+                                                border: "1px solid rgba(99,102,241,.3)",
+                                                color: "#c7d2fe",
+                                            }}
+                                        >
+                                            Browse all {meta ? meta.label : ""} games →
+                                        </button>
                                     </div>
                                 );
                             })()}
