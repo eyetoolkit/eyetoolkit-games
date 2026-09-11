@@ -1,3 +1,4 @@
+# Managed by WorkBuddy (connectivity check 2026-09-11)
 User-agent: *
 Allow: /
 Sitemap: https://bytecade.mathduel.games/sitemap.xml
