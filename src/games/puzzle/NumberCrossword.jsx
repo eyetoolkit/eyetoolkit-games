@@ -2,7 +2,7 @@
  * 🎮 Game 148: Number Crossword
  * Place numbers so rows and columns add up
  */
-import { useState, useCallback } from "react";
+import { useState, useCallback, Fragment } from "react";
 
 const SIZE = 3;
 
@@ -49,7 +49,7 @@ const NumberCrossword = ({ onComplete }) => {
             <div style={{ fontSize: "13px" }}>Fill the blanks so sums match</div>
             <div style={{ display: "grid", gridTemplateColumns: `repeat(${SIZE + 1}, 50px)`, gap: "4px", alignItems: "center" }}>
                 {userGrid.map((row, r) => (
-                    <>
+                    <Fragment key={`row-${r}`}>
                         {row.map((cell, c) => {
                             const isBlank = puzzle.cells[r][c] === 0;
                             return (
@@ -72,7 +72,7 @@ const NumberCrossword = ({ onComplete }) => {
                         <div key={`sum-r-${r}`} style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", color: "#FFD700", fontWeight: "bold" }}>
                             ={puzzle.rowSums[r]}
                         </div>
-                    </>
+                    </Fragment>
                 ))}
                 {puzzle.colSums.map((sum, c) => (
                     <div key={`sum-c-${c}`} style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", color: "#FFD700", fontWeight: "bold" }}>

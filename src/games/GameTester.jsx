@@ -3,7 +3,7 @@
  * Standalone game collection page — /game-test
  * Lazy-loads individual game components
  */
-import { lazy, Suspense, useCallback, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 /* ── Game registry (lazy imports) ───────────────── */
 const games = {
@@ -287,6 +287,86 @@ const GameTester = () => {
         setTimeout(() => setSelectedGame(g), 50);
     }, [selectedGame]);
 
+    /* ── Mobile support ────────────────────────────── */
+    const isCoarse = useMemo(() =>
+        typeof window !== "undefined" && !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches), []);
+
+    // Games controlled with arrow keys / space — get a virtual D-pad on touch devices
+    const DPAD_GAMES = useMemo(() => new Set([
+        "Snake", "MiniTetris", "MiniPacman", "Frogger", "Asteroids", "Galaga",
+        "SpaceInvader", "DigDug", "Bomberman", "DonkeyKong", "JumpRunner",
+        "MazeEscape", "ArrowDodge", "ColumnsPuzzle",
+    ]), []);
+
+    // Touch → mouse bridge: makes mouse-driven canvas games playable on touch screens
+    useEffect(() => {
+        if (!isCoarse || !selectedGame) return;
+        let active = null;
+        const fire = (el, type, x, y) => {
+            try {
+                el.dispatchEvent(new MouseEvent(type, {
+                    bubbles: true, cancelable: true, view: window,
+                    clientX: x, clientY: y, button: 0, buttons: 1,
+                }));
+            } catch (_) { /* noop */ }
+        };
+        const isForm = (el) => !!(el.closest && el.closest("button, input, select, textarea, a, label"));
+        const onStart = (e) => {
+            const t = e.changedTouches && e.changedTouches[0];
+            if (!t) return;
+            const el = document.elementFromPoint(t.clientX, t.clientY);
+            if (!el || isForm(el)) { active = null; return; }
+            active = el;
+            fire(el, "mousedown", t.clientX, t.clientY);
+        };
+        const onMove = (e) => {
+            if (!active) return;
+            const t = e.changedTouches && e.changedTouches[0];
+            if (!t) return;
+            if (e.cancelable) e.preventDefault();
+            fire(active, "mousemove", t.clientX, t.clientY);
+        };
+        const onEnd = (e) => {
+            if (!active) return;
+            const t = e.changedTouches && e.changedTouches[0];
+            if (t) fire(active, "mouseup", t.clientX, t.clientY);
+            active = null;
+        };
+        const optP = { capture: true, passive: true };
+        const optNP = { capture: true, passive: false };
+        document.addEventListener("touchstart", onStart, optP);
+        document.addEventListener("touchmove", onMove, optNP);
+        document.addEventListener("touchend", onEnd, optP);
+        document.addEventListener("touchcancel", onEnd, optP);
+        return () => {
+            document.removeEventListener("touchstart", onStart, optP);
+            document.removeEventListener("touchmove", onMove, optNP);
+            document.removeEventListener("touchend", onEnd, optP);
+            document.removeEventListener("touchcancel", onEnd, optP);
+        };
+    }, [isCoarse, selectedGame]);
+
+    // Virtual D-pad key helpers
+    const holdRef = useRef(null);
+    const sendKey = useCallback((key, code, type) => {
+        try {
+            document.dispatchEvent(new KeyboardEvent(type, { key, code, bubbles: true, cancelable: true }));
+        } catch (_) { /* noop */ }
+    }, []);
+    const dpadDown = useCallback((key, code) => {
+        sendKey(key, code, "keydown");
+        clearInterval(holdRef.current);
+        holdRef.current = setInterval(() => sendKey(key, code, "keydown"), 160);
+    }, [sendKey]);
+    const dpadUp = useCallback((key, code) => {
+        clearInterval(holdRef.current);
+        holdRef.current = null;
+        sendKey(key, code, "keyup");
+    }, [sendKey]);
+    useEffect(() => () => clearInterval(holdRef.current), []);
+    const showDpad = isCoarse && selectedGame && DPAD_GAMES.has(selectedGame);
+
+
     /* ── Playing view ── */
     if (selectedGame) {
         const GameComp = games[selectedGame];
@@ -334,7 +414,13 @@ const GameTester = () => {
                 </div>
 
                 {/* Game area */}
-                <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
+                <div style={{
+                    flex: 1, position: "relative",
+                    overflowY: "auto", overflowX: "hidden",
+                    WebkitOverflowScrolling: "touch",
+                    touchAction: "pan-y",
+                    paddingBottom: showDpad ? "150px" : "12px",
+                }}>
                     {lastScore !== null ? (
                         <div style={{ height: "100%", minHeight: "70vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "white", gap: "20px", padding: "20px" }}>
                             <div style={{ fontSize: "72px", lineHeight: 1 }}>
@@ -375,6 +461,53 @@ const GameTester = () => {
                         </Suspense>
                     )}
                 </div>
+
+                {/* Virtual D-pad for keyboard-driven games on touch devices */}
+                {showDpad && (
+                    <div style={{
+                        position: "fixed", right: "12px", bottom: "12px", zIndex: 999,
+                        display: "grid", gridTemplateColumns: "repeat(3, 54px)",
+                        gridTemplateRows: "repeat(3, 54px)", gap: "6px",
+                        opacity: 0.92, touchAction: "none", userSelect: "none",
+                        WebkitUserSelect: "none", WebkitTapHighlightColor: "transparent",
+                    }} onContextMenu={e => e.preventDefault()}>
+                        {[
+                            { key: "ArrowUp", code: "ArrowUp", label: "▲", gc: "1 / 2", gr: "1 / 2" },
+                            { key: "ArrowLeft", code: "ArrowLeft", label: "◀", gc: "1 / 2", gr: "2 / 3" },
+                            { key: "ArrowDown", code: "ArrowDown", label: "▼", gc: "2 / 3", gr: "2 / 3" },
+                            { key: "ArrowRight", code: "ArrowRight", label: "▶", gc: "3 / 4", gr: "2 / 3" },
+                        ].map(b => (
+                            <button
+                                key={b.code}
+                                onPointerDown={e => { e.preventDefault(); dpadDown(b.key, b.code); }}
+                                onPointerUp={e => { e.preventDefault(); dpadUp(b.key, b.code); }}
+                                onPointerLeave={() => dpadUp(b.key, b.code)}
+                                onPointerCancel={() => dpadUp(b.key, b.code)}
+                                style={{
+                                    gridColumn: b.gc, gridRow: b.gr,
+                                    background: "rgba(99,102,241,0.25)", border: "1px solid rgba(99,102,241,0.5)",
+                                    color: "#c7d2fe", borderRadius: "14px", fontSize: "20px", fontWeight: 700,
+                                    touchAction: "none", userSelect: "none", WebkitUserSelect: "none",
+                                    WebkitTapHighlightColor: "transparent", cursor: "pointer", padding: 0,
+                                }}
+                            >{b.label}</button>
+                        ))}
+                        <button
+                            onPointerDown={e => { e.preventDefault(); dpadDown(" ", "Space"); }}
+                            onPointerUp={e => { e.preventDefault(); dpadUp(" ", "Space"); }}
+                            onPointerLeave={() => dpadUp(" ", "Space")}
+                            onPointerCancel={() => dpadUp(" ", "Space")}
+                            style={{
+                                gridColumn: "1 / 4", gridRow: "3 / 4",
+                                background: "rgba(6,182,212,0.25)", border: "1px solid rgba(6,182,212,0.5)",
+                                color: "#a5f3fc", borderRadius: "14px", fontSize: "13px", fontWeight: 700,
+                                letterSpacing: "2px", touchAction: "none", userSelect: "none",
+                                WebkitUserSelect: "none", WebkitTapHighlightColor: "transparent",
+                                cursor: "pointer", padding: 0,
+                            }}
+                        >SPACE</button>
+                    </div>
+                )}
             </div>
         );
     }

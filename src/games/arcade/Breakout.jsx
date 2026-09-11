@@ -50,7 +50,7 @@ const Breakout = ({ onComplete }) => {
                             dy = -dy;
                             // particles
                             setParticles((ps) => [...ps.slice(-10),
-                            { id: Date.now(), x: br.x + BRICK_W / 2, y: br.y, color: br.color },
+                            { id: Date.now() + Math.random(), x: br.x + BRICK_W / 2, y: br.y, color: br.color },
                             ]);
                             setTimeout(() => setParticles((ps) => ps.slice(1)), 500);
                             if (scoreRef.current >= totalBricks) { setGameActive(false); setTimeout(() => onComplete(100), 500); }
@@ -89,8 +89,8 @@ const Breakout = ({ onComplete }) => {
                 cursor: "none", border: "2px solid rgba(255,255,255,0.06)",
             }}>
                 {/* Bricks */}
-                {bricks.filter((b) => b.alive).map((b, i) => (
-                    <div key={i} style={{
+                {bricks.filter((b) => b.alive).map((b) => (
+                    <div key={`${b.x}-${b.y}`} style={{
                         position: "absolute", left: b.x, top: b.y, width: BRICK_W, height: BRICK_H,
                         background: `linear-gradient(135deg, ${b.color}, ${b.color}cc)`,
                         borderRadius: "3px",
