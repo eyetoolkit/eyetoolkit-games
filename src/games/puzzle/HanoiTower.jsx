@@ -50,6 +50,9 @@ const HanoiTower = ({ onComplete }) => {
         }
     }, [selected, pegs, moves, discCount, minMoves, done, onComplete]);
 
+    // Three pegs sit side by side, so their combined width must fit a 320px-class
+    // phone: 3 pegs + 2 gaps + page padding. Previously a fixed 200px per peg made
+    // the row 632px wide, pushing peg A off-screen on mobile.
     const maxWidth = 180;
     const progress = pegs[2].length / discCount * 100;
 
@@ -59,16 +62,16 @@ const HanoiTower = ({ onComplete }) => {
                 @keyframes discDrop { from{transform:translateY(-8px);opacity:0.7} to{transform:translateY(0);opacity:1} }
                 @keyframes perfectPulse { 0%,100%{text-shadow:0 0 10px #64ffda} 50%{text-shadow:0 0 30px #64ffda,0 0 40px #64ffda} }
             `}</style>
-            <div style={{ display: "flex", gap: "16px", fontSize: "13px", alignItems: "center" }}>
+            <div style={{ display: "flex", gap: "16px", fontSize: "13px", alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
                 <span>Moves: <span style={{ color: moves <= minMoves ? "#64ffda" : "#FFD700", fontWeight: "bold" }}>{moves}</span></span>
                 <span>Min: <span style={{ color: "#8892b0" }}>{minMoves}</span></span>
                 <span>Discs: <span style={{ color: "#FF6B6B", fontWeight: "bold" }}>{discCount}</span></span>
             </div>
             {/* Progress bar */}
-            <div style={{ width: "260px", height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "2px" }}>
+            <div style={{ width: "min(260px, calc(100% - 24px))", height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "2px" }}>
                 <div style={{ height: "100%", borderRadius: "2px", width: `${progress}%`, background: "linear-gradient(90deg, #FFD93D, #64ffda)", transition: "width 0.4s ease" }} />
             </div>
-            <div style={{ display: "flex", gap: "16px", alignItems: "flex-end" }}>
+            <div className="hanoi-row" style={{ display: "flex", gap: "16px", alignItems: "flex-end", width: "100%", maxWidth: "632px", justifyContent: "center" }}>
                 {pegs.map((peg, pi) => (
                     <div
                         key={pi}
@@ -78,7 +81,9 @@ const HanoiTower = ({ onComplete }) => {
                             display: "flex",
                             flexDirection: "column-reverse",
                             alignItems: "center",
-                            width: maxWidth + 20,
+                            flex: "1 1 0",
+                            minWidth: 0,
+                            maxWidth: maxWidth + 20,
                             minHeight: (discCount + 1) * 28 + 20,
                             background: selected === pi
                                 ? "linear-gradient(180deg, rgba(100,255,218,0.08), rgba(100,255,218,0.02))"
@@ -98,7 +103,7 @@ const HanoiTower = ({ onComplete }) => {
                             position: "absolute", bottom: 36, zIndex: 0,
                         }} />
                         <div style={{
-                            width: maxWidth + 10, height: "6px",
+                            width: "100%", maxWidth: maxWidth + 10, height: "6px",
                             background: "linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.15), rgba(255,255,255,0.08))",
                             borderRadius: "3px",
                         }} />
@@ -107,7 +112,7 @@ const HanoiTower = ({ onComplete }) => {
                             const [c1, c2] = DISC_COLORS[disc - 1];
                             return (
                                 <div key={di} style={{
-                                    width: w, height: "24px", borderRadius: "12px",
+                                    width: `min(100%, ${w}px)`, height: "24px", borderRadius: "12px",
                                     background: `linear-gradient(135deg, ${c1}, ${c2})`,
                                     display: "flex", alignItems: "center", justifyContent: "center",
                                     fontSize: "12px", fontWeight: "bold", color: "white",
@@ -125,8 +130,8 @@ const HanoiTower = ({ onComplete }) => {
                     </div>
                 ))}
             </div>
-            <div style={{ fontSize: "12px", color: "#8892b0" }}>
-                Click towers to move discs — get all to C
+            <div style={{ fontSize: "12px", color: "#8892b0", textAlign: "center", padding: "0 12px" }}>
+                Tap towers to move discs — get all to C
             </div>
             {done && (
                 <div style={{
