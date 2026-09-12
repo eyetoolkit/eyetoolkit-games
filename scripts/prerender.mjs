@@ -80,10 +80,17 @@ function buildPage({ url, title, desc, ogType, image, graph, body, imageAlt }) {
 
 const wrapBody = (inner) => `<main style="max-width:760px;margin:0 auto;padding:28px 20px 60px;color:#e8ecf6;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;line-height:1.7">${inner}</main>`;
 
+/**
+ * Emit a route as BOTH `route/index.html` (directory form) and
+ * `route.html` (flat form). Cloudflare Pages resolves an extensionless URL
+ * against either layout depending on its pretty-URL rules, so shipping both
+ * guarantees a 200 at the clean URL instead of a redirect chain.
+ */
 function write(routePath, html) {
     const dir = join(DIST, routePath);
     mkdirSync(dir, { recursive: true });
     writeFileSync(join(dir, "index.html"), html);
+    writeFileSync(join(DIST, `${routePath}.html`), html);
 }
 
 let count = 0;
