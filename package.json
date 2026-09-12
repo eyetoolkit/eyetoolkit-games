@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prerender.mjs && node scripts/og-images.mjs",
+    "build": "vite build && node scripts/prerender.mjs && (node scripts/og-images.mjs || echo \"[og] generation skipped - committed cards will be used\")",
     "preview": "vite preview",
     "prerender": "node scripts/prerender.mjs",
     "og": "node scripts/og-images.mjs"

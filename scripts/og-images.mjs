@@ -12,7 +12,10 @@ import sharp from "sharp";
 import { GAME_NAMES, GAME_COUNT, CATEGORY_META, catOf, resolveMeta, slugify } from "../src/games/catalog.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = join(ROOT, "dist", "og");
+// Written into public/ (not dist/) so the PNGs are committed to git and
+// copied into dist by Vite. If sharp ever fails on the build host, the
+// committed cards still ship instead of the deploy losing all OG images.
+const OUT = join(ROOT, "public", "og");
 
 const W = 1200;
 const H = 630;
@@ -127,4 +130,4 @@ for (const name of GAME_NAMES) {
     n++;
 }
 
-console.log(`[og-images] generated ${n} social cards in dist/og/`);
+console.log(`[og-images] generated ${n} social cards in public/og/`);
