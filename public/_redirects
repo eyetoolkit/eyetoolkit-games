@@ -1,1 +1,16 @@
-/* /index.html 200
+# SPA fallback.
+#
+# Prerendered HTML now exists on disk for every real route (/game/<slug>,
+# /privacy, /terms, /cookies, /about, and /), and Cloudflare Pages serves a
+# matching static asset in preference to these rules. They are only a safety
+# net so a hard refresh still boots the app if a prerendered file is missing.
+#
+# The previous rule was "/* /index.html 200", which made every unknown path
+# return HTTP 200 with the SPA shell — including /ads.txt and
+# /site.webmanifest, which is an automatic ad-network validation failure.
+# Scoping the fallback to real route prefixes lets missing URLs 404 correctly.
+/game/*   /index.html  200
+/privacy  /index.html  200
+/terms    /index.html  200
+/cookies  /index.html  200
+/about    /index.html  200

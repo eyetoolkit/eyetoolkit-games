@@ -1,0 +1,5 @@
+# ads.txt
+# Bytecade Games is currently ad-free. This file is published ahead of
+# monetisation so the path resolves as text/plain instead of falling through
+# to the SPA shell (which would return HTML and fail ad-network validation).
+# Replace the placeholder below with the real account before enabling ads.

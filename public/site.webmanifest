@@ -1,0 +1,23 @@
+{
+    "name": "Bytecade Games",
+    "short_name": "Bytecade",
+    "description": "132+ free open-source browser mini games. No downloads, no ads, no accounts.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#0f0f23",
+    "theme_color": "#0f0f23",
+    "lang": "en",
+    "icons": [
+        {
+            "src": "/apple-touch-icon.png",
+            "sizes": "180x180",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
