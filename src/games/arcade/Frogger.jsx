@@ -172,14 +172,8 @@ const Frogger = ({ onComplete }) => {
             </div>
             <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H}
                 style={{ borderRadius: "10px", border: "2px solid rgba(255,255,255,0.1)" }} />
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 40px)", gap: "4px" }}>
-                <div />
-                <button onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp" }))} style={movBtn}>↑</button>
-                <div />
-                <button onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }))} style={movBtn}>←</button>
-                <button onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }))} style={movBtn}>↓</button>
-                <button onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }))} style={movBtn}>→</button>
-            </div>
+            {/* Controls live in the portal D-pad (GameTester) so touch users get one
+                consistent set instead of a duplicate inside the game. */}
         </div>
     );
 };
