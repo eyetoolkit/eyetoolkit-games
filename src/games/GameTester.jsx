@@ -876,7 +876,7 @@ const GameTester = () => {
             </div>
         ) : (
             <div className="bc-stage-card" style={{
-                width: "100%", maxWidth: "980px", margin: "auto",
+                width: "100%", maxWidth: "980px", minHeight: "400px", margin: "auto",
                 background: "rgba(255,255,255,.022)",
                 border: "1px solid rgba(255,255,255,.065)",
                 borderRadius: "20px",
