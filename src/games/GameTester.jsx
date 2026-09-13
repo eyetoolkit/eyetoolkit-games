@@ -887,7 +887,7 @@ const GameTester = () => {
                 WebkitUserSelect: "none", WebkitTapHighlightColor: "transparent",
             }} onContextMenu={e => e.preventDefault()}>
                 {[
-                    { key: "ArrowUp", code: "ArrowUp", label: "▲", gc: "1 / 2", gr: "1 / 2" },
+                    { key: "ArrowUp", code: "ArrowUp", label: "▲", gc: "2 / 3", gr: "1 / 2" },
                     { key: "ArrowLeft", code: "ArrowLeft", label: "◀", gc: "1 / 2", gr: "2 / 3" },
                     { key: "ArrowDown", code: "ArrowDown", label: "▼", gc: "2 / 3", gr: "2 / 3" },
                     { key: "ArrowRight", code: "ArrowRight", label: "▶", gc: "3 / 4", gr: "2 / 3" },
