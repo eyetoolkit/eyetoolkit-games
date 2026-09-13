@@ -288,6 +288,63 @@ body.bc-has-cc footer { padding-bottom: calc(var(--bc-cc-height, 104px) + 28px) 
 }
 `;
 
+/* ── FitGame: scale any over-wide game down so it fits the phone viewport ──
+   Many games render at a fixed pixel size (canvas boards, 480-800px). On a
+   phone those overflow the stage and get clipped by overflow:hidden. This
+   measures the game's TRUE rendered width from its descendants' rects —
+   getBoundingClientRect reports layout position even when an ancestor clips
+   with overflow:hidden, which scrollWidth does not — and applies a uniform
+   transform:scale so the whole game stays visible. Responsive games measure
+   <= the container, so scale stays 1. */
+const FitGame = ({ children }) => {
+    const wrapRef = useRef(null);
+    const contentRef = useRef(null);
+    const [scale, setScale] = useState(1);
+    const [boxH, setBoxH] = useState(undefined);
+
+    useLayoutEffect(() => {
+        const wrap = wrapRef.current;
+        const content = contentRef.current;
+        if (!wrap || !content) return;
+        const measure = () => {
+            // Temporarily reset the scale so we read the UN-scaled layout, then
+            // restore whatever React last applied. Leaving it at scale(1) would
+            // stick on screen: setScale with an unchanged value does not re-render,
+            // so React never gets a chance to write the scaled value back.
+            const prevT = content.style.transform;
+            content.style.transform = "scale(1)";
+            const avail = wrap.clientWidth;
+            let minLeft = Infinity, maxRight = -Infinity;
+            for (const el of content.querySelectorAll("*")) {
+                const r = el.getBoundingClientRect();
+                if (r.width < 1 || r.height < 1) continue;
+                if (r.left < minLeft) minLeft = r.left;
+                if (r.right > maxRight) maxRight = r.right;
+            }
+            const base = content.getBoundingClientRect();
+            if (!isFinite(minLeft)) { minLeft = base.left; maxRight = base.right; }
+            const spanW = Math.max(maxRight - minLeft, base.width);
+            const sh = content.scrollHeight;
+            content.style.transform = prevT || "scale(1)";
+            const s = spanW > avail + 1 ? avail / spanW : 1;
+            setScale(s);
+            setBoxH(s < 1 ? sh * s : undefined);
+        };
+        measure();
+        const t = setTimeout(measure, 350);
+        window.addEventListener("resize", measure);
+        return () => { clearTimeout(t); window.removeEventListener("resize", measure); };
+    }, []);
+
+    return (
+        <div ref={wrapRef} style={{ width: "100%", overflow: "hidden", height: boxH }}>
+            <div ref={contentRef} style={{ width: "100%", transform: `scale(${scale})`, transformOrigin: "top left" }}>
+                {children}
+            </div>
+        </div>
+    );
+};
+
 /* ── Routing (path-based, CF Pages SPA fallback serves index.html) ── */
 const SLUG_MAP = new Map(Object.keys({
     Snake: 1, MiniTetris: 1, MiniPacman: 1, Breakout: 1, FlappyJelly: 1, PingPong: 1,
@@ -822,7 +879,9 @@ const GameTester = () => {
                     </div>
                 }>
                     <div style={{ position: "relative" }}>
-                        <GameComp onComplete={handleComplete} />
+                        <FitGame key={selectedGame}>
+                            <GameComp onComplete={handleComplete} />
+                        </FitGame>
                     </div>
                 </Suspense>
             </div>
