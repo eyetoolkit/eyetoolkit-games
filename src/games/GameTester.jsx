@@ -300,7 +300,8 @@ const FitGame = ({ children }) => {
     const wrapRef = useRef(null);
     const contentRef = useRef(null);
     const [scale, setScale] = useState(1);
-    const [offset, setOffset] = useState(0);
+    const [offsetX, setOffsetX] = useState(0);
+    const [offsetY, setOffsetY] = useState(0);
     const [boxH, setBoxH] = useState(undefined);
 
     useLayoutEffect(() => {
@@ -308,39 +309,44 @@ const FitGame = ({ children }) => {
         const content = contentRef.current;
         if (!wrap || !content) return;
         const measure = () => {
-            // Temporarily reset the transform so we read the UN-scaled layout, then
-            // restore whatever React last applied. Leaving it at 1 would stick: a
-            // setState with an unchanged value does not re-render to fix the DOM.
+            // Reset the transform so we read the UN-scaled layout, then restore what
+            // React last applied (leaving it at scale(1) sticks: setState with an
+            // unchanged value does not re-render, so the DOM never gets corrected).
             const prevT = content.style.transform;
-            content.style.transform = "translateX(0px) scale(1)";
+            content.style.transform = "translate(0px, 0px) scale(1)";
             const avail = wrap.clientWidth;
-            let minLeft = Infinity, maxRight = -Infinity;
+            // Measure the REAL bounding box of every descendant. This catches content
+            // that overflow:hidden hides from scrollWidth/scrollHeight — e.g. a board
+            // centred in a shorter container (overflows BOTH top and bottom) or
+            // absolutely-positioned decorations that stick out.
+            let minLeft = Infinity, maxRight = -Infinity, minTop = Infinity, maxBottom = -Infinity;
             for (const el of content.querySelectorAll("*")) {
                 const r = el.getBoundingClientRect();
                 if (r.width < 1 || r.height < 1) continue;
                 if (r.left < minLeft) minLeft = r.left;
                 if (r.right > maxRight) maxRight = r.right;
+                if (r.top < minTop) minTop = r.top;
+                if (r.bottom > maxBottom) maxBottom = r.bottom;
             }
             const base = content.getBoundingClientRect();
             if (!isFinite(minLeft)) { minLeft = base.left; maxRight = base.right; }
+            if (!isFinite(minTop)) { minTop = base.top; maxBottom = base.bottom; }
             const spanW = Math.max(maxRight - minLeft, base.width);
-            const sh = content.scrollHeight;
-            content.style.transform = prevT || "translateX(0px) scale(1)";
+            const spanH = Math.max(maxBottom - minTop, base.height);
+            content.style.transform = prevT || "translate(0px, 0px) scale(1)";
             const s = spanW > avail + 1 ? avail / spanW : 1;
-            // Content can overflow on BOTH sides (e.g. a board centred inside a flex
-            // parent). Scaling about the left edge alone leaves the left overhang
-            // clipped, so translate the scaled span back onto [0, avail].
             const tx = s < 1 ? -(minLeft - base.left) * s : 0;
+            const ty = s < 1 ? -(minTop - base.top) * s : 0;
             setScale(s);
-            setOffset(tx);
-            setBoxH(s < 1 ? sh * s : undefined);
+            setOffsetX(tx);
+            setOffsetY(ty);
+            setBoxH(spanH * s);
         };
         measure();
         const t = setTimeout(measure, 350);
-        // Re-measure whenever the game's own content changes size (a board that
-        // appears on "start", a result panel, etc.). Observing `content` is safe:
-        // measure() only touches transform/height, which does not change content's
-        // border-box, so this cannot loop.
+        // Re-measure when the game's own content changes size (board appears on start,
+        // result panel, etc.). Observing `content` is safe: measure() only touches
+        // transform/height, which does not change content's border-box.
         let ro;
         try { ro = new ResizeObserver(() => measure()); ro.observe(content); } catch (_) { /* noop */ }
         window.addEventListener("resize", measure);
@@ -353,7 +359,7 @@ const FitGame = ({ children }) => {
 
     return (
         <div ref={wrapRef} style={{ width: "100%", overflow: "hidden", height: boxH }}>
-            <div ref={contentRef} style={{ width: "100%", transform: `translateX(${offset}px) scale(${scale})`, transformOrigin: "top left" }}>
+            <div ref={contentRef} style={{ width: "100%", transform: `translate(${offsetX}px, ${offsetY}px) scale(${scale})`, transformOrigin: "top left" }}>
                 {children}
             </div>
         </div>
