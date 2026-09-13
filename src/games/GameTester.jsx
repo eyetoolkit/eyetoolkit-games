@@ -337,8 +337,18 @@ const FitGame = ({ children }) => {
         };
         measure();
         const t = setTimeout(measure, 350);
+        // Re-measure whenever the game's own content changes size (a board that
+        // appears on "start", a result panel, etc.). Observing `content` is safe:
+        // measure() only touches transform/height, which does not change content's
+        // border-box, so this cannot loop.
+        let ro;
+        try { ro = new ResizeObserver(() => measure()); ro.observe(content); } catch (_) { /* noop */ }
         window.addEventListener("resize", measure);
-        return () => { clearTimeout(t); window.removeEventListener("resize", measure); };
+        return () => {
+            clearTimeout(t);
+            try { ro && ro.disconnect(); } catch (_) { /* noop */ }
+            window.removeEventListener("resize", measure);
+        };
     }, []);
 
     return (
