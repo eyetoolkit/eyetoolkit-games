@@ -93,14 +93,8 @@ const MiniPacman = ({ onComplete }) => {
                     </div>
                 )))}
             </div>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" }}>
-                <button onClick={() => handleDir(0, -1)} style={dBtn}>▲</button>
-                <div style={{ display: "flex", gap: "2px" }}>
-                    <button onClick={() => handleDir(-1, 0)} style={dBtn}>◀</button>
-                    <button onClick={() => handleDir(0, 1)} style={dBtn}>▼</button>
-                    <button onClick={() => handleDir(1, 0)} style={dBtn}>▶</button>
-                </div>
-            </div>
+            {/* The on-screen D-pad lives in the portal (GameTester) so touch users get a
+                single, consistent control instead of a duplicate inside the game. */}
         </div>
     );
 };
