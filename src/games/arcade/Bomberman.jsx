@@ -183,14 +183,8 @@ const Bomberman = ({ onComplete }) => {
                     );
                 })}
             </div>
-            <div style={{ display: "flex", gap: "6px" }}>
-                {[["↑", "ArrowUp"], ["←", "ArrowLeft"], ["↓", "ArrowDown"], ["→", "ArrowRight"], ["💣", " "]].map(([label, key]) => (
-                    <button key={label} onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key }))}
-                        style={{ width: 38, height: 38, fontSize: "14px", background: "rgba(255,255,255,0.1)", color: "white", border: "1px solid rgba(255,255,255,0.2)", borderRadius: "6px", cursor: "pointer" }}>
-                        {label}
-                    </button>
-                ))}
-            </div>
+            {/* Controls live in the portal D-pad (GameTester): arrows move, SPACE drops a
+                bomb. Keeps a single control set on touch instead of a duplicate. */}
             <div style={{ fontSize: "11px", color: "#8892b0" }}>Arrows to move | Space for bomb</div>
         </div>
     );
