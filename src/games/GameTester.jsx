@@ -675,37 +675,6 @@ const GameTester = () => {
 
         /* ── info content (description + how to play) ── */
         const infoEl = null; // REMOVED: meta.description ? (
-            <div>
-                <p style={{ margin: "0 0 20px", fontSize: "13.5px", lineHeight: 1.75, color: "#c3cde0" }}>
-                    {meta.description}
-                </p>
-                {meta.howToPlay && meta.howToPlay.length > 0 && (
-                    <div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
-                                        <h2 style={{
-                                            margin: 0, fontSize: "10.5px", fontWeight: 700, letterSpacing: "1.8px",
-                                            textTransform: "uppercase", color: "#818cf8", whiteSpace: "nowrap",
-                                        }}>How to Play</h2>
-                            <span style={{ flex: 1, height: "1px", background: "linear-gradient(90deg, rgba(129,140,248,.35), transparent)" }} />
-                        </div>
-                        <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
-                            {meta.howToPlay.map((step, i) => (
-                                <li key={i} style={{ display: "flex", gap: "10px", fontSize: "13px", lineHeight: 1.62, color: "#adb9ce" }}>
-                                    <span style={{
-                                        flexShrink: 0, width: "20px", height: "20px", borderRadius: "6px",
-                                        display: "inline-flex", alignItems: "center", justifyContent: "center",
-                                        fontSize: "11px", fontWeight: 700, marginTop: "1px",
-                                        background: "rgba(99,102,241,.18)", color: "#a5b4fc",
-                                        border: "1px solid rgba(99,102,241,.3)",
-                                    }}>{i + 1}</span>
-                                    <span>{step}</span>
-                                </li>
-                            ))}
-                        </ol>
-                    </div>
-                )}
-            </div>
-        ) : null;
 
         /* ── header bar ── */
         const headerEl = (
