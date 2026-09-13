@@ -109,12 +109,8 @@ const MiniTetris = ({ onComplete }) => {
             {!gameActive && (
                 <div style={{ fontSize: "14px", fontWeight: "bold", color: "#FF6B6B" }}>💀 Game over! {lines} line</div>
             )}
-            <div style={{ display: "flex", gap: "4px" }}>
-                <button onClick={() => !collides(board, piece, pos.r, pos.c - 1) && setPos((p) => ({ ...p, c: p.c - 1 }))} style={ctrlBtn}>◀</button>
-                <button onClick={() => { const rp = rotate(piece); if (!collides(board, rp, pos.r, pos.c)) setPiece(rp); }} style={ctrlBtn}>🔄</button>
-                <button onClick={drop} style={ctrlBtn}>▼</button>
-                <button onClick={() => !collides(board, piece, pos.r, pos.c + 1) && setPos((p) => ({ ...p, c: p.c + 1 }))} style={ctrlBtn}>▶</button>
-            </div>
+            {/* Controls live in the portal D-pad (GameTester) so touch users get one
+                consistent set instead of a duplicate inside the game. */}
         </div>
     );
 };
