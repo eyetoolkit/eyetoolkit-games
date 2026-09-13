@@ -733,7 +733,7 @@ const GameTester = () => {
                         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                     }}>{selectedGame}</h1>
                     {badge && (
-                        <span style={{
+                        <span className="bc-hide-sm" style={{
                             fontSize: "10.5px", fontWeight: 600, padding: "3px 9px", borderRadius: "999px",
                             flexShrink: 0, whiteSpace: "nowrap",
                             background: "rgba(99,102,241,.16)", color: "#a5b4fc",
@@ -905,10 +905,10 @@ const GameTester = () => {
         /* ── virtual D-pad (touch devices, keyboard-driven games) ── */
         const dpadEl = showDpad ? (
             <div style={{
-                position: "fixed", right: "14px", bottom: "14px", zIndex: 999,
-                display: "grid", gridTemplateColumns: "repeat(3, 56px)",
-                gridTemplateRows: "repeat(3, 56px)", gap: "7px",
-                opacity: 0.9, touchAction: "none", userSelect: "none",
+                display: "grid", gridTemplateColumns: "repeat(3, 54px)",
+                gridTemplateRows: "repeat(3, 54px)", gap: "7px",
+                margin: "16px auto 2px", width: "fit-content",
+                touchAction: "none", userSelect: "none",
                 WebkitUserSelect: "none", WebkitTapHighlightColor: "transparent",
             }} onContextMenu={e => e.preventDefault()}>
                 {[
@@ -1060,8 +1060,9 @@ const GameTester = () => {
             }}>
                 <style>{GLOBAL_STYLES}</style>
                 {headerEl}
-                <main className="bc-stage-scroll" style={{ padding: showDpad ? "12px 10px 170px" : "12px 10px 24px" }}>
+                <main className="bc-stage-scroll" style={{ padding: "12px 10px 28px" }}>
                     {stageEl}
+                    {dpadEl}
                     {infoEl && showInfo && (
                         <div className="bc-fade-in" style={{
                             width: "100%", maxWidth: "820px", margin: "18px auto 0",
@@ -1078,7 +1079,6 @@ const GameTester = () => {
                         </div>
                     )}
                 </main>
-                {dpadEl}
             </div>
         );
     }
