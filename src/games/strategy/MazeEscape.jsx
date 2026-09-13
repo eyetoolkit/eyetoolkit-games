@@ -95,15 +95,8 @@ const MazeEscape = ({ onComplete }) => {
                 }))}
             </div>
 
-            {/* D-pad */}
-            <div style={{ display: "grid", gridTemplateColumns: "40px 40px 40px", gridTemplateRows: "40px 40px", gap: "2px", justifyItems: "center" }}>
-                <div />
-                <button onClick={() => move(-1, 0)} style={dpad}>▲</button>
-                <div />
-                <button onClick={() => move(0, -1)} style={dpad}>◀</button>
-                <button onClick={() => move(1, 0)} style={dpad}>▼</button>
-                <button onClick={() => move(0, 1)} style={dpad}>▶</button>
-            </div>
+            {/* Controls live in the portal D-pad (GameTester) so touch users get one
+                consistent set instead of a duplicate inside the game. */}
 
             {won && <div style={{ fontSize: "16px", fontWeight: "bold", color: "#64ffda" }}>🎉 Escaped!</div>}
         </div>
