@@ -586,6 +586,33 @@ const GameTester = () => {
         "MazeEscape", "ArrowDodge", "ColumnsPuzzle",
     ]), []);
 
+    // ═══════════════════════════════════════════════════════════════════
+    // 游戏个性化控制方案
+    // 只添加功能按钮，不改变原有D-pad布局
+    // ═══════════════════════════════════════════════════════════════════
+    const GAME_CONTROL_TYPES = {
+        // 旋转增强型 - 需要旋转按钮
+        'MiniTetris': 'ROTATION',
+        'ColumnsPuzzle': 'ROTATION',
+        
+        // 射击型 - 需要发射按钮
+        'SpaceInvader': 'SHOOTER',
+        'Galaga': 'SHOOTER',
+        'Asteroids': 'SHOOTER',
+        
+        // 炸弹人型 - 需要放炸弹按钮
+        'Bomberman': 'BOMBER',
+        
+        // 跳跃型 - 需要跳跃按钮
+        'JumpRunner': 'JUMP',
+        'FlappyJelly': 'JUMP',
+        'Breakout': 'JUMP',
+    };
+    
+    // 获取当前游戏的控制类型
+    const getGameControlType = () => GAME_CONTROL_TYPES[selectedGame] || 'STANDARD';
+
+
     // Touch → mouse bridge: makes mouse-driven canvas games playable on touch screens
     useEffect(() => {
         if (!isCoarse || !selectedGame) return;
@@ -878,20 +905,48 @@ const GameTester = () => {
         );
 
         /* ── virtual D-pad (touch devices, keyboard-driven games) ── */
-        const dpadEl = showDpad ? (
+        
+
+            // ═══════════════════════════════════════════════════════════════════
+            // 个性化功能按钮 - 根据游戏类型显示不同按钮
+            // ═══════════════════════════════════════════════════════════════════
+            const gameType = getGameControlType();
+            const extraButtonStyle = {
+                background: "rgba(99,102,241,.28)",
+                border: "1px solid rgba(129,140,248,.5)",
+                color: "#c7d2fe",
+                borderRadius: "15px",
+                fontSize: "16px",
+                fontWeight: 700,
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+                touchAction: "none",
+                userSelect: "none",
+                WebkitUserSelect: "none",
+                WebkitTapHighlightColor: "transparent",
+                cursor: "pointer",
+                padding: 0,
+                boxShadow: "0 6px 18px -6px rgba(0,0,0,.6)",
+            };
+
+const dpadEl = showDpad ? (
             <div style={{
-                display: "grid", gridTemplateColumns: "repeat(3, 54px)",
-                gridTemplateRows: "repeat(3, 54px)", gap: "7px",
+                display: "grid", gridTemplateColumns: "repeat(4, 54px)",
+                gridTemplateRows: "repeat(4, 54px)", gap: "7px",
                 margin: "16px auto 2px", width: "fit-content",
                 touchAction: "none", userSelect: "none",
                 WebkitUserSelect: "none", WebkitTapHighlightColor: "transparent",
             }} onContextMenu={e => e.preventDefault()}>
                 {[
-                    { key: "ArrowUp", code: "ArrowUp", label: "▲", gc: "2 / 3", gr: "1 / 2" },
+                    { key: "ArrowUp", code: "ArrowUp", label: "▲", gc: "2 / 3", gr: "1 / 2", hideFor: ['ROTATION', 'SHOOTER'] },
                     { key: "ArrowLeft", code: "ArrowLeft", label: "◀", gc: "1 / 2", gr: "2 / 3" },
                     { key: "ArrowDown", code: "ArrowDown", label: "▼", gc: "2 / 3", gr: "2 / 3" },
                     { key: "ArrowRight", code: "ArrowRight", label: "▶", gc: "3 / 4", gr: "2 / 3" },
-                ].map(b => (
+                ].map(b => {
+                    if (b.hideFor && b.hideFor.includes(gameType)) {
+                        return null;
+                    }
+                    return (
                     <button
                         key={b.code}
                         onPointerDown={e => { e.preventDefault(); dpadDown(b.key, b.code); }}
@@ -909,7 +964,99 @@ const GameTester = () => {
                             boxShadow: "0 6px 18px -6px rgba(0,0,0,.6)",
                         }}
                     >{b.label}</button>
-                ))}
+                    );
+                })}
+                
+                {/* ═══════════════════════════════════════════════════════════════════
+                   个性化功能按钮 - 只在需要时显示
+                ═══════════════════════════════════════════════════════════════════ */}
+                {gameType === 'ROTATION' && (
+                    <button
+                        onPointerDown={e => { e.preventDefault(); dpadDown("ArrowUp", "ArrowUp"); }}
+                        onPointerUp={e => { e.preventDefault(); dpadUp("ArrowUp", "ArrowUp"); }}
+                        onPointerLeave={() => dpadUp("ArrowUp", "ArrowUp")}
+                        onPointerCancel={() => dpadUp("ArrowUp", "ArrowUp")}
+                        style={{
+                            gridColumn: "2 / 3", gridRow: "3 / 4",
+                            ...extraButtonStyle,
+                            background: "rgba(251,146,60,.35)",
+                            border: "1px solid rgba(251,146,60,.5)",
+                            color: "#fdba74",
+                        }}
+                        title="旋转"
+                    >↻</button>
+                )}
+                
+                {gameType === 'SHOOTER' && (
+                    <button
+                        onPointerDown={e => { e.preventDefault(); dpadDown("ArrowUp", "ArrowUp"); }}
+                        onPointerUp={e => { e.preventDefault(); dpadUp("ArrowUp", "ArrowUp"); }}
+                        onPointerLeave={() => dpadUp("ArrowUp", "ArrowUp")}
+                        onPointerCancel={() => dpadUp("ArrowUp", "ArrowUp")}
+                        style={{
+                            gridColumn: "2 / 3", gridRow: "3 / 4",
+                            ...extraButtonStyle,
+                            background: "rgba(239,68,68,.35)",
+                            border: "1px solid rgba(239,68,68,.5)",
+                            color: "#fca5a5",
+                        }}
+                        title="发射"
+                    >🚀</button>
+                )}
+                
+                {gameType === 'BOMBER' && (
+                    <button
+                        onPointerDown={e => { e.preventDefault(); dpadDown(" ", "Space"); }}
+                        onPointerUp={e => { e.preventDefault(); dpadUp(" ", "Space"); }}
+                        onPointerLeave={() => dpadUp(" ", "Space")}
+                        onPointerCancel={() => dpadUp(" ", "Space")}
+                        style={{
+                            gridColumn: "1 / 2", gridRow: "3 / 4",
+                            ...extraButtonStyle,
+                            background: "rgba(251,191,36,.35)",
+                            border: "1px solid rgba(251,191,36,.5)",
+                            color: "#fcd34d",
+                        }}
+                        title="放炸弹"
+                    >💣</button>
+                )}
+                
+                {gameType === 'JUMP' && (
+                    <button
+                        onPointerDown={e => { e.preventDefault(); dpadDown(" ", "Space"); }}
+                        onPointerUp={e => { e.preventDefault(); dpadUp(" ", "Space"); }}
+                        onPointerLeave={() => dpadUp(" ", "Space")}
+                        onPointerCancel={() => dpadUp(" ", "Space")}
+                        style={{
+                            gridColumn: "1 / 2", gridRow: "3 / 4",
+                            ...extraButtonStyle,
+                            background: "rgba(34,197,94,.35)",
+                            border: "1px solid rgba(34,197,94,.5)",
+                            color: "#86efac",
+                        }}
+                        title="跳跃"
+                    >⬆</button>
+                )}
+
+                    <button
+                        key={b.code}
+                        onPointerDown={e => { e.preventDefault(); dpadDown(b.key, b.code); }}
+                        onPointerUp={e => { e.preventDefault(); dpadUp(b.key, b.code); }}
+                        onPointerLeave={() => dpadUp(b.key, b.code)}
+                        onPointerCancel={() => dpadUp(b.key, b.code)}
+                        style={{
+                            gridColumn: b.gc, gridRow: b.gr,
+                            background: "rgba(99,102,241,.28)",
+                            border: "1px solid rgba(129,140,248,.5)",
+                            color: "#c7d2fe", borderRadius: "15px", fontSize: "20px", fontWeight: 700,
+                            backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)",
+                            touchAction: "none", userSelect: "none", WebkitUserSelect: "none",
+                            WebkitTapHighlightColor: "transparent", cursor: "pointer", padding: 0,
+                            boxShadow: "0 6px 18px -6px rgba(0,0,0,.6)",
+                        }}
+                    >{b.label}</button>
+                    );
+                })}
                 <button
                     onPointerDown={e => { e.preventDefault(); dpadDown(" ", "Space"); }}
                     onPointerUp={e => { e.preventDefault(); dpadUp(" ", "Space"); }}
