@@ -156,11 +156,8 @@ const ColumnsPuzzle = ({ onComplete }) => {
                     }} />
                 ))}
             </div>
-            <div style={{ display: "flex", gap: "6px" }}>
-                {[["←", "ArrowLeft"], ["↻", "ArrowUp"], ["↓", "ArrowDown"], ["→", "ArrowRight"]].map(([label, key]) => (
-                    <button key={key} onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key }))} style={colBtnStyle}>{label}</button>
-                ))}
-            </div>
+            {/* Controls live in the portal D-pad (GameTester): ←→ move, ↑ rotate, ↓ drop.
+                Keeps a single control set on touch instead of a duplicate. */}
             <div style={{ fontSize: "11px", color: "#8892b0" }}>←→ move | ↑ rotate | ↓ drop faster</div>
             {gameOver && <div style={{ fontSize: "16px", color: "#FF6B6B", fontWeight: "bold" }}>Game over! Score: {score}</div>}
         </div>
