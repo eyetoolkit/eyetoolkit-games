@@ -272,21 +272,8 @@ const ArrowDodge = ({ onComplete }) => {
                 )}
             </div>
 
-            {/* Controls */}
-            <div style={{ display: "flex", gap: "12px" }}>
-                <button
-                    onMouseDown={() => keysRef.current.add("ArrowLeft")}
-                    onMouseUp={() => keysRef.current.delete("ArrowLeft")}
-                    onTouchStart={() => keysRef.current.add("ArrowLeft")}
-                    onTouchEnd={() => keysRef.current.delete("ArrowLeft")}
-                    style={arrowBtnStyle}>←</button>
-                <button
-                    onMouseDown={() => keysRef.current.add("ArrowRight")}
-                    onMouseUp={() => keysRef.current.delete("ArrowRight")}
-                    onTouchStart={() => keysRef.current.add("ArrowRight")}
-                    onTouchEnd={() => keysRef.current.delete("ArrowRight")}
-                    style={arrowBtnStyle}>→</button>
-            </div>
+            {/* Controls live in the portal D-pad (GameTester) so touch users get one
+                consistent set instead of a duplicate inside the game. */}
             <div style={{ fontSize: "11px", color: "#8892b0" }}>
                 {gameActive ? "Dodge ←→ arrows, collect 🪙coins/🛡️power-ups!" : ""}
             </div>
