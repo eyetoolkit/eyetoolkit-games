@@ -288,84 +288,6 @@ body.bc-has-cc footer { padding-bottom: calc(var(--bc-cc-height, 104px) + 28px) 
 }
 `;
 
-/* ── FitGame: scale any over-wide game down so it fits the phone viewport ──
-   Many games render at a fixed pixel size (canvas boards, 480-800px). On a
-   phone those overflow the stage and get clipped by overflow:hidden. This
-   measures the game's TRUE rendered width from its descendants' rects —
-   getBoundingClientRect reports layout position even when an ancestor clips
-   with overflow:hidden, which scrollWidth does not — and applies a uniform
-   transform:scale so the whole game stays visible. Responsive games measure
-   <= the container, so scale stays 1. */
-const FitGame = ({ children }) => {
-    const wrapRef = useRef(null);
-    const contentRef = useRef(null);
-    const [scale, setScale] = useState(1);
-    const [offsetX, setOffsetX] = useState(0);
-    const [offsetY, setOffsetY] = useState(0);
-    const [boxH, setBoxH] = useState(undefined);
-
-    useLayoutEffect(() => {
-        const wrap = wrapRef.current;
-        const content = contentRef.current;
-        if (!wrap || !content) return;
-        const measure = () => {
-            // Reset the transform so we read the UN-scaled layout, then restore what
-            // React last applied (leaving it at scale(1) sticks: setState with an
-            // unchanged value does not re-render, so the DOM never gets corrected).
-            const prevT = content.style.transform;
-            content.style.transform = "translate(0px, 0px) scale(1)";
-            const avail = wrap.clientWidth;
-            // Measure the REAL bounding box of every descendant. This catches content
-            // that overflow:hidden hides from scrollWidth/scrollHeight — e.g. a board
-            // centred in a shorter container (overflows BOTH top and bottom) or
-            // absolutely-positioned decorations that stick out.
-            let minLeft = Infinity, maxRight = -Infinity, minTop = Infinity, maxBottom = -Infinity;
-            for (const el of content.querySelectorAll("*")) {
-                const r = el.getBoundingClientRect();
-                if (r.width < 1 || r.height < 1) continue;
-                if (r.left < minLeft) minLeft = r.left;
-                if (r.right > maxRight) maxRight = r.right;
-                if (r.top < minTop) minTop = r.top;
-                if (r.bottom > maxBottom) maxBottom = r.bottom;
-            }
-            const base = content.getBoundingClientRect();
-            if (!isFinite(minLeft)) { minLeft = base.left; maxRight = base.right; }
-            if (!isFinite(minTop)) { minTop = base.top; maxBottom = base.bottom; }
-            const spanW = Math.max(maxRight - minLeft, base.width);
-            const spanH = Math.max(maxBottom - minTop, base.height);
-            content.style.transform = prevT || "translate(0px, 0px) scale(1)";
-            const s = spanW > avail + 1 ? avail / spanW : 1;
-            const tx = s < 1 ? -(minLeft - base.left) * s : 0;
-            const ty = s < 1 ? -(minTop - base.top) * s : 0;
-            setScale(s);
-            setOffsetX(tx);
-            setOffsetY(ty);
-            setBoxH(spanH * s);
-        };
-        measure();
-        const t = setTimeout(measure, 350);
-        // Re-measure when the game's own content changes size (board appears on start,
-        // result panel, etc.). Observing `content` is safe: measure() only touches
-        // transform/height, which does not change content's border-box.
-        let ro;
-        try { ro = new ResizeObserver(() => measure()); ro.observe(content); } catch (_) { /* noop */ }
-        window.addEventListener("resize", measure);
-        return () => {
-            clearTimeout(t);
-            try { ro && ro.disconnect(); } catch (_) { /* noop */ }
-            window.removeEventListener("resize", measure);
-        };
-    }, []);
-
-    return (
-        <div ref={wrapRef} style={{ width: "100%", overflow: "hidden", height: boxH }}>
-            <div ref={contentRef} style={{ width: "100%", transform: `translate(${offsetX}px, ${offsetY}px) scale(${scale})`, transformOrigin: "top left" }}>
-                {children}
-            </div>
-        </div>
-    );
-};
-
 /* ── Routing (path-based, CF Pages SPA fallback serves index.html) ── */
 const SLUG_MAP = new Map(Object.keys({
     Snake: 1, MiniTetris: 1, MiniPacman: 1, Breakout: 1, FlappyJelly: 1, PingPong: 1,
@@ -674,7 +596,7 @@ const GameTester = () => {
         const wide = isWide && !!meta.description;
 
         /* ── info content (description + how to play) ── */
-        const infoEl = null; // REMOVED: meta.description ? (
+        const infoEl = meta.description ? (
             <div>
                 <p style={{ margin: "0 0 20px", fontSize: "13.5px", lineHeight: 1.75, color: "#c3cde0" }}>
                     {meta.description}
@@ -731,15 +653,15 @@ const GameTester = () => {
                 </a>
 
                 <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "9px", minWidth: 0 }}>
-                    <span aria-hidden="true" className="bc-hide-sm" style={{ fontSize: "20px", lineHeight: 1, flexShrink: 0 }}>{meta.emoji}</span>
+                    <span aria-hidden="true" style={{ fontSize: "20px", lineHeight: 1, flexShrink: 0 }}>{meta.emoji}</span>
                     {/* The page's single H1 — the primary topical signal for crawlers. */}
                     <h1 style={{
-                        margin: 0, fontWeight: 650, fontSize: "clamp(12px, 3.6vw, 15.5px)", color: "#eef2ff",
-                        letterSpacing: ".1px", minWidth: 0,
+                        margin: 0, fontWeight: 650, fontSize: "15.5px", color: "#eef2ff",
+                        letterSpacing: ".1px",
                         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                     }}>{selectedGame}</h1>
                     {badge && (
-                        <span className="bc-hide-sm" style={{
+                        <span style={{
                             fontSize: "10.5px", fontWeight: 600, padding: "3px 9px", borderRadius: "999px",
                             flexShrink: 0, whiteSpace: "nowrap",
                             background: "rgba(99,102,241,.16)", color: "#a5b4fc",
@@ -876,7 +798,7 @@ const GameTester = () => {
             </div>
         ) : (
             <div className="bc-stage-card" style={{
-                width: "100%", maxWidth: "980px", minHeight: "400px", margin: "auto",
+                width: "100%", maxWidth: "980px", margin: "auto",
                 background: "rgba(255,255,255,.022)",
                 border: "1px solid rgba(255,255,255,.065)",
                 borderRadius: "20px",
@@ -900,9 +822,7 @@ const GameTester = () => {
                     </div>
                 }>
                     <div style={{ position: "relative" }}>
-                        <FitGame key={selectedGame}>
-                            <GameComp onComplete={handleComplete} />
-                        </FitGame>
+                        <GameComp onComplete={handleComplete} />
                     </div>
                 </Suspense>
             </div>
@@ -911,10 +831,10 @@ const GameTester = () => {
         /* ── virtual D-pad (touch devices, keyboard-driven games) ── */
         const dpadEl = showDpad ? (
             <div style={{
-                display: "grid", gridTemplateColumns: "repeat(3, 54px)",
-                gridTemplateRows: "repeat(3, 54px)", gap: "7px",
-                margin: "16px auto 2px", width: "fit-content",
-                touchAction: "none", userSelect: "none",
+                position: "fixed", right: "14px", bottom: "14px", zIndex: 999,
+                display: "grid", gridTemplateColumns: "repeat(3, 56px)",
+                gridTemplateRows: "repeat(3, 56px)", gap: "7px",
+                opacity: 0.9, touchAction: "none", userSelect: "none",
                 WebkitUserSelect: "none", WebkitTapHighlightColor: "transparent",
             }} onContextMenu={e => e.preventDefault()}>
                 {[
@@ -1066,9 +986,8 @@ const GameTester = () => {
             }}>
                 <style>{GLOBAL_STYLES}</style>
                 {headerEl}
-                <main className="bc-stage-scroll" style={{ padding: "12px 10px 28px" }}>
+                <main className="bc-stage-scroll" style={{ padding: showDpad ? "12px 10px 170px" : "12px 10px 24px" }}>
                     {stageEl}
-                    {dpadEl}
                     {infoEl && showInfo && (
                         <div className="bc-fade-in" style={{
                             width: "100%", maxWidth: "820px", margin: "18px auto 0",
@@ -1085,6 +1004,7 @@ const GameTester = () => {
                         </div>
                     )}
                 </main>
+                {dpadEl}
             </div>
         );
     }
