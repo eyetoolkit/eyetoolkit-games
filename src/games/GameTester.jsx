@@ -725,11 +725,11 @@ const GameTester = () => {
                 </a>
 
                 <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "9px", minWidth: 0 }}>
-                    <span aria-hidden="true" style={{ fontSize: "20px", lineHeight: 1, flexShrink: 0 }}>{meta.emoji}</span>
+                    <span aria-hidden="true" className="bc-hide-sm" style={{ fontSize: "20px", lineHeight: 1, flexShrink: 0 }}>{meta.emoji}</span>
                     {/* The page's single H1 — the primary topical signal for crawlers. */}
                     <h1 style={{
-                        margin: 0, fontWeight: 650, fontSize: "15.5px", color: "#eef2ff",
-                        letterSpacing: ".1px",
+                        margin: 0, fontWeight: 650, fontSize: "clamp(12px, 3.6vw, 15.5px)", color: "#eef2ff",
+                        letterSpacing: ".1px", minWidth: 0,
                         overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                     }}>{selectedGame}</h1>
                     {badge && (
