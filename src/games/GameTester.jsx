@@ -300,6 +300,7 @@ const FitGame = ({ children }) => {
     const wrapRef = useRef(null);
     const contentRef = useRef(null);
     const [scale, setScale] = useState(1);
+    const [offset, setOffset] = useState(0);
     const [boxH, setBoxH] = useState(undefined);
 
     useLayoutEffect(() => {
@@ -307,12 +308,11 @@ const FitGame = ({ children }) => {
         const content = contentRef.current;
         if (!wrap || !content) return;
         const measure = () => {
-            // Temporarily reset the scale so we read the UN-scaled layout, then
-            // restore whatever React last applied. Leaving it at scale(1) would
-            // stick on screen: setScale with an unchanged value does not re-render,
-            // so React never gets a chance to write the scaled value back.
+            // Temporarily reset the transform so we read the UN-scaled layout, then
+            // restore whatever React last applied. Leaving it at 1 would stick: a
+            // setState with an unchanged value does not re-render to fix the DOM.
             const prevT = content.style.transform;
-            content.style.transform = "scale(1)";
+            content.style.transform = "translateX(0px) scale(1)";
             const avail = wrap.clientWidth;
             let minLeft = Infinity, maxRight = -Infinity;
             for (const el of content.querySelectorAll("*")) {
@@ -325,9 +325,14 @@ const FitGame = ({ children }) => {
             if (!isFinite(minLeft)) { minLeft = base.left; maxRight = base.right; }
             const spanW = Math.max(maxRight - minLeft, base.width);
             const sh = content.scrollHeight;
-            content.style.transform = prevT || "scale(1)";
+            content.style.transform = prevT || "translateX(0px) scale(1)";
             const s = spanW > avail + 1 ? avail / spanW : 1;
+            // Content can overflow on BOTH sides (e.g. a board centred inside a flex
+            // parent). Scaling about the left edge alone leaves the left overhang
+            // clipped, so translate the scaled span back onto [0, avail].
+            const tx = s < 1 ? -(minLeft - base.left) * s : 0;
             setScale(s);
+            setOffset(tx);
             setBoxH(s < 1 ? sh * s : undefined);
         };
         measure();
@@ -338,7 +343,7 @@ const FitGame = ({ children }) => {
 
     return (
         <div ref={wrapRef} style={{ width: "100%", overflow: "hidden", height: boxH }}>
-            <div ref={contentRef} style={{ width: "100%", transform: `scale(${scale})`, transformOrigin: "top left" }}>
+            <div ref={contentRef} style={{ width: "100%", transform: `translateX(${offset}px) scale(${scale})`, transformOrigin: "top left" }}>
                 {children}
             </div>
         </div>
