@@ -117,11 +117,8 @@ const SpaceInvader = ({ onComplete }) => {
                     </div>
                 )}
             </div>
-            <div style={{ display: "flex", gap: "6px" }}>
-                <button onMouseDown={() => keysRef.current["ArrowLeft"] = true} onMouseUp={() => keysRef.current["ArrowLeft"] = false} onTouchStart={() => keysRef.current["ArrowLeft"] = true} onTouchEnd={() => keysRef.current["ArrowLeft"] = false} style={cBtn}>◀</button>
-                <button onClick={shoot} style={{ ...cBtn, width: 50 }}>🔫</button>
-                <button onMouseDown={() => keysRef.current["ArrowRight"] = true} onMouseUp={() => keysRef.current["ArrowRight"] = false} onTouchStart={() => keysRef.current["ArrowRight"] = true} onTouchEnd={() => keysRef.current["ArrowRight"] = false} style={cBtn}>▶</button>
-            </div>
+            {/* Controls live in the portal D-pad (GameTester): ←→ move, ↑/SPACE fire.
+                Keeps a single control set on touch instead of a duplicate inside the game. */}
         </div>
     );
 };
