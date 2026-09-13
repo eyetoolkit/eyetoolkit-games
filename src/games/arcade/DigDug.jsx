@@ -138,14 +138,8 @@ const DigDug = ({ onComplete }) => {
                     </div>
                 ))}
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 36px)", gap: "3px" }}>
-                <div />
-                <button onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp" }))} style={dBtn}>↑</button>
-                <div />
-                <button onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }))} style={dBtn}>←</button>
-                <button onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }))} style={dBtn}>↓</button>
-                <button onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }))} style={dBtn}>→</button>
-            </div>
+            {/* The on-screen D-pad lives in the portal (GameTester) so touch users get a
+                single, consistent control instead of a duplicate inside the game. */}
             <div style={{ fontSize: "11px", color: "#8892b0" }}>Dig with arrows, approach enemies to defeat!</div>
             {done && <div style={{ fontSize: "16px", color: enemies.every(e => !e.alive) ? "#64ffda" : "#FF6B6B", fontWeight: "bold" }}>
                 {enemies.every(e => !e.alive) ? "🎉 All enemies cleared!" : "💀 Caught by the enemy!"}
